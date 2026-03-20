@@ -1,0 +1,45 @@
+.header-background {
+    background-color: var(--accent-10);
+}
+
+.header-title {
+    color: var(--gray-1);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-title:hover {
+    color: var(--gray-1);
+    text-decoration: none;
+}
+
+.header-userposition {
+    color: var(--gray-5);
+}
+
+.avatar-button {
+    background-color: var(--gray-1);
+}
+
+.dropdown-trigger {
+    color: var(--gray-1);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.dropdown-trigger:hover {
+    color: var(--accent-6);
+}
+
+.dropdown-link,
+.dropdown-signout {
+    /* display: flex; */
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dropdown-link:hover {
+    color: inherit;
+    text-decoration: none;
+}
