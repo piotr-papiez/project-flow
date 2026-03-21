@@ -34,6 +34,11 @@ export async function reactisFetch<T>(
         };
 
         const data = await response.json();
+        
+        const sizeInByts = new TextEncoder().encode(
+            JSON.stringify(data)
+        ).length;
+        console.log(sizeInByts);
 
         return {
             ok: true,

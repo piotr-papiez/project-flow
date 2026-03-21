@@ -1,7 +1,7 @@
 "use client";
 
 // Hooks
-import { useState } from "react";
+import { useState, useEffect, useActionState } from "react";
 
 // Functions
 import { saveFlowNote } from "@/features/auth/actions/save-flow-note.action";
@@ -14,15 +14,29 @@ import {
 
 import { ReaderIcon, Pencil1Icon } from "@radix-ui/react-icons";
 
+// Types
+import type { SaveFlowNoteActionStateType } from "@/features/auth/actions/save-flow-note.action";
+
 type TableCellNotesPropsType = {
     reactisTaskId: string
     notes: string,
 };
 
+// Constants
+const initialState: SaveFlowNoteActionStateType = {
+    ok: false,
+    error: null,
+    savedNote: null
+};
+
 export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesPropsType) {
     const [openCard, setOpenCard] = useState<boolean>(false);
     const [isNoteEditing, setIsNoteEditing] = useState<boolean>(false);
+    const [savedNote, setSavedNote] = useState<string>(notes);
     const [noteValue, setNoteValue] = useState<string>(notes);
+
+    const actionWithTaskId = saveFlowNote.bind(null, reactisTaskId);
+    const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
 
     function handleOpenCard(open: boolean): void {
         if (isNoteEditing) return;
@@ -32,19 +46,29 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
     function handleStartNoteEdit() {
         setIsNoteEditing(true);
         setOpenCard(true);
+        setNoteValue(savedNote);
     }
 
     function handleCancelNote() {
         setIsNoteEditing(false);
         setOpenCard(false);
-        setNoteValue(notes);
+        setNoteValue(savedNote);
     }
 
-    async function handleSaveNote() {
-        await saveFlowNote(reactisTaskId, noteValue);
+    useEffect(() => {
+        if (!state.ok || state.savedNote === null) return;
+
+        setSavedNote(state.savedNote);
+        setNoteValue(state.savedNote);
         setIsNoteEditing(false);
         setOpenCard(false);
-    }
+    }, [state]);
+
+    useEffect(() => {
+        setSavedNote(notes);
+
+        if (!isNoteEditing) setNoteValue(notes);
+    }, [notes, isNoteEditing]);
 
     return (
         <HoverCard.Root
@@ -70,7 +94,7 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                             WebkitBoxOrient: "vertical"
                         }}
                     >
-                        {notes}
+                        {savedNote}
                     </Box>
                 </Flex>
             </HoverCard.Trigger>
@@ -84,13 +108,14 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                     {!isNoteEditing && (
                         <>
                             <Blockquote>
-                                <Box>{notes}</Box>
+                                <Box>{savedNote}</Box>
                             </Blockquote>
 
                             <Flex justify="end">
                                 <Button
                                     onClick={handleStartNoteEdit}
-                                    variant="soft">
+                                    variant="soft"
+                                >
                                     Edytuj
                                     <Pencil1Icon />
                                 </Button>
@@ -100,28 +125,33 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                     )}
 
                     {isNoteEditing && (
-                        <>
-                            <TextArea
-                                value={noteValue}
-                                onChange={event => setNoteValue(event.target.value)}
-                                rows={6}
-                            />
-                            <Flex justify="end" align="center" gap="1">
-                                <Button
-                                    onClick={handleCancelNote}
-                                    variant="soft"
-                                    className="EditNotesCancelButton"
-                                >
-                                    Anuluj
-                                </Button>
-                                <Button
-                                    onClick={handleSaveNote}
-                                    variant="solid"
-                                >
-                                    Zapisz
-                                </Button>
+                        <form action={formAction}>
+                            <Flex direction="column" gap="4">
+                                <TextArea
+                                    value={noteValue}
+                                    onChange={event => setNoteValue(event.target.value)}
+                                    rows={6}
+                                    name="note"
+                                />
+                                <Flex justify="end" align="center" gap="1">
+                                    <Button
+                                        onClick={handleCancelNote}
+                                        disabled={isPending}
+                                        variant="soft"
+                                        className="EditNotesCancelButton"
+                                    >
+                                        Anuluj
+                                    </Button>
+                                    <Button
+                                        loading={isPending}
+                                        type="submit"
+                                        variant="solid"
+                                    >
+                                        Zapisz
+                                    </Button>
+                                </Flex>
                             </Flex>
-                        </>
+                        </form>
                     )}
                 </Flex>
             </HoverCard.Content>
