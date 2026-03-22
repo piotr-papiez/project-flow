@@ -14,10 +14,6 @@ export default async function TasksPage() {
     await mergeTasksData();
     const response = await getMergedTasks();
 
-    // if (!response) return (
-    //     <h2>Nie udało się wczytać listy zadań.</h2>
-    // );
-
     const count = response?.count ?? 0;
     const tasks = response?.data ?? [];
 

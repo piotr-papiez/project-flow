@@ -4,7 +4,7 @@
 import { useState, useActionState } from "react";
 
 // Actions
-import { saveFlowSettings } from "../actions/flow-settings.action";
+import { saveReactisSettings } from "../actions/flow-settings.action";
 
 // Radix
 import { Button, Flex, Text, TextField, HoverCard, Strong } from "@radix-ui/themes";
@@ -21,7 +21,7 @@ type SettingsFormPropsType = {
 export default function SettingsForm({ reactisUserId }: SettingsFormPropsType) {
     const [userIdValue, setUserIdValue] = useState<string>(reactisUserId);
 
-    const [formState, formAction, isPending] = useActionState<{}, FormData>(saveFlowSettings, {});
+    const [formState, formAction, isPending] = useActionState<{}, FormData>(saveReactisSettings, {});
 
     return (
         <form action={formAction}>

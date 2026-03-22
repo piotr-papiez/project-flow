@@ -21,22 +21,6 @@ export default function SignInForm() {
     const [formState, formAction, isPending] = useActionState<{}, FormData>(signin, {});
 
     return (
-        // <form action={formAction}>
-        //     <p>
-        //         <label htmlFor="email">Email</label>
-        //         <input name="email" type="text" />
-        //     </p>
-
-        //     <p>
-        //         <label htmlFor="password">Hasło</label>
-        //         <input name="password" type="text" />
-        //     </p>
-
-        //     <p>
-        //         <button>Zaloguj się</button>
-        //     </p>
-        // </form>
-
         <form action={formAction}>
             <Card size="3" style={{ width: 360 }}>
                 <Flex direction="column" gap="3" py="4">

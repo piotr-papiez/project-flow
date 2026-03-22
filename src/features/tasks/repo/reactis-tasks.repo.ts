@@ -1,19 +1,35 @@
-import { cookies } from "next/headers";
+// Cookies
+import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
+// Reactis client
 import { reactisFetch } from "@/server/api/reactis/reactis.client";
 
+// Types
 import type {
     ReactisTaskDataType, ReactisTasksDataType,
     GetReactisTaskResponseType, GetReactisTasksResponseType
 } from "@/types/reactis";
 
 export async function getReactisTasks(): Promise<GetReactisTasksResponseType> {
-    const cookieStore = await cookies();
-    const userId = cookieStore.get("userId")?.value;
+    const reactisUserId = await getReactisUserIdCookie();
 
-    if (!userId) return { ok: false, message: "UNAUTHORIZED", status: 401 };
+    if (!reactisUserId) {
+        return {
+            ok: false,
+            message: "UNAUTHORIZED",
+            status: 401
+        };
+    }
 
-    const response = await reactisFetch<ReactisTasksDataType>(`/users/${userId}/get_tasks?limit=999`);
+    const response = await reactisFetch<ReactisTasksDataType>(
+        `/users/${reactisUserId}/get_tasks?limit=999`,
+        {
+            cache: "force-cache",
+            next: {
+                tags: ["tasks"]
+            }
+        }
+    );
 
     return response;
 }

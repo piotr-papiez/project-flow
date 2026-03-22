@@ -12,9 +12,11 @@ type FindReactisSettingsByFlowUserIdType =
     | { ok: true, data: ReactisSettingsType }
     | { ok: false, message: "SERVER_ERROR" | "RESOURCE_NOT_FOUND" };
 
-export async function upsertFlowSettingsByUserId(settings: ReactisSettingsType): Promise<UpsertFlowSettingsByUserIdType> {
+export async function upsertReactisSettingsByFlowUserId(
+    settings: ReactisSettingsType
+): Promise<UpsertFlowSettingsByUserIdType> {
     await db();
-    
+
     const { flowUserId, ...rest } = settings;
 
     const flowSettings = Object.fromEntries(

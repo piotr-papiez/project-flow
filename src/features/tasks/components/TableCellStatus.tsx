@@ -4,7 +4,7 @@
 import { useState } from "react";
 
 // Functions
-import { updateFlowTaskStatus } from "@/features/auth/actions/update-flow-status.action";
+import { updateFlowTaskStatus } from "@/features/tasks/actions/update-flow-status.action";
 
 // Radix
 import { Select } from "@radix-ui/themes";

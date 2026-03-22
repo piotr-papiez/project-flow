@@ -1,9 +1,12 @@
-import { cookies } from "next/headers";
+// Cookies
+import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
+// Models
 import { FlowTask } from "../models/flow-task.model";
 import type { FlowTaskDataType } from "../models/flow-task.model";
 import type { ReactisTaskDataType } from "@/types/reactis";
 
+// Types
 type GetFlowTasksResponseType =
     | { ok: true, tasks: FlowTaskDataType[] }
     | { ok: false, message: string, status: number };
@@ -21,8 +24,7 @@ type SetFlowNoteResponseType =
     | { ok: false, message: string, status: number };
 
 export async function getFlowTasks(): Promise<GetFlowTasksResponseType> {
-    const cookieStore = await cookies();
-    const reactisUserId = cookieStore.get("userId")?.value;
+    const reactisUserId = await getReactisUserIdCookie();
 
     if (!reactisUserId) return { ok: false, message: "UNAUTHORIZED", status: 401 };
 
@@ -42,8 +44,7 @@ export async function getFlowTasks(): Promise<GetFlowTasksResponseType> {
 export async function upsertFlowTasks(reactisTasks: ReactisTaskDataType[]): Promise<UpsertFlowTasksResponseType> {
     if (!reactisTasks.length) return { ok: true };
 
-    const cookieStore = await cookies();
-    const reactisUserId = cookieStore.get("userId")?.value;
+    const reactisUserId = await getReactisUserIdCookie();
 
     if (!reactisUserId) return { ok: false, message: "UNAUTHORIZED", status: 401 };
 

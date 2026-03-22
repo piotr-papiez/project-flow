@@ -1,7 +1,7 @@
 import {
     findReactisSettingsByFlowUserId,
     findReactisApiKeyByFlowUserId
-} from "../repo/flow-settings.repo";
+} from "../repo/reactis-settings.repo";
 
 import { getFlowUserId } from "@/features/auth/services/auth.service";
 

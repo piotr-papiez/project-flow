@@ -34,3 +34,16 @@ export type GetReactisTaskResponseType =
 export type GetReactisTasksResponseType =
     | { ok: true, data: ReactisTasksDataType, status: number }
     | { ok: false, message: string, status: number };
+
+// User data types
+export type ReactisUserDataType = {
+    id: string,
+    name: string,
+    surname: string,
+    email: string,
+    group: string
+};
+
+export type GetReactisUserResponseType =
+    | { ok: true, data: ReactisUserDataType, status: number }
+    | { ok: false, message: string, status: number };

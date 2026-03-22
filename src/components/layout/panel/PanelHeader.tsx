@@ -17,7 +17,15 @@ import { GearIcon, ExitIcon } from "@radix-ui/react-icons";
 // Styles
 import styles from "./PanelHeader.module.css";
 
-export default function PanelHeader() {
+// Types
+import type { ReactisUserDataType } from "@/types/reactis";
+
+type PanelHeaderPropsType = {
+    reactisUserData: ReactisUserDataType
+};
+
+export default function PanelHeader({ reactisUserData }: PanelHeaderPropsType) {
+    console.log(reactisUserData);
     return (
         <Box className={styles["header-background"]} py="3">
             <Container size="4">
@@ -43,14 +51,14 @@ export default function PanelHeader() {
                                 <DropdownMenu.Trigger className={styles["dropdown-trigger"]}>
                                     <Flex align="center" gap="2">
                                         <Text size="3">
-                                            Piotr Papież
+                                            {`${reactisUserData.name} ${reactisUserData.surname}`}
                                         </Text>
                                         <DropdownMenu.TriggerIcon />
                                     </Flex>
                                 </DropdownMenu.Trigger>
 
                                 <Text size="1" className={styles["header-userposition"]}>
-                                    Technical Content Specialist
+                                    {reactisUserData.group}
                                 </Text>
                             </Flex>
                         </Flex>

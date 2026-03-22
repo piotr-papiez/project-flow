@@ -4,7 +4,7 @@
 import { useState, useEffect, useActionState } from "react";
 
 // Functions
-import { saveFlowNote } from "@/features/auth/actions/save-flow-note.action";
+import { saveFlowNote } from "@/features/tasks/actions/save-flow-note.action";
 
 // Radix
 import {
@@ -15,7 +15,7 @@ import {
 import { ReaderIcon, Pencil1Icon } from "@radix-ui/react-icons";
 
 // Types
-import type { SaveFlowNoteActionStateType } from "@/features/auth/actions/save-flow-note.action";
+import type { SaveFlowNoteActionStateType } from "@/features/tasks/actions/save-flow-note.action";
 
 type TableCellNotesPropsType = {
     reactisTaskId: string

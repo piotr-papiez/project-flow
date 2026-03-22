@@ -4,7 +4,7 @@
 import { useState } from "react";
 
 // Functions
-import { updateFlowTaskPriority } from "@/features/auth/actions/update-flow-priority.action";
+import { updateFlowTaskPriority } from "@/features/tasks/actions/update-flow-priority.action";
 
 // Radix
 import { Select } from "@radix-ui/themes";
