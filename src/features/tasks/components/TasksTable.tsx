@@ -1,5 +1,8 @@
 "use client";
 
+// Next.js
+import NextLink from "next/link";
+
 // Hooks
 import { useState, useMemo } from "react";
 
@@ -12,11 +15,13 @@ import {
 // Radix
 import {
     Flex, TextField, Select, Table,
-    Heading, Text, Strong
+    Heading, IconButton, Text, Strong,
+    Tooltip
 } from "@radix-ui/themes";
 
 import {
-    MagnifyingGlassIcon, CaretSortIcon, CaretUpIcon, CaretDownIcon
+    MagnifyingGlassIcon, CaretSortIcon, CaretUpIcon, CaretDownIcon,
+    ChevronRightIcon
 } from "@radix-ui/react-icons";
 
 // Components
@@ -128,6 +133,23 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     );
                 }
             },
+            {
+                header: "",
+                accessorKey: "goToTask",
+                enableSorting: false,
+                cell: ({ row }) => {
+                    return (
+                        <Tooltip content="Przejdź do zadania">
+                            <IconButton variant="ghost" size="4" color="gray" mr="2" asChild>
+                                <NextLink href={`/tasks/${row.original.reactisTaskId}`}>
+                                    <ChevronRightIcon />
+                                </NextLink>
+                            </IconButton>
+                        </Tooltip>
+
+                    );
+                }
+            }
             // {
             //     header: "Reactis",
             //     accessorKey: "reactisTaskUrl"

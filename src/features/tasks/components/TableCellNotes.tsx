@@ -4,7 +4,7 @@
 import { useState, useEffect, useActionState } from "react";
 
 // Functions
-import { saveFlowNote } from "@/features/tasks/actions/save-flow-note.action";
+import { updateFlowNote } from "@/features/tasks/actions/update-flow-note.action";
 
 // Radix
 import {
@@ -15,7 +15,7 @@ import {
 import { ReaderIcon, Pencil1Icon } from "@radix-ui/react-icons";
 
 // Types
-import type { SaveFlowNoteActionStateType } from "@/features/tasks/actions/save-flow-note.action";
+import type { UpdateFlowNoteActionStateType } from "@/features/tasks/actions/update-flow-note.action";
 
 type TableCellNotesPropsType = {
     reactisTaskId: string
@@ -23,19 +23,19 @@ type TableCellNotesPropsType = {
 };
 
 // Constants
-const initialState: SaveFlowNoteActionStateType = {
+const initialState: UpdateFlowNoteActionStateType = {
     ok: false,
     error: null,
-    savedNote: null
+    updatedNote: null
 };
 
 export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesPropsType) {
     const [openCard, setOpenCard] = useState<boolean>(false);
     const [isNoteEditing, setIsNoteEditing] = useState<boolean>(false);
-    const [savedNote, setSavedNote] = useState<string>(notes);
+    const [updatedNote, setUpdatedNote] = useState<string>(notes);
     const [noteValue, setNoteValue] = useState<string>(notes);
 
-    const actionWithTaskId = saveFlowNote.bind(null, reactisTaskId);
+    const actionWithTaskId = updateFlowNote.bind(null, reactisTaskId);
     const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
 
     function handleOpenCard(open: boolean): void {
@@ -46,26 +46,26 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
     function handleStartNoteEdit() {
         setIsNoteEditing(true);
         setOpenCard(true);
-        setNoteValue(savedNote);
+        setNoteValue(updatedNote);
     }
 
     function handleCancelNote() {
         setIsNoteEditing(false);
         setOpenCard(false);
-        setNoteValue(savedNote);
+        setNoteValue(updatedNote);
     }
 
     useEffect(() => {
-        if (!state.ok || state.savedNote === null) return;
+        if (!state.ok || state.updatedNote === null) return;
 
-        setSavedNote(state.savedNote);
-        setNoteValue(state.savedNote);
+        setUpdatedNote(state.updatedNote);
+        setNoteValue(state.updatedNote);
         setIsNoteEditing(false);
         setOpenCard(false);
     }, [state]);
 
     useEffect(() => {
-        setSavedNote(notes);
+        setUpdatedNote(notes);
 
         if (!isNoteEditing) setNoteValue(notes);
     }, [notes, isNoteEditing]);
@@ -94,7 +94,7 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                             WebkitBoxOrient: "vertical"
                         }}
                     >
-                        {savedNote}
+                        {updatedNote}
                     </Box>
                 </Flex>
             </HoverCard.Trigger>
@@ -108,7 +108,7 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                     {!isNoteEditing && (
                         <>
                             <Blockquote>
-                                <Box>{savedNote}</Box>
+                                <Box>{updatedNote}</Box>
                             </Blockquote>
 
                             <Flex justify="end">

@@ -14,9 +14,9 @@ type PanelLayoutPropsType = {
 
 // Constants
 const fallbackReactisUserData: ReactisUserDataType = {
-    name: "Imię",
-    surname: "Nazwisko",
-    group: "Grupa",
+    name: "Nowy",
+    surname: "Użytkownik",
+    group: "Brak danych",
     email: "E-mail",
     id: "ID"
 };

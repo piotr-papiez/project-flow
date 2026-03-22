@@ -11,9 +11,6 @@ import { Button, Flex, Text, TextField, HoverCard, Strong } from "@radix-ui/them
 import { PersonIcon, LockClosedIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 
 // Types
-import { ReactNode } from "react";
-import type { ReactisSettingsType } from "../models/flow-settings.model";
-
 type SettingsFormPropsType = {
     reactisUserId: string
 };
@@ -114,16 +111,3 @@ export default function SettingsForm({ reactisUserId }: SettingsFormPropsType) {
         </form>
     );
 }
-
-{/* <p>
-                <label htmlFor="reactis-user-id">Reactis User ID</label>
-                <input name="reactis-user-id" type="text" />
-            </p>
-            <p>
-                <label htmlFor="reactis-api-key">Reactis API Key</label>
-                <input name="reactis-api-key" type="text" />
-            </p>
-
-            <p>
-                <button>Zapisz</button>
-            </p> */}

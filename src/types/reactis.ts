@@ -47,3 +47,18 @@ export type ReactisUserDataType = {
 export type GetReactisUserResponseType =
     | { ok: true, data: ReactisUserDataType, status: number }
     | { ok: false, message: string, status: number };
+
+export type ReactisTaskCommentType = {
+    id: string,
+    text: string
+};
+
+export type ReactisTaskCommentsType = {
+    total_items: number,
+    items: ReactisTaskCommentType[],
+    [key: string]: unknown
+};
+
+export type GetReactisTaskCommentsResponseType =
+    | { ok: true, data: ReactisTaskCommentsType, status: number }
+    | { ok: false, message: string, status: number };

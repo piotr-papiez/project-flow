@@ -7,7 +7,8 @@ import { reactisFetch } from "@/server/api/reactis/reactis.client";
 // Types
 import type {
     ReactisTaskDataType, ReactisTasksDataType,
-    GetReactisTaskResponseType, GetReactisTasksResponseType
+    GetReactisTaskResponseType, GetReactisTasksResponseType,
+    ReactisTaskCommentsType, GetReactisTaskCommentsResponseType
 } from "@/types/reactis";
 
 export async function getReactisTasks(): Promise<GetReactisTasksResponseType> {
@@ -34,8 +35,18 @@ export async function getReactisTasks(): Promise<GetReactisTasksResponseType> {
     return response;
 }
 
-export async function getTask(taskId: string): Promise<GetReactisTaskResponseType> {
-    const response = await reactisFetch<ReactisTaskDataType>(`/tasks/${taskId}`);
+export async function getReactisTask(
+    reactisTaskId: string
+): Promise<GetReactisTaskResponseType> {
+    const response = await reactisFetch<ReactisTaskDataType>(`/tasks/${reactisTaskId}`);
+
+    return response;
+}
+
+export async function getReactisTaskComments(
+    reactisTaskId: string
+): Promise<GetReactisTaskCommentsResponseType> {
+    const response = await reactisFetch<ReactisTaskCommentsType>(`/taskcomments/${reactisTaskId}?limit=999`);
 
     return response;
 }

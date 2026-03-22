@@ -7,23 +7,23 @@ import { revalidateTag } from "next/cache";
 import { setFlowNote } from "@/features/tasks/repo/flow-tasks.repo";
 
 // Types
-export type SaveFlowNoteActionStateType = {
+export type UpdateFlowNoteActionStateType = {
     ok: boolean,
     error: string | null,
-    savedNote: string | null
+    updatedNote: string | null
 };
 
-export async function saveFlowNote(
+export async function updateFlowNote(
     reactisTaskId: string,
-    prevState: SaveFlowNoteActionStateType,
+    prevState: UpdateFlowNoteActionStateType,
     formData: FormData
-): Promise<SaveFlowNoteActionStateType> {
+): Promise<UpdateFlowNoteActionStateType> {
     const note = formData.get("note");
 
     if (typeof note !== "string") return {
         ok: false,
         error: "INVALID_NOTE",
-        savedNote: null
+        updatedNote: null
     };
 
     try {
@@ -34,13 +34,13 @@ export async function saveFlowNote(
         return {
             ok: true,
             error: null,
-            savedNote: note
+            updatedNote: note
         };
     } catch (error) {
         return {
             ok: false,
             error: "SAVING_FAILED",
-            savedNote: null
+            updatedNote: null
         };
     }
 }

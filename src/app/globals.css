@@ -20,7 +20,8 @@
   box-shadow: var(--shadow-3);
 }
 
-.rt-SelectItem {
+.rt-SelectItem,
+.rt-IconButton {
   transition: background-color 0.2s ease;
 }
 
