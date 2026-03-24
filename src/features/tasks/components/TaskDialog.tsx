@@ -4,7 +4,12 @@
 import { useRouter } from "next/navigation";
 
 // Radix
-import { Dialog } from "@radix-ui/themes";
+import { Dialog, Flex, IconButton } from "@radix-ui/themes";
+
+import { Cross1Icon } from "@radix-ui/react-icons";
+
+// Styles
+import styles from "./TaskDialog.module.css";
 
 // Types
 import { ReactNode } from "react";
@@ -25,15 +30,23 @@ export default function TaskDialog({
     return (
         <Dialog.Root open onOpenChange={handleOpenChange}>
             <Dialog.Content>
-                <Dialog.Title>
-                    Szczegóły zadania
-                </Dialog.Title>
+                <Flex justify="end">
+                    <Dialog.Close className={styles["close-button"]}>
+                        <IconButton size="2">
+                            <Cross1Icon />
+                        </IconButton>
+                    </Dialog.Close>
+                </Flex>
+                <Flex justify="between" align="center">
+                    <Dialog.Title>
+                        Szczegóły zadania
+                    </Dialog.Title>
+                    
+                </Flex>
 
                 {children}
 
-                <Dialog.Close>
-                    <button>Zamknij</button>
-                </Dialog.Close>
+
             </Dialog.Content>
         </Dialog.Root>
     );

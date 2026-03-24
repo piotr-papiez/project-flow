@@ -19,9 +19,9 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
 
     if (!reactisTaskResponse.ok) {
         return (
-            <p>
+            <div>
                 Nie udało się pobrać szczegółów zadania
-            </p>
+            </div>
         );
     }
 
