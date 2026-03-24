@@ -1,8 +1,10 @@
-// Repo
-import { getReactisTask, getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
+// React.js
+import { Suspense } from "react";
 
 // Components
 import TaskDialog from "@/features/tasks/components/TaskDialog";
+import TaskDialogSkeleton from "@/features/tasks/components/TaskDialogSkeleton";
+import TaskDialogContent from "@/features/tasks/components/TaskDialogContent";
 
 type TaskDialogPagePropsType = {
     params: Promise<{
@@ -13,18 +15,17 @@ type TaskDialogPagePropsType = {
 export default async function TaskDialogPage({ params }: TaskDialogPagePropsType) {
     const { reactisTaskId } = await params;
 
-    const response = await getReactisTask(reactisTaskId);
 
-    if (!response.ok) return (
-        <h2>Nie udało się wczytać zadania.</h2>
-    );
-
-    const task = response.data;
-
-    const res = await getReactisTaskComments(reactisTaskId);
-    if (!res.ok) return;
 
     return (
-        <TaskDialog reactisTaskDetails={task} reactisTaskComments={res.data} />
-    )
+        <TaskDialog>
+            <Suspense
+                fallback={<TaskDialogSkeleton />}
+            >
+                <TaskDialogContent
+                    reactisTaskId={reactisTaskId}
+                />
+            </Suspense>
+        </TaskDialog>
+    );
 }

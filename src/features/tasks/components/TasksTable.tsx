@@ -29,6 +29,7 @@ import TableCellDetails from "./TableCellDetails";
 import TableCellStatus from "./TableCellStatus";
 import TableCellPriority from "./TableCellPriority";
 import TableCellNotes from "./TableCellNotes";
+import TableCellGoToTaskButton from "./TableCellGoToTaskButton";
 
 // Constants
 import { LABEL_MAP } from "../lib/status-map";
@@ -139,14 +140,9 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 enableSorting: false,
                 cell: ({ row }) => {
                     return (
-                        <Tooltip content="Przejdź do zadania">
-                            <IconButton variant="ghost" size="4" color="gray" mr="2" asChild>
-                                <NextLink href={`/tasks/${row.original.reactisTaskId}`}>
-                                    <ChevronRightIcon />
-                                </NextLink>
-                            </IconButton>
-                        </Tooltip>
-
+                        <TableCellGoToTaskButton
+                            reactisTaskId={row.original.reactisTaskId}
+                        />
                     );
                 }
             }

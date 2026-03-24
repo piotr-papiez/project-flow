@@ -1,0 +1,10 @@
+.go-to-task-button {
+    color: var(--gray-10);
+    background-color: transparent;
+    transition: 0.2s;
+}
+
+.go-to-task-button:hover {
+    color: var(--gray-11);
+    background-color: var(--gray-4);
+}

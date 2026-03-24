@@ -7,15 +7,14 @@ import { useRouter } from "next/navigation";
 import { Dialog } from "@radix-ui/themes";
 
 // Types
-import { ReactisTaskDataType, ReactisTaskCommentsType } from "@/types/reactis";
+import { ReactNode } from "react";
 
 type TaskDialogPropsType = {
-    reactisTaskDetails: ReactisTaskDataType,
-    reactisTaskComments: ReactisTaskCommentsType
+    children: ReactNode
 };
 
 export default function TaskDialog({
-    reactisTaskDetails, reactisTaskComments
+    children
 }: TaskDialogPropsType) {
     const router = useRouter();
 
@@ -29,12 +28,9 @@ export default function TaskDialog({
                 <Dialog.Title>
                     Szczegóły zadania
                 </Dialog.Title>
-                <Dialog.Description>
-                    <div dangerouslySetInnerHTML={{ __html: reactisTaskDetails.text }}></div>
-                    {reactisTaskComments.items.map(item => (
-                        <p key={item.id} dangerouslySetInnerHTML={{ __html: item.text }}></p>
-                    ))}
-                </Dialog.Description>
+
+                {children}
+
                 <Dialog.Close>
                     <button>Zamknij</button>
                 </Dialog.Close>
