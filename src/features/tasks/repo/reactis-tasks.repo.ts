@@ -25,7 +25,6 @@ export async function getReactisTasks(): Promise<GetReactisTasksResponseType> {
     const response = await reactisFetch<ReactisTasksDataType>(
         `/users/${reactisUserId}/get_tasks?limit=999`,
         {
-            cache: "force-cache",
             next: {
                 tags: ["tasks"]
             }

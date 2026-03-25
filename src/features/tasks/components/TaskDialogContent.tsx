@@ -32,18 +32,16 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
 
     return (
         <>
-            <Dialog.Description>
-                <div>
-                    <div dangerouslySetInnerHTML={{ __html: reactisTask.text }} />
+            <div>
+                <div dangerouslySetInnerHTML={{ __html: reactisTask.text }} />
 
-                    {reactisComments.items.map(item => (
-                        <div
-                            key={item.id}
-                            dangerouslySetInnerHTML={{ __html: item.text }}
-                        />
-                    ))}
-                </div>
-            </Dialog.Description>
+                {reactisComments.items.map(item => (
+                    <div
+                        key={item.id}
+                        dangerouslySetInnerHTML={{ __html: item.text }}
+                    />
+                ))}
+            </div>
         </>
     );
 }

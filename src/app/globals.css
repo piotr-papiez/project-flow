@@ -25,6 +25,18 @@
   transition: background-color 0.2s ease;
 }
 
+.rt-DialogOverlay,
+[data-radix-dialog-overlay] {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.rt-DialogContent {
+  outline: 0;
+  /* border: 1px solid var(--gray-11); */
+  box-shadow: var(--shadow-5);
+}
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -120,4 +132,3 @@ a:hover {
     color-scheme: dark;
   }
 }
-

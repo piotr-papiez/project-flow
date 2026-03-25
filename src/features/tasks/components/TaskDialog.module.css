@@ -1,12 +1,8 @@
 .close-button {
-    color: var(--gray-11);
+    color: var(--gray-12);
     background-color: transparent;
 }
 
 .close-button:hover {
     background-color: var(--gray-5);
-}
-
-.rt-BaseDialogScroll, .rt-DialogScroll {
-    background-color: red !important;
 }

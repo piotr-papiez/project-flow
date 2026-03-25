@@ -1,7 +1,7 @@
 "use client";
 
 // Hooks
-import { useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 // Functions
 import { updateFlowTaskStatus } from "@/features/tasks/actions/update-flow-status.action";
@@ -9,30 +9,51 @@ import { updateFlowTaskStatus } from "@/features/tasks/actions/update-flow-statu
 // Radix
 import { Select } from "@radix-ui/themes";
 
+// Styles
+import styles from "./TableCellStatusAndPriority.module.css";
+
 // Constants
 import { LABEL_MAP, COLOR_MAP } from "../lib/status-map";
 
 // Types
 type TableCellWithStatusPropsType = {
-    reactisTaskId: string
+    reactisTaskId: string,
     currentStatusValue: number
 };
 
-export default function TableCellStatus({ reactisTaskId, currentStatusValue }: TableCellWithStatusPropsType) {
+export default function TableCellStatus({
+    reactisTaskId,
+    currentStatusValue
+}: TableCellWithStatusPropsType) {
     const [value, setValue] = useState<string>(String(currentStatusValue));
+    const [isPending, startTransition] = useTransition();
 
-    async function setStatus(value: string) {
-        await updateFlowTaskStatus(reactisTaskId, +value);
-        setValue(value);
+    useEffect(() => {
+        setValue(String(currentStatusValue));
+    }, [currentStatusValue]);
+
+    function handleStatusChange(newValue: string) {
+        const prevValue = value;
+
+        setValue(newValue);
+
+        startTransition(async () => {
+            try {
+                await updateFlowTaskStatus(reactisTaskId, +newValue);
+            } catch (error) {
+                setValue(prevValue);
+            }
+        });
     }
 
     return (
         <Select.Root
             value={value}
-            onValueChange={setStatus}
+            onValueChange={handleStatusChange}
             size={"1"}
         >
             <Select.Trigger
+                className={isPending ? styles["status-pending"] : undefined}
                 variant="soft"
                 radius="full"
                 color={COLOR_MAP[+value]}
