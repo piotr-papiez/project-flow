@@ -53,7 +53,9 @@ export default function TableCellStatus({
             size={"1"}
         >
             <Select.Trigger
-                className={isPending ? styles["status-pending"] : undefined}
+                className={
+                    `${styles.badge} ${isPending ? styles["badge-pending"] : undefined}`
+                }
                 variant="soft"
                 radius="full"
                 color={COLOR_MAP[+value]}
