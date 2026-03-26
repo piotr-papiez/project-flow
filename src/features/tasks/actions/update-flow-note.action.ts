@@ -1,7 +1,7 @@
 "use server";
 
 // Next.js
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 // Repo
 import { setFlowNote } from "@/features/tasks/repo/flow-tasks.repo";
@@ -29,7 +29,7 @@ export async function updateFlowNote(
     try {
         await setFlowNote(reactisTaskId, note);
 
-        revalidateTag("tasks", "max");
+        revalidatePath("/tasks");
 
         return {
             ok: true,
