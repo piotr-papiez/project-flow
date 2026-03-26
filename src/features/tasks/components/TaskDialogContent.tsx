@@ -1,10 +1,11 @@
+// Services
+import { getMergedTask } from "../services/tasks.service";
+
 // Repo
-import {
-    getReactisTask, getReactisTaskComments
-} from "@/features/tasks/repo/reactis-tasks.repo";
+import { getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
 
 // Radix
-import { Dialog } from "@radix-ui/themes";
+import { Card, Flex, Box } from "@radix-ui/themes";
 
 // Types
 type TaskDialogContentPropsType = {
@@ -12,12 +13,12 @@ type TaskDialogContentPropsType = {
 };
 
 export default async function TaskDialogContent({ reactisTaskId }: TaskDialogContentPropsType) {
-    const [reactisTaskResponse, reactisCommentsResponse] = await Promise.all([
-        getReactisTask(reactisTaskId),
+    const [mergedTaskResponse, reactisCommentsResponse] = await Promise.all([
+        getMergedTask(reactisTaskId),
         getReactisTaskComments(reactisTaskId)
     ]);
 
-    if (!reactisTaskResponse.ok) {
+    if (!mergedTaskResponse) {
         return (
             <div>
                 Nie udało się pobrać szczegółów zadania
@@ -25,7 +26,7 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
         );
     }
 
-    const reactisTask = reactisTaskResponse.data;
+    const mergedTask = mergedTaskResponse;
     const reactisComments = reactisCommentsResponse.ok
         ? reactisCommentsResponse.data
         : { items: [] };
@@ -33,7 +34,13 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
     return (
         <>
             <div>
-                <div dangerouslySetInnerHTML={{ __html: reactisTask.text }} />
+                <Card>
+                    <Flex direction="column" gap="3">
+                        <Box>{mergedTask.name}</Box>
+                        <Box>{mergedTask.flowStatus}</Box>
+                    </Flex>
+                </Card>
+                <div dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
 
                 {reactisComments.items.map(item => (
                     <div

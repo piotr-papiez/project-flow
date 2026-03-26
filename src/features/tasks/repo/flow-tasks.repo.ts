@@ -7,6 +7,10 @@ import type { FlowTaskDataType } from "../models/flow-task.model";
 import type { ReactisTaskDataType } from "@/types/reactis";
 
 // Types
+type GetFlowTaskResponseType =
+    | { ok: true, task: FlowTaskDataType }
+    | { ok: false, message: string, status: number };
+
 type GetFlowTasksResponseType =
     | { ok: true, tasks: FlowTaskDataType[] }
     | { ok: false, message: string, status: number };
@@ -23,6 +27,28 @@ type SetFlowNoteResponseType =
     | { ok: true }
     | { ok: false, message: string, status: number };
 
+export async function getFlowTask(
+    reactisTaskId: string
+): Promise<GetFlowTaskResponseType> {
+    const reactisUserId = await getReactisUserIdCookie();
+
+    if (!reactisUserId) return { ok: false, message: "UNAUTHORIZED", status: 401 };
+
+    try {
+        const response = await FlowTask.findOne({ reactisTaskId }).lean();
+        if (!response) return { ok: false, message: "NOT_FOUND", status: 404 };
+
+        const task = {
+            ...response,
+            _id: response._id.toString()
+        };
+
+        return { ok: true, task }
+    } catch (error) {
+        return { ok: false, message: "SERVER_ERROR", status: 500 };
+    }
+}
+
 export async function getFlowTasks(): Promise<GetFlowTasksResponseType> {
     const reactisUserId = await getReactisUserIdCookie();
 
@@ -32,7 +58,7 @@ export async function getFlowTasks(): Promise<GetFlowTasksResponseType> {
         const response = await FlowTask.find({ reactisUserId }).lean();
         const tasks = response.map(task => ({
             ...task,
-            _id: task._id.toString(),
+            _id: task._id.toString()
         }));
 
         return { ok: true, tasks };

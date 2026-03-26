@@ -1,5 +1,5 @@
-import { getReactisTasks } from "../repo/reactis-tasks.repo";
-import { getFlowTasks, upsertFlowTasks } from "../repo/flow-tasks.repo";
+import { getReactisTask, getReactisTasks } from "../repo/reactis-tasks.repo";
+import { getFlowTask, getFlowTasks, upsertFlowTasks } from "../repo/flow-tasks.repo";
 
 import type { MergedTaskDataType } from "@/types/flow";
 
@@ -8,11 +8,32 @@ type MergedTasksDataType = {
     data: MergedTaskDataType[]
 };
 
-export async function getMergedTasks(): Promise<MergedTasksDataType | null> {
-    const reactisResponse = await getReactisTasks();
-    if (!reactisResponse.ok) return null;
+export async function getMergedTask(
+    reactisTaskId: string
+): Promise<MergedTaskDataType | null> {
+    const [reactisResponse, flowResponse] = await Promise.all([
+        getReactisTask(reactisTaskId),
+        getFlowTask(reactisTaskId)
+    ]);
 
-    const flowResponse = await getFlowTasks();
+    if (!reactisResponse.ok) return null;
+    if (!flowResponse.ok) return null;
+
+    const reactisTask = reactisResponse.data;
+    const flowTask = flowResponse.task;
+
+    const mergedTask = { ...reactisTask, ...flowTask };
+
+    return mergedTask;
+}
+
+export async function getMergedTasks(): Promise<MergedTasksDataType | null> {
+    const [reactisResponse, flowResponse] = await Promise.all([
+        getReactisTasks(),
+        getFlowTasks()
+    ]);
+
+    if (!reactisResponse.ok) return null;
     if (!flowResponse.ok) return null;
 
     const taskCount = reactisResponse.data.total_items;

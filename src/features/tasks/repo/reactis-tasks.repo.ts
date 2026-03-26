@@ -11,6 +11,14 @@ import type {
     ReactisTaskCommentsType, GetReactisTaskCommentsResponseType
 } from "@/types/reactis";
 
+export async function getReactisTask(
+    reactisTaskId: string
+): Promise<GetReactisTaskResponseType> {
+    const response = await reactisFetch<ReactisTaskDataType>(`/tasks/${reactisTaskId}`);
+
+    return response;
+}
+
 export async function getReactisTasks(): Promise<GetReactisTasksResponseType> {
     const reactisUserId = await getReactisUserIdCookie();
 
@@ -30,14 +38,6 @@ export async function getReactisTasks(): Promise<GetReactisTasksResponseType> {
             }
         }
     );
-
-    return response;
-}
-
-export async function getReactisTask(
-    reactisTaskId: string
-): Promise<GetReactisTaskResponseType> {
-    const response = await reactisFetch<ReactisTaskDataType>(`/tasks/${reactisTaskId}`);
 
     return response;
 }
