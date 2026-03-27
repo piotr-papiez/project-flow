@@ -4,7 +4,7 @@
 import { useRouter } from "next/navigation";
 
 // Radix
-import { Dialog, Flex, Heading, IconButton, VisuallyHidden } from "@radix-ui/themes";
+import { Dialog, Flex, Text, IconButton, VisuallyHidden } from "@radix-ui/themes";
 
 import { Cross1Icon } from "@radix-ui/react-icons";
 
@@ -15,10 +15,12 @@ import styles from "./TaskDialog.module.css";
 import { ReactNode } from "react";
 
 type TaskDialogPropsType = {
+    reactisTaskId: string,
     children: ReactNode
 };
 
 export default function TaskDialog({
+    reactisTaskId,
     children
 }: TaskDialogPropsType) {
     const router = useRouter();
@@ -29,10 +31,20 @@ export default function TaskDialog({
 
     return (
         <Dialog.Root open onOpenChange={handleOpenChange}>
-            <Dialog.Content size="4" aria-describedby={undefined}>
+            <Dialog.Content
+                size="2"
+                maxWidth="880px"
+                style={{ outline: "2px solid var(--gray-5" }}
+                aria-describedby={undefined}
+            >
                 <Flex direction="column" gap="4">
                     <Flex justify="between" align="center">
-                        <Heading size="4">Szczegóły zadania</Heading>
+                        <Text
+                            className={styles["task-prefix"]}
+                            size="2"
+                        >
+                            Zadanie <Text className={styles["task-id"]}>{reactisTaskId}</Text>
+                        </Text>
 
                         <VisuallyHidden>
                             <Dialog.Title />

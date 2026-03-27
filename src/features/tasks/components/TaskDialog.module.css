@@ -1,3 +1,12 @@
+.task-prefix {
+    font-family: var(--font-red-hat-display);
+    color: var(--gray-11);
+}
+
+.task-id {
+    color: var(--gray-12);
+}
+
 .close-button {
     color: var(--gray-12);
     background-color: transparent;

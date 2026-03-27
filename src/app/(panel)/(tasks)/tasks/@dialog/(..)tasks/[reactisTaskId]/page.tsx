@@ -18,7 +18,7 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
 
 
     return (
-        <TaskDialog>
+        <TaskDialog reactisTaskId={reactisTaskId}>
             <Suspense
                 fallback={<TaskDialogSkeleton />}
             >

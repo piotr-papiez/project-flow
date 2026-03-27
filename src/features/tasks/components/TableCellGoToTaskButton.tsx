@@ -26,7 +26,6 @@ export default function TableCellGoToTaskButton({
                 asChild>
                 <NextLink
                     href={`/tasks/${reactisTaskId}`}
-                    prefetch={false}
                     scroll={false}
                 >
                     <ChevronRightIcon />
