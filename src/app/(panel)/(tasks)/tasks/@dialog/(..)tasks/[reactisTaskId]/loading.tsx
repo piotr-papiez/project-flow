@@ -3,7 +3,7 @@ import TaskDialogSkeleton from "@/features/tasks/components/TaskDialogSkeleton";
 
 export default function DialogLoading() {
     return (
-        <TaskDialog>
+        <TaskDialog reactisTaskId="">
             <TaskDialogSkeleton />
         </TaskDialog>
     );
