@@ -1,6 +1,9 @@
 // Cookies
 import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
+// Mongoose
+import { db } from "@/db/mongoose.client";
+
 // Models
 import { FlowTask } from "../models/flow-task.model";
 import type { FlowTaskDataType } from "../models/flow-task.model";
@@ -107,52 +110,100 @@ export async function setFlowStatus(reactisTaskId: string, flowStatusValue: numb
     if (!reactisTaskId) return { ok: false, message: "TASK_ID_REQUIRED", status: 400 };
 
     try {
+        await db();
+
         const response = await FlowTask.updateOne(
             { reactisTaskId: reactisTaskId },
             { $set: { flowStatus: flowStatusValue } },
             { runValidators: true }
         );
 
-        if (!response) return { ok: false, message: "TASK_NOT_UPDATED", status: 409 };
+        if (!response.acknowledged) {
+            return {
+                ok: false,
+                message: "TASK_NOT_UPDATED",
+                status: 409
+            };
+        }
+
+        if (response.matchedCount === 0) {
+            return {
+                ok: false,
+                message: "TASK_NOT_FOUND",
+                status: 404
+            };
+        }
+
+        return { ok: true };
     } catch (error) {
         return { ok: false, message: "SERVER_ERROR", status: 500 };
     }
-
-    return { ok: true };
 }
 
 export async function setFlowPriority(reactisTaskId: string, flowPriorityValue: number): Promise<SetFlowStatusResponseType> {
     if (!reactisTaskId) return { ok: false, message: "TASK_ID_REQUIRED", status: 400 };
 
     try {
+        await db();
+
         const response = await FlowTask.updateOne(
             { reactisTaskId: reactisTaskId },
             { $set: { flowPriority: flowPriorityValue } },
             { runValidators: true }
         );
 
-        if (!response) return { ok: false, message: "TASK_NOT_UPDATED", status: 409 };
+        if (!response.acknowledged) {
+            return {
+                ok: false,
+                message: "TASK_NOT_UPDATED",
+                status: 409
+            };
+        }
+
+        if (response.matchedCount === 0) {
+            return {
+                ok: false,
+                message: "TASK_NOT_FOUND",
+                status: 404
+            };
+        }
+
+        return { ok: true };
     } catch (error) {
         return { ok: false, message: "SERVER_ERROR", status: 500 };
     }
-
-    return { ok: true };
 }
 
 export async function setFlowNote(reactisTaskId: string, note: string): Promise<SetFlowNoteResponseType> {
     if (!reactisTaskId) return { ok: false, message: "TASK_ID_REQUIRED", status: 400 };
 
     try {
+        await db();
+
         const response = await FlowTask.updateOne(
             { reactisTaskId: reactisTaskId },
             { $set: { flowNotes: note } },
             { runValidators: true }
         );
 
-        if (!response) return { ok: false, message: "TASK_NOT_UPDATED", status: 409 };
+        if (!response.acknowledged) {
+            return {
+                ok: false,
+                message: "TASK_NOT_UPDATED",
+                status: 409
+            };
+        }
+
+        if (response.matchedCount === 0) {
+            return {
+                ok: false,
+                message: "TASK_NOT_FOUND",
+                status: 404
+            };
+        }
+
+        return { ok: true };
     } catch (error) {
         return { ok: false, message: "SERVER_ERROR", status: 500 };
     }
-
-    return { ok: true };
 }

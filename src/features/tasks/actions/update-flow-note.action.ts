@@ -37,6 +37,7 @@ export async function updateFlowNote(
             updatedNote: note
         };
     } catch (error) {
+        console.log(error);
         return {
             ok: false,
             error: "SAVING_FAILED",
