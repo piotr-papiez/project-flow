@@ -1,3 +1,7 @@
+// Components
+import TaskAuthorAvatar from "./TaskAuthorAvatar";
+
+// Radix
 import {
     Box, Flex, HoverCard, Heading,
     Button, Blockquote, Text, Strong,
@@ -6,13 +10,13 @@ import {
 
 import { ReaderIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
 
+//Types
+import type { TaskAuthorType } from "@/types/reactis";
+
 type TableCellDetailsPropsType = {
     reactisTaskUrl: string
     detailsHtml: string,
-    reactisTaskAuthor: {
-        name: string,
-        surname: string
-    }
+    reactisTaskAuthor: TaskAuthorType
 };
 
 export default function TableCellDetails({ reactisTaskUrl, detailsHtml, reactisTaskAuthor }: TableCellDetailsPropsType) {
@@ -58,18 +62,7 @@ export default function TableCellDetails({ reactisTaskUrl, detailsHtml, reactisT
                         />
                     </Blockquote>
 
-                    <Flex gap="2" align="center">
-                        <Avatar
-                            size="1"
-                            color="gray"
-                            fallback={`${authorName[0]}${authorSurname[0]}`}
-                        />
-                        <Text>
-                            <Strong>
-                                {`${authorName} ${authorSurname}`}
-                            </Strong>
-                        </Text>
-                    </Flex>
+                    <TaskAuthorAvatar reactisTaskAuthor={reactisTaskAuthor} />
 
                     {reactisTaskUrl && (
                         <Flex justify={"end"}>

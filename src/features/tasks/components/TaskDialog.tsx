@@ -4,7 +4,7 @@
 import { useRouter } from "next/navigation";
 
 // Radix
-import { Dialog, Flex, Text, IconButton, VisuallyHidden } from "@radix-ui/themes";
+import { Dialog, Flex, Text, IconButton, VisuallyHidden, Separator } from "@radix-ui/themes";
 
 import { Cross1Icon } from "@radix-ui/react-icons";
 
@@ -38,7 +38,7 @@ export default function TaskDialog({
                 aria-describedby={undefined}
             >
                 <Flex direction="column" gap="4">
-                    <Flex justify="between" align="center">
+                    <Flex justify="between" align="center" pb="3" style={{ borderBottom: "1px solid var(--gray-6)" }}>
                         <Text
                             className={styles["task-prefix"]}
                             size="2"

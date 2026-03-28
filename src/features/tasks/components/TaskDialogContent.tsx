@@ -6,14 +6,19 @@ import { getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo
 
 // Components
 import TableCellStatus from "./TableCellStatus";
+import TableCellPriority from "./TableCellPriority";
+import TaskAuthorAvatar from "./TaskAuthorAvatar";
+
+// Utils
+import formatDate from "../utils/date-formatter";
 
 // Radix
 import {
     DataList, Flex, IconButton, Text,
-    Tooltip
+    Tooltip, Badge
 } from "@radix-ui/themes";
 
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil1Icon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 
 // Types
 type TaskDialogContentPropsType = {
@@ -39,10 +44,17 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
         ? reactisCommentsResponse.data
         : { items: [] };
 
+    const formattedCreateDate = formatDate(mergedTask.create_date)
+        ?? <Text className="NoDetailsText">Brak daty utworzenia</Text>;
+
+    const formattedDeadline = formatDate(mergedTask.deadline)
+        ?? <Text className="NoDetailsText">Brak deadline</Text>
+
     return (
         <>
             <div>
-                <Flex direction="column" gap="3">
+                <Flex direction="column" gap="4">
+                    <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
                     <Text size="5">{mergedTask.name}</Text>
 
                     <DataList.Root>
@@ -52,6 +64,16 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                                 <TableCellStatus
                                     reactisTaskId={mergedTask.reactisTaskId ?? ""}
                                     currentStatusValue={Number(mergedTask?.flowStatus)}
+                                />
+                            </DataList.Value>
+                        </DataList.Item>
+
+                        <DataList.Item align="center">
+                            <DataList.Label>Priorytet</DataList.Label>
+                            <DataList.Value>
+                                <TableCellPriority
+                                    reactisTaskId={mergedTask.reactisTaskId ?? ""}
+                                    currentPriorityValue={Number(mergedTask?.flowPriority)}
                                 />
                             </DataList.Value>
                         </DataList.Item>
@@ -77,6 +99,23 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                                 ) : (
                                     <Text className="NoDetailsText">Brak notatki.</Text>
                                 )}
+                            </DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item align="center">
+                            <DataList.Label>
+                                Daty
+                            </DataList.Label>
+                            <DataList.Value>
+                                <Flex align="center" gap="3">
+                                    <Tooltip content="Data utworzenia">
+                                        <Text color="gray">{formattedCreateDate}</Text>
+                                    </Tooltip>
+                                    <DoubleArrowRightIcon color="gray" width="12" height="12" />
+                                    <Tooltip content="Deadline">
+                                        <Text color="gray">{formattedDeadline}</Text>
+                                    </Tooltip>
+                                </Flex>
+
                             </DataList.Value>
                         </DataList.Item>
                     </DataList.Root>
