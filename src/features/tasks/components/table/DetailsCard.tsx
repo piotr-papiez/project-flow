@@ -1,5 +1,5 @@
 // Components
-import TaskAuthorAvatar from "./TaskAuthorAvatar";
+import TaskAuthorAvatar from "../shared/TaskAuthorAvatar";
 
 // Radix
 import {

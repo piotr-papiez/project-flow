@@ -10,21 +10,21 @@ import { updateFlowTaskStatus } from "@/features/tasks/actions/update-flow-statu
 import { Select } from "@radix-ui/themes";
 
 // Styles
-import styles from "./TableCellStatusAndPriority.module.css";
+import styles from "./Badge.module.css";
 
 // Constants
-import { LABEL_MAP, COLOR_MAP } from "../lib/status-map";
+import { LABEL_MAP, COLOR_MAP } from "../../lib/status-map";
 
 // Types
-type TableCellWithStatusPropsType = {
+type StatusBadgePropsType = {
     reactisTaskId: string,
     currentStatusValue: number
 };
 
-export default function TableCellStatus({
+export default function StatusBadge({
     reactisTaskId,
     currentStatusValue
-}: TableCellWithStatusPropsType) {
+}: StatusBadgePropsType) {
     const [value, setValue] = useState<string>(String(currentStatusValue));
     const [isPending, startTransition] = useTransition();
 

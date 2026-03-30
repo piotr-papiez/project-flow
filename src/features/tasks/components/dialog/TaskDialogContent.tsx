@@ -1,21 +1,23 @@
 // Services
-import { getMergedTask } from "../services/tasks.service";
+import { getMergedTask } from "../../services/tasks.service";
 
 // Repo
 import { getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
 
 // Components
-import TableCellStatus from "./TableCellStatus";
-import TableCellPriority from "./TableCellPriority";
-import TaskAuthorAvatar from "./TaskAuthorAvatar";
+import StatusBadge from "../shared/StatusBadge";
+import PriorityBadge from "../shared/PriorityBadge";
+import TaskAuthorAvatar from "../shared/TaskAuthorAvatar";
 
 // Utils
-import formatDate from "../utils/date-formatter";
+import formatDate from "../../utils/date-formatter";
 
 // Radix
 import {
+    Blockquote,
+    Card,
     DataList, Flex, IconButton, Text,
-    Tooltip, Badge
+    Tooltip
 } from "@radix-ui/themes";
 
 import { Pencil1Icon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
@@ -53,15 +55,19 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
     return (
         <>
             <div>
-                <Flex direction="column" gap="4">
-                    <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
-                    <Text size="5">{mergedTask.name}</Text>
+                <Flex direction="column" gap="6">
+                    <Flex direction="column" gap="4">
+                        <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
+                        <Text size="5">{mergedTask.name}</Text>
+
+                        <Blockquote size="2" dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
+                    </Flex>
 
                     <DataList.Root>
                         <DataList.Item align="center">
                             <DataList.Label>Status</DataList.Label>
                             <DataList.Value>
-                                <TableCellStatus
+                                <StatusBadge
                                     reactisTaskId={mergedTask.reactisTaskId ?? ""}
                                     currentStatusValue={Number(mergedTask?.flowStatus)}
                                 />
@@ -71,7 +77,7 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                         <DataList.Item align="center">
                             <DataList.Label>Priorytet</DataList.Label>
                             <DataList.Value>
-                                <TableCellPriority
+                                <PriorityBadge
                                     reactisTaskId={mergedTask.reactisTaskId ?? ""}
                                     currentPriorityValue={Number(mergedTask?.flowPriority)}
                                 />
@@ -81,26 +87,29 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                         <DataList.Item align="start">
                             <DataList.Label>Notatka</DataList.Label>
                             <DataList.Value>
-                                {mergedTask.flowNotes !== "" ? (
-                                    <Flex
-                                        align="center"
-                                        gap="2"
-                                    >
-                                        <Tooltip content="Edytuj notatkę">
-                                            <IconButton
-                                                variant="soft"
-                                                size="1"
-                                            >
-                                                <Pencil1Icon fontSize="" />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Text >{mergedTask.flowNotes}</Text>
-                                    </Flex>
-                                ) : (
-                                    <Text className="NoDetailsText">Brak notatki.</Text>
-                                )}
+
+                                <Flex
+                                    align="baseline"
+                                    gap="2"
+                                >
+                                    <Tooltip content="Edytuj notatkę">
+                                        <IconButton
+                                            variant="soft"
+                                            size="1"
+                                        >
+                                            <Pencil1Icon fontSize="" />
+                                        </IconButton>
+                                    </Tooltip>
+                                    {mergedTask.flowNotes !== "" ? (
+                                        <Text style={{ transform: "translateY(-3px)" }}>{mergedTask.flowNotes}</Text>
+                                    ) : (
+                                        <Text style={{ transform: "translateY(-3px)" }} className="NoDetailsText">Brak notatki</Text>
+                                    )}
+                                </Flex>
+
                             </DataList.Value>
                         </DataList.Item>
+
                         <DataList.Item align="center">
                             <DataList.Label>
                                 Daty
@@ -115,9 +124,12 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                                         <Text color="gray">{formattedDeadline}</Text>
                                     </Tooltip>
                                 </Flex>
-
                             </DataList.Value>
                         </DataList.Item>
+
+                        {/* <DataList.Item align="center">
+                            {mergedTask.}
+                        </DataList.Item> */}
                     </DataList.Root>
                 </Flex>
             </div>

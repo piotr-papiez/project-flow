@@ -10,21 +10,21 @@ import { updateFlowTaskPriority } from "@/features/tasks/actions/update-flow-pri
 import { Select } from "@radix-ui/themes";
 
 // Styles
-import styles from "./TableCellStatusAndPriority.module.css";
+import styles from "./Badge.module.css";
 
 // Constants
-import { PRIORITY_MAP, COLOR_MAP } from "../lib/priority-map";
+import { PRIORITY_MAP, COLOR_MAP } from "../../lib/priority-map";
 
 // Types
-type TableCellWithPriorityPropsType = {
+type PriorityBadgePropsType = {
     reactisTaskId: string
     currentPriorityValue: number
 };
 
-export default function TableCellPriority({
+export default function PriorityBadge({
     reactisTaskId,
     currentPriorityValue
-}: TableCellWithPriorityPropsType) {
+}: PriorityBadgePropsType) {
     const [value, setValue] = useState<string>(String(currentPriorityValue));
     const [isPending, startTransition] = useTransition();
 

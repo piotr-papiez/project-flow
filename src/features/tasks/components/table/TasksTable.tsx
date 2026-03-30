@@ -25,14 +25,14 @@ import {
 } from "@radix-ui/react-icons";
 
 // Components
-import TableCellDetails from "./TableCellDetails";
-import TableCellStatus from "./TableCellStatus";
-import TableCellPriority from "./TableCellPriority";
-import TableCellNotes from "./TableCellNotes";
+import DetailsCard from "./DetailsCard";
+import StatusBadge from "../shared/StatusBadge";
+import PriorityBadge from "../shared/PriorityBadge";
+import NotesCard from "./NotesCard";
 import TableCellGoToTaskButton from "./TableCellGoToTaskButton";
 
 // Constants
-import { LABEL_MAP } from "../lib/status-map";
+import { LABEL_MAP } from "../../lib/status-map";
 
 // Types
 import type { MergedTaskDataType } from "@/types/flow";
@@ -66,7 +66,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     const priorityValue = (cell.getValue() as number) ?? undefined;
 
                     return (
-                        <TableCellPriority
+                        <PriorityBadge
                             reactisTaskId={reactisTaskId}
                             currentPriorityValue={priorityValue}
                         />
@@ -78,7 +78,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 accessorKey: "create_date",
                 cell: ({ row }) => {
                     const createDate = row.original.create_date.split(" ")[0] ?? "–";
-                    const deadlineDate = row.original.deadline?.split(" ")[0] ?? "";
+                    
                     return `${createDate}`;
                 }
             },
@@ -92,7 +92,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     const reactisTaskAuthor = row.original.author ?? "";
 
                     return (
-                        <TableCellDetails
+                        <DetailsCard
                             reactisTaskUrl={reactisTaskUrl}
                             detailsHtml={detailsHtml}
                             reactisTaskAuthor={reactisTaskAuthor}
@@ -111,7 +111,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     const statusValue = (cell.getValue() as number) ?? undefined;
 
                     return (
-                        <TableCellStatus
+                        <StatusBadge
                             reactisTaskId={reactisTaskId}
                             currentStatusValue={statusValue}
                         />
@@ -127,7 +127,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     const notes = (getValue() as string) ?? "";
 
                     return (
-                        <TableCellNotes
+                        <NotesCard
                             reactisTaskId={reactisTaskId}
                             notes={notes}
                         />

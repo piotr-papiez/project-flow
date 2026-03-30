@@ -1,5 +1,5 @@
 // Components
-import TasksTable from "@/features/tasks/components/TasksTable";
+import TasksTable from "@/features/tasks/components/table/TasksTable";
 
 // Functions
 import { mergeTasksData, getMergedTasks } from "@/features/tasks/services/tasks.service";
