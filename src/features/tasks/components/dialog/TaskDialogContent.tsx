@@ -14,13 +14,12 @@ import formatDate from "../../utils/date-formatter";
 
 // Radix
 import {
-    Blockquote,
-    Card,
-    DataList, Flex, IconButton, Text,
-    Tooltip
+    Blockquote, DataList, Flex, IconButton,
+    Text, Tooltip, ScrollArea, Box,
+    Button
 } from "@radix-ui/themes";
 
-import { Pencil1Icon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
+import { CalendarIcon, CheckIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 
 // Types
 type TaskDialogContentPropsType = {
@@ -57,10 +56,33 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
             <div>
                 <Flex direction="column" gap="6">
                     <Flex direction="column" gap="4">
-                        <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
+
+                        <Flex gap="4" align="center">
+                            <Tooltip content="Autor">
+                                <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
+                            </Tooltip>
+
+                            <Flex align="center" gap="2">
+                                <CalendarIcon color="blue" width="12" height="12" />
+                                <Flex align="center" gap="1">
+                                    <Tooltip content="Data utworzenia">
+                                        <Text size="2" color="gray">{formattedCreateDate}</Text>
+                                    </Tooltip>
+                                    <DoubleArrowRightIcon color="gray" width="10" height="10" />
+                                    <Tooltip content="Deadline">
+                                        <Text size="2" color="gray">{formattedDeadline}</Text>
+                                    </Tooltip>
+                                </Flex>
+                            </Flex>
+                        </Flex>
+
                         <Text size="5">{mergedTask.name}</Text>
 
-                        <Blockquote size="2" dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
+                        <ScrollArea scrollbars="vertical" type="auto">
+                            <Box style={{ maxHeight: "min(35dvh, 488px)" }}>
+                                <Blockquote size="2" mr="4" dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
+                            </Box>
+                        </ScrollArea>
                     </Flex>
 
                     <DataList.Root>
@@ -84,7 +106,7 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                             </DataList.Value>
                         </DataList.Item>
 
-                        <DataList.Item align="start">
+                        {/* <DataList.Item align="start">
                             <DataList.Label>Notatka</DataList.Label>
                             <DataList.Value>
 
@@ -108,29 +130,28 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                                 </Flex>
 
                             </DataList.Value>
-                        </DataList.Item>
-
-                        <DataList.Item align="center">
-                            <DataList.Label>
-                                Daty
-                            </DataList.Label>
-                            <DataList.Value>
-                                <Flex align="center" gap="3">
-                                    <Tooltip content="Data utworzenia">
-                                        <Text color="gray">{formattedCreateDate}</Text>
-                                    </Tooltip>
-                                    <DoubleArrowRightIcon color="gray" width="12" height="12" />
-                                    <Tooltip content="Deadline">
-                                        <Text color="gray">{formattedDeadline}</Text>
-                                    </Tooltip>
-                                </Flex>
-                            </DataList.Value>
-                        </DataList.Item>
+                        </DataList.Item> */}
 
                         {/* <DataList.Item align="center">
                             {mergedTask.}
                         </DataList.Item> */}
                     </DataList.Root>
+                    <Flex justify="end" gap="2">
+                        <Button variant="soft" size="3">
+                            <Text size="2" style={{ transform: "translateY(-1px)" }}>
+                                Skomentuj
+                            </Text>
+                        </Button>
+
+                        <Button size="3" style={{ padding: "0 16px 0 8px" }}>
+                            <Flex align="center" gap="1">
+                                    <CheckIcon width="22" height="22" style={{ transform: "translateY(-1px)" }} />
+                                    <Text size="2" style={{ transform: "translateY(-1px)" }}>
+                                        Zakończ zadanie
+                                    </Text>
+                            </Flex>
+                        </Button>
+                    </Flex>
                 </Flex>
             </div>
         </>
