@@ -7,6 +7,9 @@ import TaskDialogSkeleton from "@/features/tasks/components/dialog/TaskDialogSke
 import TaskDialogMainInfo from "@/features/tasks/components/dialog/TaskDialogMainInfo";
 import TaskDialogSegmentsController from "@/features/tasks/components/dialog/TaskDialogSegmentsController";
 
+// Radix
+import { Flex } from "@radix-ui/themes";
+
 // Services
 import { getMergedTask } from "@/features/tasks/services/tasks.service";
 
@@ -60,10 +63,14 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
             <Suspense
                 fallback={<TaskDialogSkeleton />}
             >
+                <Flex direction="column" gap="6">
                 <TaskDialogMainInfo
                     taskAuthor={mergedTask.author}
                     createDate={mergedTask.create_date}
                     deadline={mergedTask.deadline}
+                    priority={mergedTask.flowPriority}
+                    status={mergedTask.flowStatus}
+                    reactisTaskId={mergedTask.reactisTaskId}
                     title={mergedTask.name}
                 />
 
@@ -71,6 +78,7 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
                     mergedTask={mergedTask}
                     reactisComments={reactisComments}
                 />
+                </Flex>
             </Suspense>
         </TaskDialogContainer>
     );

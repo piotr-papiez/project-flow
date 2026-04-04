@@ -21,7 +21,7 @@ type TaskDialogSegmentsControllerPropsType = {
     reactisComments: ReactisTaskCommentsType
 };
 
-type TaskSegmentType = "details" | "comments";
+type TaskSegmentType = "details" | "comments" | "more";
 
 export default function TaskDialogSegmentsController({
     mergedTask,
@@ -30,9 +30,10 @@ export default function TaskDialogSegmentsController({
     const [segment, setSegment] = useState<TaskSegmentType>("details");
 
     return (
-        <Flex direction="column" gap="5">
-            <SegmentedControl.Root
+        <Flex direction="column" gap="4">
+            <SegmentedControl.Root 
                 size="1"
+                radius="large"
                 value={segment}
                 onValueChange={value => setSegment(value as TaskSegmentType)}
                 className={styles["segments-item"]}

@@ -29,7 +29,7 @@ export default function TaskDialogDetails({ mergedTask, reactisComments }: TaskD
                 <Flex direction="column" gap="6">
                     <Flex direction="column" gap="4">
                         <ScrollArea scrollbars="vertical" type="auto">
-                            <Box style={{ maxHeight: "min(45dvh, 488px)" }}>
+                            <Box style={{ maxHeight: "min(38dvh, 488px)" }}>
                                 <Blockquote size="2" mr="4" dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
                             </Box>
                         </ScrollArea>
