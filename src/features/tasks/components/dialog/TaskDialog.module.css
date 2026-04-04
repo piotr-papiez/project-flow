@@ -7,6 +7,15 @@
     color: var(--gray-12);
 }
 
+.external-link-button {
+    background-color: transparent;
+    border: 1px solid var(--gray-4);
+}
+
+.external-link-button:hover {
+    background-color: var(--gray-3);
+}
+
 .close-button {
     color: var(--gray-12);
     background-color: transparent;
@@ -16,11 +25,10 @@
     background-color: var(--gray-5);
 }
 
-.external-link-button {
-    background-color: transparent;
-    border: 1px solid var(--gray-4);
+.header-bar {
+    border-bottom: 1px solid var(--gray-6);
 }
 
-.external-link-button:hover {
-    background-color: var(--gray-3);
+.segments-item {
+    width: fit-content;
 }

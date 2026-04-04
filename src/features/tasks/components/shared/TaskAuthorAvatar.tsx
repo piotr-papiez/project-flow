@@ -1,5 +1,8 @@
 // Radix
-import { Flex, Avatar, Text, Strong } from "@radix-ui/themes";
+import {
+    Flex, Avatar, Text, Strong,
+    Tooltip
+} from "@radix-ui/themes";
 
 // Types
 import type { TaskAuthorType } from "@/types/reactis";
@@ -12,17 +15,19 @@ export default function TaskAuthorAvatar({ reactisTaskAuthor }: TaskAuthorAvatar
     const { name: authorName, surname: authorSurname } = reactisTaskAuthor;
 
     return (
-        <Flex gap="2" align="center">
-            <Avatar
-                size="1"
-                color="gray"
-                fallback={`${authorName[0]}${authorSurname[0]}`}
-            />
-            <Text size="2">
-                <Strong>
-                    {`${authorName} ${authorSurname}`}
-                </Strong>
-            </Text>
-        </Flex>
+        <Tooltip content="Autor">
+            <Flex gap="2" align="center">
+                <Avatar
+                    size="1"
+                    color="gray"
+                    fallback={`${authorName[0]}${authorSurname[0]}`}
+                />
+                <Text size="2">
+                    <Strong>
+                        {`${authorName} ${authorSurname}`}
+                    </Strong>
+                </Text>
+            </Flex>
+        </Tooltip>
     );
 }

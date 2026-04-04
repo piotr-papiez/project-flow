@@ -2,14 +2,20 @@
 import { Suspense } from "react";
 
 // Components
-import TaskDialog from "@/features/tasks/components/dialog/TaskDialog";
+import TaskDialogContainer from "@/features/tasks/components/dialog/TaskDialogContainer";
 import TaskDialogSkeleton from "@/features/tasks/components/dialog/TaskDialogSkeleton";
-import TaskDialogContent from "@/features/tasks/components/dialog/TaskDialogContent";
+import TaskDialogMainInfo from "@/features/tasks/components/dialog/TaskDialogMainInfo";
+import TaskDialogSegmentsController from "@/features/tasks/components/dialog/TaskDialogSegmentsController";
+
+// Services
+import { getMergedTask } from "@/features/tasks/services/tasks.service";
+
+// Repo
+import { getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
 
 // Utils
 import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
-// Types
 type TaskDialogPagePropsType = {
     params: Promise<{
         reactisTaskId: string
@@ -22,18 +28,50 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
     const reactisUserId = await getReactisUserIdCookie();
     const reactisTaskUrl = `https://ncrm.netgraf.pl/task/user_list/${reactisUserId}/${reactisTaskId}`;
 
+    const [mergedTaskResponse, reactisCommentsResponse] = await Promise.all([
+        getMergedTask(reactisTaskId),
+        getReactisTaskComments(reactisTaskId)
+    ]);
+
+    if (!mergedTaskResponse) {
+        return (
+            <div>
+                Nie udało się pobrać szczegółów zadania
+            </div>
+        );
+    }
+
+    if (!reactisCommentsResponse.ok) {
+        return (
+            <div>
+                Nie udało się pobrać komentarzy do zadania
+            </div>
+        )
+    }
+
+    const mergedTask = mergedTaskResponse;
+    const reactisComments = reactisCommentsResponse.data;
+
     return (
-        <TaskDialog
+        <TaskDialogContainer
             reactisTaskId={reactisTaskId}
             reactisTaskUrl={reactisTaskUrl}
         >
             <Suspense
                 fallback={<TaskDialogSkeleton />}
             >
-                <TaskDialogContent
-                    reactisTaskId={reactisTaskId}
+                <TaskDialogMainInfo
+                    taskAuthor={mergedTask.author}
+                    createDate={mergedTask.create_date}
+                    deadline={mergedTask.deadline}
+                    title={mergedTask.name}
+                />
+
+                <TaskDialogSegmentsController
+                    mergedTask={mergedTask}
+                    reactisComments={reactisComments}
                 />
             </Suspense>
-        </TaskDialog>
+        </TaskDialogContainer>
     );
 }

@@ -1,91 +1,41 @@
-// Services
-import { getMergedTask } from "../../services/tasks.service";
-
-// Repo
-import { getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
-
 // Components
 import StatusBadge from "../shared/StatusBadge";
 import PriorityBadge from "../shared/PriorityBadge";
 import TaskAuthorAvatar from "../shared/TaskAuthorAvatar";
-
-// Utils
-import formatDate from "../../utils/date-formatter";
+import TaskDialogMainInfo from "./TaskDialogMainInfo";
+import TaskDialogDates from "./TaskDialogDates";
 
 // Radix
 import {
-    Blockquote, DataList, Flex, IconButton,
-    Text, Tooltip, ScrollArea, Box,
-    Button
+    Blockquote, DataList, Flex, Text,
+    Tooltip, ScrollArea, Box, Button
 } from "@radix-ui/themes";
 
-import { CalendarIcon, CheckIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "@radix-ui/react-icons";
 
 // Types
-type TaskDialogContentPropsType = {
-    reactisTaskId: string
+import type { MergedTaskDataType } from "@/types/flow";
+import type { ReactisTaskCommentsType } from "@/types/reactis";
+
+type TaskDialogDetailsPropsType = {
+    mergedTask: MergedTaskDataType,
+    reactisComments: ReactisTaskCommentsType
 };
 
-export default async function TaskDialogContent({ reactisTaskId }: TaskDialogContentPropsType) {
-    const [mergedTaskResponse, reactisCommentsResponse] = await Promise.all([
-        getMergedTask(reactisTaskId),
-        getReactisTaskComments(reactisTaskId)
-    ]);
-
-    if (!mergedTaskResponse) {
-        return (
-            <div>
-                Nie udało się pobrać szczegółów zadania
-            </div>
-        );
-    }
-
-    const mergedTask = mergedTaskResponse;
-    const reactisComments = reactisCommentsResponse.ok
-        ? reactisCommentsResponse.data
-        : { items: [] };
-
-    const formattedCreateDate = formatDate(mergedTask.create_date)
-        ?? <Text className="NoDetailsText">Brak daty utworzenia</Text>;
-
-    const formattedDeadline = formatDate(mergedTask.deadline)
-        ?? <Text className="NoDetailsText">Brak deadline</Text>
-
+export default function TaskDialogDetails({ mergedTask, reactisComments }: TaskDialogDetailsPropsType) {
     return (
         <>
             <div>
                 <Flex direction="column" gap="6">
                     <Flex direction="column" gap="4">
-
-                        <Flex gap="4" align="center">
-                            <Tooltip content="Autor">
-                                <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
-                            </Tooltip>
-
-                            <Flex align="center" gap="2">
-                                <CalendarIcon color="blue" width="12" height="12" />
-                                <Flex align="center" gap="1">
-                                    <Tooltip content="Data utworzenia">
-                                        <Text size="2" color="gray">{formattedCreateDate}</Text>
-                                    </Tooltip>
-                                    <DoubleArrowRightIcon color="gray" width="10" height="10" />
-                                    <Tooltip content="Deadline">
-                                        <Text size="2" color="gray">{formattedDeadline}</Text>
-                                    </Tooltip>
-                                </Flex>
-                            </Flex>
-                        </Flex>
-
-                        <Text size="5">{mergedTask.name}</Text>
-
                         <ScrollArea scrollbars="vertical" type="auto">
-                            <Box style={{ maxHeight: "min(35dvh, 488px)" }}>
+                            <Box style={{ maxHeight: "min(45dvh, 488px)" }}>
                                 <Blockquote size="2" mr="4" dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
                             </Box>
                         </ScrollArea>
                     </Flex>
 
-                    <DataList.Root>
+                    {/* <DataList.Root>
                         <DataList.Item align="center">
                             <DataList.Label>Status</DataList.Label>
                             <DataList.Value>
@@ -105,8 +55,9 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                                 />
                             </DataList.Value>
                         </DataList.Item>
+                    </DataList.Root> */}
 
-                        {/* <DataList.Item align="start">
+                    {/* <DataList.Item align="start">
                             <DataList.Label>Notatka</DataList.Label>
                             <DataList.Value>
 
@@ -132,23 +83,23 @@ export default async function TaskDialogContent({ reactisTaskId }: TaskDialogCon
                             </DataList.Value>
                         </DataList.Item> */}
 
-                        {/* <DataList.Item align="center">
+                    {/* <DataList.Item align="center">
                             {mergedTask.}
                         </DataList.Item> */}
-                    </DataList.Root>
+
                     <Flex justify="end" gap="2">
                         <Button variant="soft" size="3">
-                            <Text size="2" style={{ transform: "translateY(-1px)" }}>
-                                Skomentuj
+                            <Text size="2">
+                                Udostępnij
                             </Text>
                         </Button>
 
                         <Button size="3" style={{ padding: "0 16px 0 8px" }}>
                             <Flex align="center" gap="1">
-                                    <CheckIcon width="22" height="22" style={{ transform: "translateY(-1px)" }} />
-                                    <Text size="2" style={{ transform: "translateY(-1px)" }}>
-                                        Zakończ zadanie
-                                    </Text>
+                                <CheckIcon width="22" height="22" />
+                                <Text size="2">
+                                    Zakończ zadanie
+                                </Text>
                             </Flex>
                         </Button>
                     </Flex>
