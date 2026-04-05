@@ -9,20 +9,17 @@ import TaskDialogHeaderBar from "./TaskDialogHeaderBar";
 // Radix
 import { Dialog, Flex } from "@radix-ui/themes";
 
-// Styles
-import styles from "./TaskDialog.module.css";
-
 // Types
 import { ReactNode } from "react";
 
 type TaskDialogPropsType = {
-    reactisTaskId: string,
+    reactisTaskId?: string,
     reactisTaskUrl?: string,
     children: ReactNode
 };
 
 export default function TaskDialogContainer({
-    reactisTaskId,
+    reactisTaskId = "",
     reactisTaskUrl = "",
     children
 }: TaskDialogPropsType) {
@@ -36,7 +33,7 @@ export default function TaskDialogContainer({
         <Dialog.Root open onOpenChange={handleOpenChange}>
             <Dialog.Content
                 size="2"
-                maxWidth="1136px"
+                maxWidth="880px"
                 aria-describedby={undefined}
             >
                 <Flex direction="column" gap="4">

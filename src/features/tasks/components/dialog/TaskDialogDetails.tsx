@@ -1,36 +1,25 @@
-// Components
-import StatusBadge from "../shared/StatusBadge";
-import PriorityBadge from "../shared/PriorityBadge";
-import TaskAuthorAvatar from "../shared/TaskAuthorAvatar";
-import TaskDialogMainInfo from "./TaskDialogMainInfo";
-import TaskDialogDates from "./TaskDialogDates";
-
 // Radix
 import {
-    Blockquote, DataList, Flex, Text,
-    Tooltip, ScrollArea, Box, Button
+    Blockquote, Flex, ScrollArea, Box
 } from "@radix-ui/themes";
-
-import { CheckIcon } from "@radix-ui/react-icons";
 
 // Types
 import type { MergedTaskDataType } from "@/types/flow";
 import type { ReactisTaskCommentsType } from "@/types/reactis";
 
 type TaskDialogDetailsPropsType = {
-    mergedTask: MergedTaskDataType,
-    reactisComments: ReactisTaskCommentsType
+    details: string
 };
 
-export default function TaskDialogDetails({ mergedTask, reactisComments }: TaskDialogDetailsPropsType) {
+export default function TaskDialogDetails({ details }: TaskDialogDetailsPropsType) {
     return (
         <>
             <div>
                 <Flex direction="column" gap="6">
                     <Flex direction="column" gap="4">
                         <ScrollArea scrollbars="vertical" type="auto">
-                            <Box style={{ maxHeight: "min(38dvh, 488px)" }}>
-                                <Blockquote size="2" mr="4" dangerouslySetInnerHTML={{ __html: mergedTask.text }} />
+                            <Box style={{ maxHeight: "min(36dvh, 488px)" }}>
+                                <Blockquote size="2" mr="4" dangerouslySetInnerHTML={{ __html: details }} />
                             </Box>
                         </ScrollArea>
                     </Flex>
@@ -87,7 +76,7 @@ export default function TaskDialogDetails({ mergedTask, reactisComments }: TaskD
                             {mergedTask.}
                         </DataList.Item> */}
 
-                    <Flex justify="end" gap="2">
+                    {/* <Flex justify="end" gap="2">
                         <Button variant="soft" size="3">
                             <Text size="2">
                                 Udostępnij
@@ -102,7 +91,7 @@ export default function TaskDialogDetails({ mergedTask, reactisComments }: TaskD
                                 </Text>
                             </Flex>
                         </Button>
-                    </Flex>
+                    </Flex> */}
                 </Flex>
             </div>
         </>

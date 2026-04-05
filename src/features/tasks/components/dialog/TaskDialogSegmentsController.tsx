@@ -5,6 +5,7 @@ import { useState } from "react";
 
 // Components
 import TaskDialogDetails from "./TaskDialogDetails";
+import TaskDialogComments from "./TaskDialogComments";
 
 // Radix
 import { Flex, SegmentedControl } from "@radix-ui/themes";
@@ -21,7 +22,7 @@ type TaskDialogSegmentsControllerPropsType = {
     reactisComments: ReactisTaskCommentsType
 };
 
-type TaskSegmentType = "details" | "comments" | "more";
+type TaskSegmentType = "details" | "comments" | "knowledge" | "more";
 
 export default function TaskDialogSegmentsController({
     mergedTask,
@@ -31,7 +32,7 @@ export default function TaskDialogSegmentsController({
 
     return (
         <Flex direction="column" gap="4">
-            <SegmentedControl.Root 
+            <SegmentedControl.Root
                 size="1"
                 radius="large"
                 value={segment}
@@ -40,18 +41,24 @@ export default function TaskDialogSegmentsController({
             >
                 <SegmentedControl.Item value="details">Szczegóły</SegmentedControl.Item>
                 <SegmentedControl.Item value="comments">Komentarze</SegmentedControl.Item>
+                <SegmentedControl.Item value="knowledge">Wiedza</SegmentedControl.Item>
                 <SegmentedControl.Item value="more">Więcej</SegmentedControl.Item>
             </SegmentedControl.Root>
 
             {segment === "details" && (
                 <TaskDialogDetails
-                    mergedTask={mergedTask}
-                    reactisComments={reactisComments}
+                    details={mergedTask.text}
                 />
             )}
 
             {segment === "comments" && (
-                <p>asd</p>
+                <TaskDialogComments
+                    comments={reactisComments}
+                />
+            )}
+
+            {segment === "knowledge" && (
+                <p>asdverv</p>
             )}
 
             {segment === "more" && (

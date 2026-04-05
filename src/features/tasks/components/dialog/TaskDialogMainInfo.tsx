@@ -9,47 +9,43 @@ import PriorityBadge from "../shared/PriorityBadge";
 import { Text, Flex } from "@radix-ui/themes";
 
 // Types
-import type { TaskAuthorType } from "@/types/reactis";
+import type { MergedTaskDataType } from "@/types/flow";
 
 type TaskDialogMainInfoPropsType = {
-    taskAuthor: TaskAuthorType,
-    createDate: string,
-    deadline: string,
-    priority?: number,
-    status?: number,
-    reactisTaskId?: string,
-    title: string
+    mergedTask: MergedTaskDataType,
 };
 
 export default function TaskDialogMainInfo({
-    taskAuthor, createDate, deadline, priority, status, reactisTaskId, title
+    mergedTask
 }: TaskDialogMainInfoPropsType) {
-    const tempPriority = priority ?? 1;
-    const tempStatus = status ?? 1;
-    const tempTaskId = reactisTaskId ?? "";
-
     return (
         <Flex direction="column" gap="3">
             <Flex gap="4" align="center">
-                <TaskAuthorAvatar reactisTaskAuthor={taskAuthor} />
+                <TaskAuthorAvatar reactisTaskAuthor={mergedTask.author} />
 
                 <TaskDialogDates
-                    createDate={createDate}
-                    deadline={deadline}
+                    createDate={mergedTask.create_date}
+                    deadline={mergedTask.deadline}
                 />
             </Flex>
 
-            <TaskDialogTitle title={title} />
+            <TaskDialogTitle title={mergedTask.name} />
 
             <Flex gap="4">
                 <Flex gap="1" align="center">
                     <Text size="2">Priorytet:</Text>
-                    <PriorityBadge currentPriorityValue={tempPriority} reactisTaskId={tempTaskId} />
+                    <PriorityBadge
+                        currentPriorityValue={mergedTask.flowPriority as number}
+                        reactisTaskId={mergedTask.reactisTaskId as string}
+                    />
                 </Flex>
 
                 <Flex gap="1" align="center">
                     <Text size="2">Status:</Text>
-                    <StatusBadge currentStatusValue={tempStatus} reactisTaskId={tempTaskId} />
+                    <StatusBadge
+                        currentStatusValue={mergedTask.flowStatus as number}
+                        reactisTaskId={mergedTask.reactisTaskId as string}
+                    />
                 </Flex>
             </Flex>
         </Flex>

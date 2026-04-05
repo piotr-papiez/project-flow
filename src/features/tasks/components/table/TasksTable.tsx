@@ -1,8 +1,5 @@
 "use client";
 
-// Next.js
-import NextLink from "next/link";
-
 // Hooks
 import { useState, useMemo } from "react";
 
@@ -15,8 +12,7 @@ import {
 // Radix
 import {
     Flex, TextField, Select, Table,
-    Heading, IconButton, Text, Strong,
-    Tooltip
+    Heading, Text, Strong
 } from "@radix-ui/themes";
 
 import {
@@ -63,7 +59,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 },
                 cell: ({ cell }) => {
                     const reactisTaskId = cell.row.original.reactisTaskId ?? "";
-                    const priorityValue = (cell.getValue() as number) ?? undefined;
+                    const priorityValue = (cell.getValue() as number | undefined) ?? 0;
 
                     return (
                         <PriorityBadge
@@ -108,7 +104,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 },
                 cell: ({ cell }) => {
                     const reactisTaskId = cell.row.original.reactisTaskId ?? "";
-                    const statusValue = (cell.getValue() as number) ?? undefined;
+                    const statusValue = (cell.getValue() as number | undefined) ?? 0;
 
                     return (
                         <StatusBadge

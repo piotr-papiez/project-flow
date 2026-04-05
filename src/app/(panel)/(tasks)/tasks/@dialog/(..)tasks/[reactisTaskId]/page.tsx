@@ -8,7 +8,8 @@ import TaskDialogMainInfo from "@/features/tasks/components/dialog/TaskDialogMai
 import TaskDialogSegmentsController from "@/features/tasks/components/dialog/TaskDialogSegmentsController";
 
 // Radix
-import { Flex } from "@radix-ui/themes";
+import { Flex, Button, Text } from "@radix-ui/themes";
+import { CheckIcon } from "@radix-ui/react-icons";
 
 // Services
 import { getMergedTask } from "@/features/tasks/services/tasks.service";
@@ -64,20 +65,32 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
                 fallback={<TaskDialogSkeleton />}
             >
                 <Flex direction="column" gap="6">
-                <TaskDialogMainInfo
-                    taskAuthor={mergedTask.author}
-                    createDate={mergedTask.create_date}
-                    deadline={mergedTask.deadline}
-                    priority={mergedTask.flowPriority}
-                    status={mergedTask.flowStatus}
-                    reactisTaskId={mergedTask.reactisTaskId}
-                    title={mergedTask.name}
-                />
+                    <TaskDialogMainInfo
+                        mergedTask={mergedTask}
+                    />
 
-                <TaskDialogSegmentsController
-                    mergedTask={mergedTask}
-                    reactisComments={reactisComments}
-                />
+                    <TaskDialogSegmentsController
+                        mergedTask={mergedTask}
+                        reactisComments={reactisComments}
+                    />
+
+                    <Flex justify="end" gap="2">
+                        <Button variant="soft" size="3">
+                            <Text size="2">
+                                Udostępnij
+                            </Text>
+                        </Button>
+
+                        <Button size="3" style={{ padding: "0 16px 0 8px" }}>
+                            <Flex align="center" gap="1">
+                                <CheckIcon width="22" height="22" />
+                                <Text size="2">
+                                    Zakończ zadanie
+                                </Text>
+                            </Flex>
+                        </Button>
+                    </Flex>
+
                 </Flex>
             </Suspense>
         </TaskDialogContainer>
