@@ -15,7 +15,7 @@ export default function TaskDialogComments({
     comments
 }: TaskDialogCommentsPropsType) {
     return (
-        <Flex direction="column" gap="4" style={{ maxHeight: "min(44dvh, 488px)" }}>
+        <Flex direction="column" gap="4" style={{ maxHeight: "min(42dvh, 488px)" }}>
             <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
                 <Blockquote size="2" mr="4">
                     <Flex direction="column" gap="2">
