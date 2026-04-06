@@ -31,9 +31,7 @@
 }
 
 .rt-DialogContent {
-  outline: 0;
-  /* border: 1px solid var(--gray-11); */
-  box-shadow: var(--shadow-5);
+  box-shadow: var(--shadow-6);
 }
 
 

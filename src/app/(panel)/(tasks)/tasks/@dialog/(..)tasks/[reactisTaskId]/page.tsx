@@ -64,7 +64,7 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
             <Suspense
                 fallback={<TaskDialogSkeleton />}
             >
-                <Flex direction="column" gap="6">
+                <Flex direction="column" gap="5">
                     <TaskDialogMainInfo
                         mergedTask={mergedTask}
                     />
@@ -73,25 +73,25 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
                         mergedTask={mergedTask}
                         reactisComments={reactisComments}
                     />
-
-                    <Flex justify="end" gap="2">
-                        <Button variant="soft" size="3">
-                            <Text size="2">
-                                Udostępnij
-                            </Text>
-                        </Button>
-
-                        <Button size="3" style={{ padding: "0 16px 0 8px" }}>
-                            <Flex align="center" gap="1">
-                                <CheckIcon width="22" height="22" />
-                                <Text size="2">
-                                    Zakończ zadanie
-                                </Text>
-                            </Flex>
-                        </Button>
-                    </Flex>
-
                 </Flex>
+
+                <Flex justify="end" gap="2">
+                    <Button variant="soft" size="3">
+                        <Text size="2">
+                            Udostępnij
+                        </Text>
+                    </Button>
+
+                    <Button size="3" style={{ padding: "0 16px 0 8px" }}>
+                        <Flex align="center" gap="1">
+                            <CheckIcon width="22" height="22" />
+                            <Text size="2">
+                                Zakończ zadanie
+                            </Text>
+                        </Flex>
+                    </Button>
+                </Flex>
+
             </Suspense>
         </TaskDialogContainer>
     );

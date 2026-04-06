@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import TaskDialogHeaderBar from "./TaskDialogHeaderBar";
 
 // Radix
-import { Dialog, Flex } from "@radix-ui/themes";
+import { Dialog, Flex, Button, Text } from "@radix-ui/themes";
+import { CheckIcon } from "@radix-ui/react-icons";
 
 // Types
 import { ReactNode } from "react";
@@ -34,6 +35,7 @@ export default function TaskDialogContainer({
             <Dialog.Content
                 size="2"
                 maxWidth="880px"
+                maxHeight="86dvh"
                 aria-describedby={undefined}
             >
                 <Flex direction="column" gap="4">
@@ -41,10 +43,9 @@ export default function TaskDialogContainer({
                         reactisTaskId={reactisTaskId}
                         reactisTaskUrl={reactisTaskUrl}
                     />
-
                     {children}
                 </Flex>
             </Dialog.Content>
-        </Dialog.Root>
+        </Dialog.Root >
     );
 }

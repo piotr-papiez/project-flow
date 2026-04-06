@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${redHatDisplay.variable} ${figtree.variable}`}>
-        <Theme accentColor="indigo" grayColor="sage" radius="full" className="Container">
+        <Theme appearance="light" accentColor="indigo" grayColor="sage" radius="full" className="Container">
           {children}
         </Theme>
       </body>

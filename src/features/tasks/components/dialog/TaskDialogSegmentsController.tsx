@@ -31,7 +31,7 @@ export default function TaskDialogSegmentsController({
     const [segment, setSegment] = useState<TaskSegmentType>("details");
 
     return (
-        <Flex direction="column" gap="4">
+        <Flex direction="column" gap="4" style={{ height: "100%" }}>
             <SegmentedControl.Root
                 size="1"
                 radius="large"
