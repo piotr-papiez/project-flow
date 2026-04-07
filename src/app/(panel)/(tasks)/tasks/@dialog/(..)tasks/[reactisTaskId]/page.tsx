@@ -75,7 +75,7 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
                     />
                 </Flex>
 
-                <Flex justify="end" gap="2">
+                {/* <Flex justify="end" gap="2">
                     <Button variant="soft" size="3">
                         <Text size="2">
                             Udostępnij
@@ -90,7 +90,7 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
                             </Text>
                         </Flex>
                     </Button>
-                </Flex>
+                </Flex> */}
 
             </Suspense>
         </TaskDialogContainer>

@@ -37,6 +37,7 @@ export default function TaskDialogContainer({
                 maxWidth="880px"
                 maxHeight="86dvh"
                 aria-describedby={undefined}
+                onOpenAutoFocus={event => event.preventDefault()}
             >
                 <Flex direction="column" gap="4">
                     <TaskDialogHeaderBar

@@ -1,21 +1,29 @@
 "use client";
 
+// Components
+import NativeLinkIconButton from "@/components/ui/NativeLinkIconButton";
+import NextLinkIconButton from "@/components/ui/NextLinkIconButton";
+import ActionIconButton from "@/components/ui/ActionIconButton";
+
 // Radix
 import {
     Flex,
     Text,
-    Tooltip,
-    IconButton,
     VisuallyHidden,
     Dialog
 } from "@radix-ui/themes";
 
-import { OpenInNewWindowIcon, Cross1Icon } from "@radix-ui/react-icons";
+import {
+    OpenInNewWindowIcon,
+    Cross1Icon,
+    EnterFullScreenIcon,
+    Share1Icon
+} from "@radix-ui/react-icons";
 
 // Types
 type TaskDialogHeaderPropsType = {
     reactisTaskId: string,
-    reactisTaskUrl?: string
+    reactisTaskUrl: string
 };
 
 // Styles
@@ -25,6 +33,8 @@ export default function TaskDialogHeaderBar({
     reactisTaskId,
     reactisTaskUrl
 }: TaskDialogHeaderPropsType) {
+    const flowTaskUrl = `/tasks/${reactisTaskId}`;
+
     return (
         <Flex
             justify="between"
@@ -40,37 +50,47 @@ export default function TaskDialogHeaderBar({
                     Zadanie <Text className={styles["task-id"]}>{reactisTaskId}</Text>
                 </Text>
 
-                {reactisTaskUrl && (
-                    <Tooltip content="Otwórz w Reactis">
-                        <IconButton
-                            variant="soft"
-                            size="1"
-                            color="gray"
-                            radius="large"
-                            className={styles["external-link-button"]}
-                            asChild
-                        >
-                            <a
-                                href={reactisTaskUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <OpenInNewWindowIcon width="12" height="12" />
-                            </a>
-                        </IconButton>
-                    </Tooltip>
-                )}
+                <NativeLinkIconButton
+                    href={reactisTaskUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="ghost"
+                    tooltip="Otwórz w Reactis"
+                >
+                    <OpenInNewWindowIcon width="14" height="14" />
+                </NativeLinkIconButton>
             </Flex>
 
             <VisuallyHidden>
                 <Dialog.Title />
             </VisuallyHidden>
 
-            <Dialog.Close className={styles["close-button"]}>
-                <IconButton size="2">
-                    <Cross1Icon />
-                </IconButton>
-            </Dialog.Close>
+            <Flex gap="1">
+                <NextLinkIconButton
+                    href={`${flowTaskUrl}/share`}
+                    variant="ghost"
+                    tooltip="Udostępnij tę kartę"
+                >
+                    <Share1Icon width="14" height="14" />
+                </NextLinkIconButton>
+
+                <NativeLinkIconButton
+                    href={flowTaskUrl}
+                    variant="ghost"
+                    tooltip="Otwórz w pełnym oknie"
+                >
+                    <EnterFullScreenIcon width="14" height="14" />
+                </NativeLinkIconButton>
+
+                <Dialog.Close>
+                    <ActionIconButton
+                        variant="ghost"
+                        tooltip="Zamknij"
+                    >
+                        <Cross1Icon width="14" height="14" />
+                    </ActionIconButton>
+                </Dialog.Close>
+            </Flex>
         </Flex>
     );
 }
