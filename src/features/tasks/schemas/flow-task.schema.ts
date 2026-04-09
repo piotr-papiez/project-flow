@@ -26,12 +26,15 @@ export const FlowTaskSchema = new Schema({
         required: true
     },
     docsDraftUrl: {
-        type: String
+        type: String,
+        required: true
     },
     cmsUrl: {
-        type: String
+        type: String,
+        required: true
     },
     flowNotes: {
-        type: String
+        type: String,
+        required: true
     }
 });

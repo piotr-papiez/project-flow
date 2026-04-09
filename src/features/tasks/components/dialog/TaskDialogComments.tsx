@@ -34,8 +34,8 @@ export default function TaskDialogComments({
             </ScrollArea >
 
             <Flex justify="end" gap="2">
-                <TextArea style={{ width: "100%",  minHeight: "100%" }} />
-                <ActionIconButton tooltip="Wyślij" variant="solid">
+                <TextArea placeholder="**Wkrótce**" style={{ width: "100%",  minHeight: "100%" }} />
+                <ActionIconButton variant="solid" radius="full" tooltip="Wyślij">
                     <PaperPlaneIcon />
                 </ActionIconButton>
             </Flex>

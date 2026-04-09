@@ -9,18 +9,19 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 type LinkIconButtonPropsType = {
     variant: "solid" | "soft" | "outline" | "ghost",
+    radius: "none" | "small" | "medium" | "large" | "full",
     tooltip: string,
     children: ReactNode
 } & ComponentPropsWithoutRef<"a">;
 
 export default function NativeLinkIconButton({
-    variant, tooltip, children, ...props
+    variant, radius, tooltip, children, ...props
 }: LinkIconButtonPropsType) {
     return (
         <Tooltip content={tooltip}>
             <IconButton
                 className={styles[variant]}
-                radius="large"
+                radius={radius}
                 asChild
             >
                 <a {...props}>

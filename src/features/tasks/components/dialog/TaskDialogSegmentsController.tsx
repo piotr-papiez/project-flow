@@ -6,6 +6,7 @@ import { useState } from "react";
 // Components
 import TaskDialogDetails from "./TaskDialogDetails";
 import TaskDialogComments from "./TaskDialogComments";
+import TaskDialogMore from "./TaskDialogMore";
 
 // Radix
 import { Flex, SegmentedControl } from "@radix-ui/themes";
@@ -41,7 +42,7 @@ export default function TaskDialogSegmentsController({
             >
                 <SegmentedControl.Item value="details">Szczegóły</SegmentedControl.Item>
                 <SegmentedControl.Item value="comments">Komentarze</SegmentedControl.Item>
-                <SegmentedControl.Item value="knowledge">Wiedza</SegmentedControl.Item>
+                {/* <SegmentedControl.Item value="knowledge">Wiedza</SegmentedControl.Item> */}
                 <SegmentedControl.Item value="more">Więcej</SegmentedControl.Item>
             </SegmentedControl.Root>
 
@@ -57,12 +58,16 @@ export default function TaskDialogSegmentsController({
                 />
             )}
 
-            {segment === "knowledge" && (
+            {/* {segment === "knowledge" && (
                 <p>asdverv</p>
-            )}
+            )} */}
 
             {segment === "more" && (
-                <p>asdverv</p>
+                <TaskDialogMore
+                    notes={mergedTask.flowNotes}
+                    draft={mergedTask.docsDraftUrl}
+                    cms={mergedTask.cmsUrl}
+                />
             )}
         </Flex>
     );

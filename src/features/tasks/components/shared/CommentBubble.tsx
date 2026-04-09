@@ -6,6 +6,7 @@ type CommentBubblePropsType = {
 };
 
 export default function CommentBubble({ comment }: CommentBubblePropsType) {
+    console.log(comment);
     return (
         <Card
             size="1"
