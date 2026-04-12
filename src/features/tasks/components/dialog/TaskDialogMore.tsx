@@ -1,6 +1,7 @@
 // Components
 import CommentBubble from "../shared/CommentBubble";
 import ActionIconButton from "@/components/ui/ActionIconButton";
+import RichContentEditor from "@/components/shared/rich-content-editor/RichContentEditor";
 
 // Radix
 import {
@@ -16,8 +17,6 @@ import {
 import { Pencil1Icon } from "@radix-ui/react-icons";
 
 // Types
-
-
 type TaskDialogMorePropsType = {
     notes?: string,
     draft?: string,
@@ -28,19 +27,20 @@ export default function TaskDialogMore({
     notes, draft, cms
 }: TaskDialogMorePropsType) {
     return (
-        <Flex direction="column" gap="4" style={{ maxHeight: "min(50dvh, 488px)" }}>
-            <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
+        <Flex direction="column" gap="4" style={{ minHeight: "50dvh", maxHeight: "min(50dvh, 488px)" }}>
+            {/* <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
                 <Blockquote size="2" mr="4">
                     <Flex direction="column" gap="1">
                         <Text as="label" htmlFor="notes" size="1" ml="2">
-                            **Wkrótce** Notatki
-                        </Text>
-                        <TextArea value={notes}>
+                            Notatki
+                        </Text> */}
+                        <RichContentEditor savedNotes={notes} />
+                        {/* <TextArea value={notes}>
                         
-                        </TextArea>
-                    </Flex>
-                </Blockquote>
-            </ScrollArea >
+                        </TextArea> */}
+                    {/* </Flex> */}
+                {/* </Blockquote> */}
+            {/* </ScrollArea > */}
 
 
         </Flex>

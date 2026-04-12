@@ -52,7 +52,7 @@ export default function TaskDialogHeaderBar({
 
                 <NativeLinkIconButton
                     href={reactisTaskUrl}
-                    variant="ghost"
+                    version="ghost"
                     radius="large"
                     tooltip="Otwórz w Reactis"
                     target="_blank"
@@ -69,7 +69,7 @@ export default function TaskDialogHeaderBar({
             <Flex gap="1">
                 <NextLinkIconButton
                     href={`${flowTaskUrl}/share`}
-                    variant="ghost"
+                    version="ghost"
                     radius="large"
                     tooltip="**Wkrótce** Udostępnij tę kartę"
                 >
@@ -78,7 +78,7 @@ export default function TaskDialogHeaderBar({
 
                 <NativeLinkIconButton
                     href={flowTaskUrl}
-                    variant="ghost"
+                    version="ghost"
                     radius="large"
                     tooltip="Otwórz w pełnym oknie"
                 >
@@ -87,7 +87,7 @@ export default function TaskDialogHeaderBar({
 
                 <Dialog.Close>
                     <ActionIconButton
-                        variant="ghost"
+                        version="ghost"
                         radius="large"
                         tooltip="Zamknij"
                     >

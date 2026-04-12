@@ -19,6 +19,15 @@
     background-color: var(--accent-4);
 }
 
+.gray {
+    color: var(--gray-12);
+    background-color: var(--gray-3);
+}
+
+.gray:hover {
+    background-color: var(--gray-5);
+}
+
 .outline {
     color: var(--gray-12);
     background-color: transparent;

@@ -4,25 +4,25 @@
 import { IconButton, Tooltip } from "@radix-ui/themes";
 
 // Styles
-import styles from "./LinkIconButton.module.css";
+import styles from "./Button.module.css";
 
 // Types
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 type ActionIconButtonPropsType = {
-    variant: "solid" | "soft" | "outline" | "ghost",
+    version: "solid" | "soft" | "gray" | "outline" | "ghost",
     radius: "none" | "small" | "medium" | "large" | "full",
     tooltip: string,
     children: ReactNode
 } & ComponentPropsWithoutRef<typeof IconButton>;
 
 export default function ActionIconButton({
-    variant, radius, tooltip, children, ...props
+    version, radius, tooltip, className, children, ...props
 }: ActionIconButtonPropsType) {
     return (
         <Tooltip content={tooltip}>
             <IconButton
-                className={styles[variant]}
+                className={`${styles[version]} ${className ?? undefined}`}
                 radius={radius}
                 {...props}
             >

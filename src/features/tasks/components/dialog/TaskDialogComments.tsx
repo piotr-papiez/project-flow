@@ -35,7 +35,7 @@ export default function TaskDialogComments({
 
             <Flex justify="end" gap="2">
                 <TextArea placeholder="**Wkrótce**" style={{ width: "100%",  minHeight: "100%" }} />
-                <ActionIconButton variant="solid" radius="full" tooltip="Wyślij">
+                <ActionIconButton version="solid" radius="full" tooltip="Wyślij">
                     <PaperPlaneIcon />
                 </ActionIconButton>
             </Flex>

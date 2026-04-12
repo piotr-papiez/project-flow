@@ -1,0 +1,39 @@
+/* .editor-container {
+    padding: var(--space-1) var(--space-4);
+} */
+
+.buttons-container {
+    background-color: var(--gray-3);
+    border-radius: var(--radius-4) var(--radius-4) 0 0;
+    border: 1px solid var(--gray-5);
+    border-bottom: none;
+}
+
+.text-area {
+    padding: var(--space-2) var(--space-3);
+    border-radius: 0 0 var(--radius-4) var(--radius-4);
+    border: 1px solid var(--gray-5);
+    border-top: none;
+    transition: outline 0.2s ease;
+}
+
+.text-area:hover {
+    outline-color: var(--gray-7);
+}
+
+.text-area:focus {
+    outline: none;
+}
+
+.buttons-section {
+    border-radius: var(--radius-3);
+    background-color: var(--gray-3);
+}
+
+.format-button--active {
+    background-color: var(--gray-5);
+}
+
+.format-button--active:hover {
+    background-color: var(--gray-7);
+}
