@@ -67,6 +67,7 @@ export default function TaskDialogSegmentsController({
                     notes={mergedTask.flowNotes}
                     draft={mergedTask.docsDraftUrl}
                     cms={mergedTask.cmsUrl}
+                    reactisTaskId={mergedTask.reactisTaskId}
                 />
             )}
         </Flex>

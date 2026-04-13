@@ -1,52 +1,176 @@
 "use client";
 
+// React.js
+import { useActionState, useEffect, useRef, useState } from "react";
+
 // Components
 import RichMenuBar from "./RichMenuBar";
 import ActionIconButton from "@/components/ui/ActionIconButton";
 
 // Radix
-import { Flex, Separator } from "@radix-ui/themes";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
+import { Flex } from "@radix-ui/themes";
+import { PaperPlaneIcon, LetterCaseCapitalizeIcon } from "@radix-ui/react-icons";
 
 // Tiptap
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 
+// Actions
+import { updateFlowNote } from "@/features/tasks/actions/update-flow-note.action";
+
 // Styles
 import styles from "./RichContentEditor.module.css";
 
 // Types
 type RichContentEditorPropsType = {
-    savedNotes?: string
+    savedNotes?: string,
+    reactisTaskId?: string
 };
 
-export default function RichContentEditor({ savedNotes }: RichContentEditorPropsType) {
+import type { UpdateFlowNoteActionStateType } from "@/features/tasks/actions/update-flow-note.action";
+
+// Constants
+const initialState: UpdateFlowNoteActionStateType = {
+    ok: false,
+    error: null,
+    updatedNote: null
+};
+
+export default function RichContentEditor({
+    savedNotes, reactisTaskId = ""
+}: RichContentEditorPropsType) {
+    const wrapperRef = useRef<HTMLDivElement | null>(null);
+    const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+
+    const [isActive, setIsActive] = useState(false);
+    const [isToolbarOpen, setIsToolbarOpen] = useState(false);
+
+    const actionWithTaskId = updateFlowNote.bind(null, reactisTaskId);
+    const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
+
     const editor = useEditor({
         extensions: [StarterKit, Underline],
-        content: savedNotes,
+        content: savedNotes ?? "",
         immediatelyRender: false,
+
         editorProps: {
             attributes: {
-                class: styles["text-area"]
+                class: styles.editor
             }
         }
     });
 
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (isPending) return;
+
+            const target = event.target as Node;
+
+            if (!wrapperRef.current?.contains(target)) {
+                setIsActive(false);
+                setIsToolbarOpen(false);
+                editor?.commands.blur();
+            }
+        }
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [editor, isPending]);
+
+    useEffect(() => {
+        if (!editor) return;
+        editor.setEditable(!isPending);
+
+        if (state.ok && !isPending) {
+            setIsActive(false);
+            setIsToolbarOpen(false);
+            editor.commands.blur();
+        }
+    }, [editor, isPending, state.ok]);
+
+    const showActions = isActive;
+    const showToolbar = isActive && isToolbarOpen;
+
+    function handleFocus() {
+        if (isPending) return;
+
+        setIsActive(true);
+        editor?.commands.focus();
+    }
+
+    function handleToggleToolbar(event: React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (isPending) return;
+
+        setIsActive(true);
+        setIsToolbarOpen(prev => !prev);
+        editor?.commands.focus();
+    }
+
+    function handleSubmit() {
+        if (!editor || !hiddenInputRef.current) return;
+
+        hiddenInputRef.current.value = editor.getHTML();
+    }
+
     return (
-        // <Flex direction="column" className={styles["editor-container"]}>
-        <Flex direction="column">
-            {editor && <RichMenuBar editor={editor} />}
-            <EditorContent editor={editor} />
-            <Flex pt="2" pr="1" justify="end">
-                <ActionIconButton
-                    version="solid"
-                    radius="full"
-                    tooltip="Zapisz"
+        <Flex
+            onClick={handleFocus}
+            direction="column"
+            ref={wrapperRef}
+        >
+            {editor && showToolbar && <RichMenuBar editor={editor} />}
+
+            <form action={formAction} onSubmit={handleSubmit}>
+                <input ref={hiddenInputRef} type="hidden" name="note" />
+
+                <Flex
+                    direction="column"
+                    gap="2"
+                    className={[
+                        styles["text-area"],
+                        !showToolbar && styles.minimum
+                    ].join(" ")}
                 >
-                    <ArrowUpIcon />
-                </ActionIconButton>
-            </Flex>
+
+                    <EditorContent
+                        editor={editor}
+                        disabled={isPending}
+                    />
+
+                    {showActions && (
+                        <Flex justify="end" gap="1">
+                            <ActionIconButton
+                                type="button"
+                                onClick={handleToggleToolbar}
+                                version="ghost"
+                                radius="full"
+                                tooltip="Otwórz opcje formatowania"
+                                disabled={isPending}
+                            >
+                                <LetterCaseCapitalizeIcon />
+                            </ActionIconButton>
+
+                            <ActionIconButton
+                                type="submit"
+                                version="solid"
+                                radius="full"
+                                tooltip="Zapisz"
+                                loading={isPending}
+                                disabled={isPending}
+                            >
+                                <PaperPlaneIcon />
+                            </ActionIconButton>
+                        </Flex>
+                    )}
+                </Flex>
+            </form>
         </Flex>
     );
 }

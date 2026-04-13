@@ -4,25 +4,31 @@
 
 .buttons-container {
     background-color: var(--gray-3);
-    border-radius: var(--radius-4) var(--radius-4) 0 0;
+    border-radius: var(--radius-3) var(--radius-3) 0 0;
     border: 1px solid var(--gray-5);
     border-bottom: none;
 }
 
+.buttons-container.hidden {
+    display: none;
+}
+
+.editor {
+    font-size: var(--font-size-2);
+    outline: none;
+}
+
 .text-area {
     padding: var(--space-2) var(--space-3);
-    border-radius: 0 0 var(--radius-4) var(--radius-4);
-    border: 1px solid var(--gray-5);
+    border-radius: 0 0 var(--radius-3) var(--radius-3);
+    border: 1px solid var(--gray-6);
     border-top: none;
     transition: outline 0.2s ease;
 }
 
-.text-area:hover {
-    outline-color: var(--gray-7);
-}
-
-.text-area:focus {
-    outline: none;
+.text-area.minimum {
+    border-radius: var(--radius-3);
+    border: 1px solid var(--gray-6);
 }
 
 .buttons-section {

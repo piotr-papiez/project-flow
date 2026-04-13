@@ -21,25 +21,27 @@ type TaskDialogMorePropsType = {
     notes?: string,
     draft?: string,
     cms?: string
+    reactisTaskId?: string
 };
 
 export default function TaskDialogMore({
-    notes, draft, cms
+    notes, draft, cms, reactisTaskId
 }: TaskDialogMorePropsType) {
     return (
         <Flex direction="column" gap="4" style={{ minHeight: "50dvh", maxHeight: "min(50dvh, 488px)" }}>
             {/* <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
                 <Blockquote size="2" mr="4">
-                    <Flex direction="column" gap="1">
-                        <Text as="label" htmlFor="notes" size="1" ml="2">
-                            Notatki
-                        </Text> */}
-                        <RichContentEditor savedNotes={notes} />
-                        {/* <TextArea value={notes}>
+                */}
+            <Flex direction="column" gap="1">
+                <Text as="label" htmlFor="notes" size="1" ml="2">
+                    Notatki
+                </Text>
+                <RichContentEditor savedNotes={notes} reactisTaskId={reactisTaskId} />
+            </Flex>
+            {/* <TextArea value={notes}>
                         
                         </TextArea> */}
-                    {/* </Flex> */}
-                {/* </Blockquote> */}
+            {/* </Blockquote> */}
             {/* </ScrollArea > */}
 
 

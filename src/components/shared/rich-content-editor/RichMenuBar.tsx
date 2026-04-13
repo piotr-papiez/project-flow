@@ -21,7 +21,7 @@ import styles from "./RichContentEditor.module.css";
 
 // Types
 type RichMenuBarPropsType = {
-    editor: Editor
+    editor: Editor,
 };
 
 export default function RichMenuBar({ editor }: RichMenuBarPropsType) {

@@ -86,6 +86,7 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                     />
 
                     <Box
+                    dangerouslySetInnerHTML={{ __html: updatedNote }}
                         style={{
                             maxWidth: 180,
                             overflow: "hidden",
@@ -94,7 +95,7 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                             WebkitBoxOrient: "vertical"
                         }}
                     >
-                        {updatedNote}
+                        {/* {updatedNote} */}
                     </Box>
                 </Flex>
             </HoverCard.Trigger>
@@ -108,7 +109,9 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                     {!isNoteEditing && (
                         <>
                             <Blockquote>
-                                <Box>{updatedNote}</Box>
+                                <Box dangerouslySetInnerHTML={{ __html: updatedNote }}>
+                                    {/* {updatedNote} */}
+                                    </Box>
                             </Blockquote>
 
                             <Flex justify="end">
