@@ -121,20 +121,28 @@ export default function RichContentEditor({
 
     return (
         <Flex
-            onClick={handleFocus}
             direction="column"
+            onClick={handleFocus}
             ref={wrapperRef}
+            className={[
+                styles["main-container"],
+                isActive ? styles.focus : undefined
+            ].join(" ")}
         >
-            {editor && showToolbar && <RichMenuBar editor={editor} />}
+            {editor && <RichMenuBar
+                editor={editor}
+                showToolbar={showToolbar}
+
+            />}
 
             <form action={formAction} onSubmit={handleSubmit}>
                 <input ref={hiddenInputRef} type="hidden" name="note" />
 
                 <Flex
-                    direction="column"
+                    // justify="between"
                     gap="2"
                     className={[
-                        styles["text-area"],
+                        styles["input-area"],
                         !showToolbar && styles.minimum
                     ].join(" ")}
                 >
@@ -142,33 +150,38 @@ export default function RichContentEditor({
                     <EditorContent
                         editor={editor}
                         disabled={isPending}
+                        style={{ flexGrow: 1 }}
                     />
 
-                    {showActions && (
-                        <Flex justify="end" gap="1">
-                            <ActionIconButton
-                                type="button"
-                                onClick={handleToggleToolbar}
-                                version="ghost"
-                                radius="full"
-                                tooltip="Otwórz opcje formatowania"
-                                disabled={isPending}
-                            >
-                                <LetterCaseCapitalizeIcon />
-                            </ActionIconButton>
+                    <Flex
+                        gap="1"
+                        className={[
+                            styles["action-buttons-container"],
+                            isActive ? styles.visible : styles.hidden
+                        ].join(" ")}
+                    >
+                        <ActionIconButton
+                            type="button"
+                            onClick={handleToggleToolbar}
+                            version="ghost"
+                            radius="full"
+                            tooltip="Otwórz opcje formatowania"
+                            disabled={isPending}
+                        >
+                            <LetterCaseCapitalizeIcon />
+                        </ActionIconButton>
 
-                            <ActionIconButton
-                                type="submit"
-                                version="solid"
-                                radius="full"
-                                tooltip="Zapisz"
-                                loading={isPending}
-                                disabled={isPending}
-                            >
-                                <PaperPlaneIcon />
-                            </ActionIconButton>
-                        </Flex>
-                    )}
+                        <ActionIconButton
+                            type="submit"
+                            version="solid"
+                            radius="full"
+                            tooltip="Zapisz"
+                            loading={isPending}
+                            disabled={isPending}
+                        >
+                            <PaperPlaneIcon />
+                        </ActionIconButton>
+                    </Flex>
                 </Flex>
             </form>
         </Flex>

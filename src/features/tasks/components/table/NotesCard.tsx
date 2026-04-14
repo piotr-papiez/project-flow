@@ -1,5 +1,8 @@
 "use client";
 
+// Components
+import RichContentEditor from "@/components/shared/rich-content-editor/RichContentEditor";
+
 // Hooks
 import { useState, useEffect, useActionState } from "react";
 

@@ -22,24 +22,37 @@ import styles from "./RichContentEditor.module.css";
 // Types
 type RichMenuBarPropsType = {
     editor: Editor,
+    showToolbar: boolean
 };
 
-export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
+export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsType) {
     const editorState = useEditorState({
         editor,
         selector: richMenuBarStateSelector
     });
 
     return (
-        <Flex align="center" gap="2" p="1" className={styles["buttons-container"]}>
-            <Flex gap="1" className={styles["buttons-section"]}>
+        <Flex
+            className={[
+                styles["formatting-buttons-container"],
+                !showToolbar && styles.hidden
+            ].join(" ")}
+            inert={!showToolbar}
+            aria-hidden={!showToolbar}
+            align="center"
+            gap="2"
+        >
+            <Flex gap="1" className={styles["formatting-buttons-section"]}>
                 <ActionIconButton
                     version="gray"
                     radius="large"
                     tooltip="Pogrubienie (Ctrl+B)"
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     disabled={!editorState.canBold}
-                    className={editorState.isBold ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isBold && styles.active,
+                    ].join(" ")}
                 >
                     <FontBoldIcon />
                 </ActionIconButton>
@@ -50,7 +63,10 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
                     tooltip="Kursywa (Ctrl+I)"
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     disabled={!editorState.canItalic}
-                    className={editorState.isItalic ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isItalic && styles.active,
+                    ].join(" ")}
                 >
                     <FontItalicIcon />
                 </ActionIconButton>
@@ -61,7 +77,10 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
                     tooltip="Przekreślenie (Ctrl+Shift+S)"
                     onClick={() => editor.chain().focus().toggleStrike().run()}
                     disabled={!editorState.canStrike}
-                    className={editorState.isStrike ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isStrike && styles.active,
+                    ].join(" ")}
                 >
                     <StrikethroughIcon />
                 </ActionIconButton>
@@ -72,7 +91,10 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
                     tooltip="Podkreślenie (Ctrl+Shift+S)"
                     onClick={() => editor.chain().focus().toggleUnderline().run()}
                     disabled={!editorState.canUnderline}
-                    className={editorState.isUnderline ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isUnderline && styles.active,
+                    ].join(" ")}
                 >
                     <UnderlineIcon />
                 </ActionIconButton>
@@ -80,13 +102,16 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
 
             <Separator orientation="vertical" size="1" />
 
-            <Flex gap="1" className={styles["buttons-section"]}>
+            <Flex gap="1" className={styles["formatting-buttons-section"]}>
                 <ActionIconButton
                     version="gray"
                     radius="large"
                     tooltip="Lista punktowana"
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
-                    className={editorState.isBulletList ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isBulletList && styles.active,
+                    ].join(" ")}
                 >
                     <ListBulletIcon />
                 </ActionIconButton>
@@ -96,7 +121,10 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
                     radius="large"
                     tooltip="Lista numerowana"
                     onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                    className={editorState.isOrderedList ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isOrderedList && styles.active,
+                    ].join(" ")}
                 >
                     <DropdownMenuIcon />
                 </ActionIconButton>
@@ -104,14 +132,17 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
 
             <Separator orientation="vertical" size="1" />
 
-            <Flex gap="1" className={styles["buttons-section"]}>
+            <Flex gap="1" className={styles["formatting-buttons-section"]}>
                 <ActionIconButton
                     version="gray"
                     radius="large"
                     tooltip="Kod"
                     onClick={() => editor.chain().focus().toggleCode().run()}
                     disabled={!editorState.canCode}
-                    className={editorState.isCode ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isCode && styles.active,
+                    ].join(" ")}
                 >
                     <CodeIcon />
                 </ActionIconButton>
@@ -121,7 +152,10 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
                     radius="large"
                     tooltip="Blok kodu"
                     onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                    className={editorState.isCodeBlock ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isCodeBlock && styles.active,
+                    ].join(" ")}
                 >
                     <InputIcon />
                 </ActionIconButton>
@@ -131,7 +165,10 @@ export default function RichMenuBar({ editor }: RichMenuBarPropsType) {
                     radius="large"
                     tooltip="Cytat"
                     onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                    className={editorState.isBlockquote ? styles["format-button--active"] : ""}
+                    className={[
+                        styles["formatting-button"],
+                        editorState.isBlockquote && styles.active,
+                    ].join(" ")}
                 >
                     <QuoteIcon />
                 </ActionIconButton>

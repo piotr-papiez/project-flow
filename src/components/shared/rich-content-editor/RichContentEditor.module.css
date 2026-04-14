@@ -1,42 +1,80 @@
-/* .editor-container {
-    padding: var(--space-1) var(--space-4);
-} */
-
-.buttons-container {
-    background-color: var(--gray-3);
-    border-radius: var(--radius-3) var(--radius-3) 0 0;
-    border: 1px solid var(--gray-5);
-    border-bottom: none;
+.main-container {
+    border-radius: var(--radius-3);
+    transition: all 0.2s ease;
 }
 
-.buttons-container.hidden {
-    display: none;
+.main-container.focus {
+    box-shadow: var(--shadow-4);
 }
 
 .editor {
+    height: 100%;
+    align-content: center;
     font-size: var(--font-size-2);
     outline: none;
 }
 
-.text-area {
-    padding: var(--space-2) var(--space-3);
-    border-radius: 0 0 var(--radius-3) var(--radius-3);
-    border: 1px solid var(--gray-6);
-    border-top: none;
-    transition: outline 0.2s ease;
+.input-area.minimum {
+    min-height: var(--space-8);
+    border-radius: var(--radius-6);
 }
 
-.text-area.minimum {
-    border-radius: var(--radius-3);
-    border: 1px solid var(--gray-6);
+.input-area {
+    flex-wrap: wrap;
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+    border-radius: 0 0 var(--radius-6) var(--radius-6);
+    cursor: text;
 }
 
-.buttons-section {
-    border-radius: var(--radius-3);
+.action-buttons-container {
+    margin-top: auto;
+    margin-left: auto;
+    transition: opacity 0.2s ease;
+}
+
+.action-buttons-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.action-buttons-container.visible {
+    opacity: 1;
+}
+
+.formatting-buttons-container {
+    background-color: var(--gray-3);
+    padding: var(--space-1);
+    border-radius: var(--radius-3) var(--radius-3) 0 0;
+    border-bottom: none;
+
+    overflow: hidden;
+    max-height: var(--space-7);
+
+    transition:
+        max-height 0.2s ease,
+        opacity 0.2s ease,
+        padding-top 0.2s ease,
+        padding-bottom 0.2s ease;
+}
+
+.formatting-buttons-container.hidden {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    pointer-events: none;
+}
+
+.formatting-buttons-section {
+    border-radius: var(--radius-6);
     background-color: var(--gray-3);
 }
 
-.format-button--active {
+.formatting-button {
+    border-radius: var(--radius-2);
+}
+
+.formatting-button.active {
     background-color: var(--gray-5);
 }
 
