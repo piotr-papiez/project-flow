@@ -6,7 +6,7 @@ import { useState } from "react";
 // Components
 import TaskDialogDetails from "./TaskDialogDetails";
 import TaskDialogComments from "./TaskDialogComments";
-import TaskDialogMore from "./TaskDialogMore";
+import TaskDialogNotes from "./TaskDialogNotes";
 
 // Radix
 import { Flex, SegmentedControl } from "@radix-ui/themes";
@@ -23,7 +23,7 @@ type TaskDialogSegmentsControllerPropsType = {
     reactisComments: ReactisTaskCommentsType
 };
 
-type TaskSegmentType = "details" | "comments" | "knowledge" | "more";
+type TaskSegmentType = "details" | "comments" | "knowledge" | "notes";
 
 export default function TaskDialogSegmentsController({
     mergedTask,
@@ -43,7 +43,7 @@ export default function TaskDialogSegmentsController({
                 <SegmentedControl.Item value="details">Szczegóły</SegmentedControl.Item>
                 <SegmentedControl.Item value="comments">Komentarze</SegmentedControl.Item>
                 {/* <SegmentedControl.Item value="knowledge">Wiedza</SegmentedControl.Item> */}
-                <SegmentedControl.Item value="more">Więcej</SegmentedControl.Item>
+                <SegmentedControl.Item value="notes">Notatki</SegmentedControl.Item>
             </SegmentedControl.Root>
 
             {segment === "details" && (
@@ -62,11 +62,10 @@ export default function TaskDialogSegmentsController({
                 <p>asdverv</p>
             )} */}
 
-            {segment === "more" && (
-                <TaskDialogMore
+            {segment === "notes" && (
+                <TaskDialogNotes
                     notes={mergedTask.flowNotes}
-                    draft={mergedTask.docsDraftUrl}
-                    cms={mergedTask.cmsUrl}
+                    
                     reactisTaskId={mergedTask.reactisTaskId}
                 />
             )}
