@@ -45,6 +45,7 @@ export default function RichContentEditor({
 
     const [isActive, setIsActive] = useState(false);
     const [isToolbarOpen, setIsToolbarOpen] = useState(false);
+    const [isLongContent, setIsLongContent] = useState(false);
 
     const actionWithTaskId = updateFlowNote.bind(null, reactisTaskId);
     const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
@@ -53,6 +54,11 @@ export default function RichContentEditor({
         extensions: [StarterKit, Underline],
         content: savedNotes ?? "",
         immediatelyRender: false,
+
+        onUpdate: ({ editor }) => {
+            const longContent = editor.state.doc.childCount > 1;
+            setIsLongContent(longContent);
+        },
 
         editorProps: {
             attributes: {
@@ -126,7 +132,7 @@ export default function RichContentEditor({
             ref={wrapperRef}
             className={[
                 styles["main-container"],
-                isActive ? styles.focus : undefined
+                isActive && styles.focus
             ].join(" ")}
         >
             {editor && <RichMenuBar
@@ -139,11 +145,11 @@ export default function RichContentEditor({
                 <input ref={hiddenInputRef} type="hidden" name="note" />
 
                 <Flex
-                    // justify="between"
                     gap="2"
                     className={[
                         styles["input-area"],
-                        !showToolbar && styles.minimum
+                        !showToolbar && styles.minimum,
+                        isLongContent && styles["long-content"]
                     ].join(" ")}
                 >
 

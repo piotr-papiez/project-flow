@@ -25,9 +25,6 @@ export default function TaskDialogMore({
 }: TaskDialogMorePropsType) {
     return (
         <Flex direction="column" gap="4" style={{ minHeight: "50dvh", maxHeight: "min(50dvh, 488px)" }}>
-            {/* <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
-                <Blockquote size="2" mr="4">
-                */}
             <Blockquote>
                 <Flex direction="column" gap="1">
                     <Text size="1" ml="4">
@@ -36,13 +33,6 @@ export default function TaskDialogMore({
                     <RichContentEditor savedNotes={notes} reactisTaskId={reactisTaskId} />
                 </Flex>
             </Blockquote>
-            {/* <TextArea value={notes}>
-                        
-                        </TextArea> */}
-            {/* </Blockquote> */}
-            {/* </ScrollArea > */}
-
-
         </Flex>
     );
 }
