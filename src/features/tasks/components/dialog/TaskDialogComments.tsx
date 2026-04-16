@@ -1,12 +1,10 @@
 // Components
 import CommentBubble from "../shared/CommentBubble";
-import ActionIconButton from "@/components/ui/ActionIconButton";
+import RichContentEditor from "@/components/shared/rich-content-editor/RichContentEditor";
 
 // Radix
 import {
     ScrollArea, Flex, Blockquote, TextArea,
-    IconButton,
-    Tooltip
 } from "@radix-ui/themes";
 
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
@@ -22,7 +20,7 @@ export default function TaskDialogComments({
     comments
 }: TaskDialogCommentsPropsType) {
     return (
-        <Flex direction="column" gap="4" style={{ maxHeight: "min(50dvh, 488px)" }}>
+        <Flex direction="column" gap="4" style={{ minHeight: "100%", maxHeight: "min(50dvh, 488px)" }}>
             <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
                 <Blockquote size="2" mr="4">
                     <Flex direction="column" gap="2">
@@ -33,11 +31,9 @@ export default function TaskDialogComments({
                 </Blockquote>
             </ScrollArea >
 
-            <Flex justify="end" gap="2">
-                <TextArea placeholder="**Wkrótce**" style={{ width: "100%",  minHeight: "100%" }} />
-                <ActionIconButton version="solid" radius="full" tooltip="Wyślij">
-                    <PaperPlaneIcon />
-                </ActionIconButton>
+            <Flex direction="column" gap="2">
+                {/* <RichContentEditor /> */}
+                {/* <TextArea placeholder="**Wkrótce**" style={{ width: "100%",  minHeight: "100%" }} /> */}
             </Flex>
         </Flex>
     );

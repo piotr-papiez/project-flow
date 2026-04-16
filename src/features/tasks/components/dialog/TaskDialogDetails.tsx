@@ -18,7 +18,7 @@ export default function TaskDialogDetails({ details }: TaskDialogDetailsPropsTyp
                 <Flex direction="column" gap="6">
                     <Flex direction="column" gap="4">
                         <ScrollArea scrollbars="vertical" type="auto">
-                            <Box style={{ maxHeight: "min(50dvh, 488px)" }}>
+                            <Box style={{ minHeight: "100%", maxHeight: "min(50dvh, 488px)" }}>
                                 <Blockquote size="2" mr="4" dangerouslySetInnerHTML={{ __html: details }} />
                             </Box>
                         </ScrollArea>

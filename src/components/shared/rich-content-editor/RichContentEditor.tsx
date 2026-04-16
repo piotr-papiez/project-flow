@@ -98,7 +98,6 @@ export default function RichContentEditor({
         }
     }, [editor, isPending, state.ok]);
 
-    const showActions = isActive;
     const showToolbar = isActive && isToolbarOpen;
 
     function handleFocus() {
@@ -148,7 +147,6 @@ export default function RichContentEditor({
                     gap="2"
                     className={[
                         styles["input-area"],
-                        !showToolbar && styles.minimum,
                         isLongContent && styles["long-content"]
                     ].join(" ")}
                 >

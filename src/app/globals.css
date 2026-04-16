@@ -1,6 +1,8 @@
+
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #242424;
 }
 
 .radix-themes {
@@ -118,11 +120,39 @@ body {
 a {
   color: var(--accent-9);
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 a:hover {
   color: var(--accent-11);
   text-decoration: underline;
+}
+
+code {
+  font-family: var(--font-cascadia-code), monospace;
+  font-size: var(--font-size-1);
+  color: var(--accent-11);
+  background-color: var(--accent-3);
+  padding: 0.15em 0.35em;
+  border-radius: 2px;
+}
+
+pre {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--accent-3);
+  border: 1px solid var(--accent-6);
+  border-radius: var(--radius-1);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+blockquote {
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--gray-6);
 }
 
 @media (prefers-color-scheme: dark) {

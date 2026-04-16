@@ -17,15 +17,16 @@
     overflow-y: auto;
     align-content: center;
     font-size: var(--font-size-2);
+    padding-right: var(--space-2);
     outline: none;
 
-    /* mask-image: linear-gradient(
+    mask-image: linear-gradient(
         to bottom,
         transparent,
-        var(--gray-12) var(--space-3),
-        var(--gray-12) calc(100% - var(--space-3)),
+        var(--gray-12) var(--space-1),
+        var(--gray-12) calc(100% - var(--space-1)),
         transparent
-    ); */
+    );
 }
 
 .editor::-webkit-scrollbar {
@@ -33,7 +34,7 @@
 }
 
 .editor::-webkit-scrollbar-track {
-    margin: var(--space-1) 0;
+    margin: var(--space-2) 0;
     background-color: transparent;
 }
 
@@ -47,16 +48,19 @@
   background-color: var(--gray-9);
 }
 
-.input-area {
-    flex-wrap: wrap;
-    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
-    border-radius: 0 0 var(--radius-6) var(--radius-6);
-    cursor: text;
+.editor:first-child {
+    padding-top: var(--space-3);
 }
 
-.input-area.minimum {
-    min-height: var(--space-8);
-    border-radius: var(--radius-6);
+.editor:last-child {
+    padding-bottom: var(--space-3);
+}
+
+.input-area {
+    flex-wrap: wrap;
+    padding: 0 var(--space-2) 0 var(--space-4);
+    border-radius: 0 0 var(--radius-6) var(--radius-6);
+    cursor: text;
 }
 
 .input-area.long-content {
@@ -64,7 +68,8 @@
 }
 
 .action-buttons-container {
-    margin-top: auto;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
     margin-left: auto;
     transition: opacity 0.2s ease;
 }
