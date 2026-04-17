@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import TaskDialogHeaderBar from "./TaskDialogHeaderBar";
 
 // Radix
-import { Dialog, Flex, Button, Text } from "@radix-ui/themes";
-import { CheckIcon } from "@radix-ui/react-icons";
+import { Dialog, Flex } from "@radix-ui/themes";
 
 // Types
 import { ReactNode } from "react";
