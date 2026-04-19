@@ -3,6 +3,9 @@
 // React.js
 import { useActionState, useEffect, useRef, useState } from "react";
 
+// Context
+import { useRichContentEditorContext } from "@/features/tasks/context/rich-content-editor.context";
+
 // Components
 import RichMenuBar from "./RichMenuBar";
 import ActionIconButton from "@/components/ui/ActionIconButton";
@@ -23,17 +26,9 @@ import { updateFlowNote } from "@/features/tasks/actions/update-flow-note.action
 import styles from "./RichContentEditor.module.css";
 
 // Types
-import type { Dispatch, SetStateAction } from "react";
-
 type RichContentEditorPropsType = {
     savedNotes?: string,
     reactisTaskId?: string,
-    editorState: {
-        isFocused: boolean
-        onFocusChange: Dispatch<SetStateAction<boolean>>
-        isDirty: boolean,
-        onDirtyChange: Dispatch<SetStateAction<boolean>>
-    }
 };
 
 import type { UpdateFlowNoteActionStateType } from "@/features/tasks/actions/update-flow-note.action";
@@ -46,14 +41,8 @@ const initialState: UpdateFlowNoteActionStateType = {
 };
 
 export default function RichContentEditor({
-    savedNotes, 
+    savedNotes,
     reactisTaskId = "",
-    editorState: {
-        isFocused,
-        onFocusChange,
-        isDirty,
-        onDirtyChange
-    }
 }: RichContentEditorPropsType) {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const isContentLoaded = useRef<boolean>(false);
@@ -61,6 +50,12 @@ export default function RichContentEditor({
 
     const [isToolbarOpen, setIsToolbarOpen] = useState(false);
     const [isLongContent, setIsLongContent] = useState(false);
+
+    const {
+        onNoteDirtyChange,
+        isNoteFocused,
+        onNoteFocusChange
+    } = useRichContentEditorContext();
 
     const actionWithTaskId = updateFlowNote.bind(null, reactisTaskId);
     const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
@@ -76,7 +71,7 @@ export default function RichContentEditor({
                 return;
             }
 
-            onDirtyChange(true);
+            onNoteDirtyChange(true);
 
             const longContent = editor.state.doc.childCount > 1;
             setIsLongContent(longContent);
@@ -96,7 +91,7 @@ export default function RichContentEditor({
             const target = event.target as Node;
 
             if (!wrapperRef.current?.contains(target)) {
-                onFocusChange(false);
+                onNoteFocusChange(false);
                 setIsToolbarOpen(false);
                 editor?.commands.blur();
             }
@@ -114,19 +109,19 @@ export default function RichContentEditor({
         editor.setEditable(!isPending);
 
         if (state.ok && !isPending) {
-            onFocusChange(false);
+            onNoteFocusChange(false);
             setIsToolbarOpen(false);
-            onDirtyChange(false);
+            onNoteDirtyChange(false);
             editor.commands.blur();
         }
     }, [editor, isPending, state.ok]);
 
-    const showToolbar = isFocused && isToolbarOpen;
+    const showToolbar = isNoteFocused && isToolbarOpen;
 
     function handleFocus() {
         if (isPending) return;
 
-        onFocusChange(true);
+        onNoteFocusChange(true);
         editor?.commands.focus();
     }
 
@@ -136,7 +131,7 @@ export default function RichContentEditor({
 
         if (isPending) return;
 
-        onFocusChange(true);
+        onNoteFocusChange(true);
         setIsToolbarOpen(prev => !prev);
         editor?.commands.focus();
     }
@@ -154,7 +149,7 @@ export default function RichContentEditor({
             ref={wrapperRef}
             className={[
                 styles["main-container"],
-                isFocused && styles.focus
+                isNoteFocused && styles.focus
             ].join(" ")}
         >
             {editor && <RichMenuBar
@@ -184,7 +179,7 @@ export default function RichContentEditor({
                         gap="1"
                         className={[
                             styles["action-buttons-container"],
-                            isFocused ? styles.visible : styles.hidden
+                            isNoteFocused ? styles.visible : styles.hidden
                         ].join(" ")}
                     >
                         <ActionIconButton
@@ -194,7 +189,6 @@ export default function RichContentEditor({
                             radius="full"
                             tooltip="Otwórz opcje formatowania"
                             disabled={isPending}
-                            // style={{ backgroundColor: `${isDirty ? "red" : "blue"}` }}
                         >
                             <LetterCaseCapitalizeIcon />
                         </ActionIconButton>

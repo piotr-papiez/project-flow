@@ -1,7 +1,10 @@
 "use client";
 
-// Hooks
+// React.js
 import { useState, useMemo } from "react";
+
+// Context
+import { RichContentEditorProvider } from "../../context/rich-content-editor.context";
 
 // Tanstack Table
 import {
@@ -15,10 +18,7 @@ import {
     Heading, Text, Strong
 } from "@radix-ui/themes";
 
-import {
-    MagnifyingGlassIcon, CaretSortIcon, CaretUpIcon, CaretDownIcon,
-    ChevronRightIcon
-} from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon, CaretSortIcon, CaretUpIcon, CaretDownIcon, } from "@radix-ui/react-icons";
 
 // Components
 import DetailsCard from "./DetailsCard";
@@ -74,7 +74,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 accessorKey: "create_date",
                 cell: ({ row }) => {
                     const createDate = row.original.create_date.split(" ")[0] ?? "–";
-                    
+
                     return `${createDate}`;
                 }
             },
@@ -142,23 +142,6 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     );
                 }
             }
-            // {
-            //     header: "Reactis",
-            //     accessorKey: "reactisTaskUrl"
-            // },
-            // {
-            //     header: "Draft",
-            //     accessorKey: "docsDraftUrl"
-            // },
-            // {
-            //     header: "CMS",
-            //     accessorKey: "cmsUrl"
-            // },
-            // {
-            //     header: "Artykuł",
-            //     accessorKey: "article",
-            //     enableSorting: false
-            // }
         ], []
     );
 
@@ -180,110 +163,112 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
     const statusFilterValue = (table.getColumn("flowStatus")?.getFilterValue() as string) ?? "all";
 
     return (
-        <Flex direction={"column"} gap="3">
-            <Flex justify={"between"}>
-                <Heading as="h2" size="5">
-                    {`Liczba zadań: ${count}`}
-                </Heading>
-                <Flex gap="3">
-                    <TextField.Root
-                        placeholder="Szukaj zadania…"
-                        value={nameFilterValue}
-                        onChange={event => (
-                            table.getColumn("name")?.setFilterValue(event.target.value)
-                        )}
-                    >
-                        <TextField.Slot>
-                            <MagnifyingGlassIcon height="16" width="16" />
-                        </TextField.Slot>
-                    </TextField.Root>
+        <RichContentEditorProvider>
+            <Flex direction={"column"} gap="3">
+                <Flex justify={"between"}>
+                    <Heading as="h2" size="5">
+                        {`Liczba zadań: ${count}`}
+                    </Heading>
+                    <Flex gap="3">
+                        <TextField.Root
+                            placeholder="Szukaj zadania…"
+                            value={nameFilterValue}
+                            onChange={event => (
+                                table.getColumn("name")?.setFilterValue(event.target.value)
+                            )}
+                        >
+                            <TextField.Slot>
+                                <MagnifyingGlassIcon height="16" width="16" />
+                            </TextField.Slot>
+                        </TextField.Root>
 
-                    <Select.Root
-                        value={statusFilterValue}
-                        onValueChange={value => (
-                            table.getColumn("flowStatus")?.setFilterValue(
-                                value === "all" ? undefined : value
-                            )
-                        )}
-                    >
-                        <Select.Trigger placeholder="Pokaż wszystko" />
-                        <Select.Content variant="soft" color="gray" position="popper">
-                            <Select.Item value="all">Pokaż wszystko</Select.Item>
-                            {Object.entries(LABEL_MAP).map(([value, label]) => (
-                                <Select.Item key={value} value={value}>{label}</Select.Item>
-                            ))}
-                        </Select.Content>
-                    </Select.Root>
+                        <Select.Root
+                            value={statusFilterValue}
+                            onValueChange={value => (
+                                table.getColumn("flowStatus")?.setFilterValue(
+                                    value === "all" ? undefined : value
+                                )
+                            )}
+                        >
+                            <Select.Trigger placeholder="Pokaż wszystko" />
+                            <Select.Content variant="soft" color="gray" position="popper">
+                                <Select.Item value="all">Pokaż wszystko</Select.Item>
+                                {Object.entries(LABEL_MAP).map(([value, label]) => (
+                                    <Select.Item key={value} value={value}>{label}</Select.Item>
+                                ))}
+                            </Select.Content>
+                        </Select.Root>
+                    </Flex>
                 </Flex>
-            </Flex>
 
-            <Table.Root variant="surface" layout="auto">
-                <Table.Header>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <Table.Row key={headerGroup.id}>
-                            {headerGroup.headers.map(header => {
-                                const canSort = header.column.getCanSort();
-                                const sortDirection = header.column.getIsSorted();
+                <Table.Root variant="surface" layout="auto">
+                    <Table.Header>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <Table.Row key={headerGroup.id}>
+                                {headerGroup.headers.map(header => {
+                                    const canSort = header.column.getCanSort();
+                                    const sortDirection = header.column.getIsSorted();
 
-                                return (
-                                    <Table.ColumnHeaderCell
-                                        key={header.id}
-                                        onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
-                                        style={{
-                                            cursor: canSort ? "pointer" : "default",
-                                            userSelect: "none"
-                                        }}
-                                    >
-                                        <Flex align="center" gap="2">
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
+                                    return (
+                                        <Table.ColumnHeaderCell
+                                            key={header.id}
+                                            onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                                            style={{
+                                                cursor: canSort ? "pointer" : "default",
+                                                userSelect: "none"
+                                            }}
+                                        >
+                                            <Flex align="center" gap="2">
+                                                {header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+
+                                                {canSort && (
+                                                    sortDirection === "asc" ? (
+                                                        <CaretUpIcon />
+                                                    ) : sortDirection === "desc" ? (
+                                                        <CaretDownIcon />
+                                                    ) : (
+                                                        <CaretSortIcon opacity={0.4} />
+                                                    )
                                                 )}
 
-                                            {canSort && (
-                                                sortDirection === "asc" ? (
-                                                    <CaretUpIcon />
-                                                ) : sortDirection === "desc" ? (
-                                                    <CaretDownIcon />
-                                                ) : (
-                                                    <CaretSortIcon opacity={0.4} />
-                                                )
-                                            )}
-
-                                        </Flex>
-                                    </Table.ColumnHeaderCell>
-                                )
-                            })}
-                        </Table.Row>
-                    ))}
-                </Table.Header>
-
-                <Table.Body>
-                    {table.getRowModel().rows.length > 0 ? (
-                        table.getRowModel().rows.map(row => (
-                            <Table.Row key={row.id} align="center">
-                                {row.getVisibleCells().map((cell, index) => (
-                                    index === 0 ? (
-                                        <Table.RowHeaderCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </Table.RowHeaderCell>
-                                    ) : (
-                                        <Table.Cell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </Table.Cell>
+                                            </Flex>
+                                        </Table.ColumnHeaderCell>
                                     )
-                                ))}
+                                })}
                             </Table.Row>
-                        ))
-                    ) : (
-                        <Table.Row>
-                            <Table.Cell colSpan={columns.length}>Brak wyników.</Table.Cell>
-                        </Table.Row>
-                    )}
-                </Table.Body>
-            </Table.Root>
-        </Flex>
+                        ))}
+                    </Table.Header>
+
+                    <Table.Body>
+                        {table.getRowModel().rows.length > 0 ? (
+                            table.getRowModel().rows.map(row => (
+                                <Table.Row key={row.id} align="center">
+                                    {row.getVisibleCells().map((cell, index) => (
+                                        index === 0 ? (
+                                            <Table.RowHeaderCell key={cell.id}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Table.RowHeaderCell>
+                                        ) : (
+                                            <Table.Cell key={cell.id}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Table.Cell>
+                                        )
+                                    ))}
+                                </Table.Row>
+                            ))
+                        ) : (
+                            <Table.Row>
+                                <Table.Cell colSpan={columns.length}>Brak wyników.</Table.Cell>
+                            </Table.Row>
+                        )}
+                    </Table.Body>
+                </Table.Root>
+            </Flex>
+        </RichContentEditorProvider>
     );
 }

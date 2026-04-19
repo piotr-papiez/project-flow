@@ -1,6 +1,9 @@
 // React.js
 import { Suspense } from "react";
 
+// Context
+import { RichContentEditorProvider } from "@/features/tasks/context/rich-content-editor.context";
+
 // Components
 import TaskDialogContainer from "@/features/tasks/components/dialog/TaskDialogContainer";
 import TaskDialogSkeleton from "@/features/tasks/components/dialog/TaskDialogSkeleton";
@@ -57,42 +60,26 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
     const reactisComments = reactisCommentsResponse.data;
 
     return (
-        <TaskDialogContainer
-            reactisTaskId={reactisTaskId}
-            reactisTaskUrl={reactisTaskUrl}
-        >
-            <Suspense
-                fallback={<TaskDialogSkeleton />}
+        <RichContentEditorProvider>
+            <TaskDialogContainer
+                reactisTaskId={reactisTaskId}
+                reactisTaskUrl={reactisTaskUrl}
             >
-                <Flex direction="column" gap="5">
-                    <TaskDialogMainInfo
-                        mergedTask={mergedTask}
-                    />
+                <Suspense
+                    fallback={<TaskDialogSkeleton />}
+                >
+                    <Flex direction="column" gap="5">
+                        <TaskDialogMainInfo
+                            mergedTask={mergedTask}
+                        />
 
-                    <TaskDialogSegmentsController
-                        mergedTask={mergedTask}
-                        reactisComments={reactisComments}
-                    />
-                </Flex>
-
-                {/* <Flex justify="end" gap="2">
-                    <Button variant="soft" size="3">
-                        <Text size="2">
-                            Udostępnij
-                        </Text>
-                    </Button>
-
-                    <Button size="3" style={{ padding: "0 16px 0 8px" }}>
-                        <Flex align="center" gap="1">
-                            <CheckIcon width="22" height="22" />
-                            <Text size="2">
-                                Zakończ zadanie
-                            </Text>
-                        </Flex>
-                    </Button>
-                </Flex> */}
-
-            </Suspense>
-        </TaskDialogContainer>
+                        <TaskDialogSegmentsController
+                            mergedTask={mergedTask}
+                            reactisComments={reactisComments}
+                        />
+                    </Flex>
+                </Suspense>
+            </TaskDialogContainer>
+        </RichContentEditorProvider>
     );
 }

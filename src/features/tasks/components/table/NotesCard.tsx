@@ -1,10 +1,14 @@
 "use client";
 
+// React.js
+import { useState, useEffect } from "react";
+
 // Components
 import RichContentEditor from "@/components/shared/rich-content-editor/RichContentEditor";
+import Alert from "@/components/shared/rich-content-editor/Alert";
 
-// Hooks
-import { useState, useEffect } from "react";
+// Context
+import { useRichContentEditorContext } from "../../context/rich-content-editor.context";
 
 // Radix
 import {
@@ -21,69 +25,93 @@ type TableCellNotesPropsType = {
 
 export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesPropsType) {
     const [isCardOpen, setIsCardOpen] = useState<boolean>(false);
-    const [isFocused, setIsFocused] = useState<boolean>(false);
-    const [isDirty, setIsDirty] = useState<boolean>(false);
     const [updatedNoteValue, setUpdatedNoteValue] = useState<string>(notes);
+    const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+
+    const { isNoteFocused, isNoteDirty, onNoteDirtyChange } = useRichContentEditorContext();
 
     function handleOpenCard(open: boolean): void {
-        if (isFocused) return;
+        if (isNoteFocused) return;
+
+        if (isNoteDirty) {
+            setIsAlertOpen(true);
+            return;
+        }
+
         setIsCardOpen(open);
+    }
+
+    function handleCancelAlert() {
+        setIsAlertOpen(false);
+    }
+
+    function handleAcceptAlert() {
+        setIsAlertOpen(false);
+        setIsCardOpen(false);
+        onNoteDirtyChange(false);
     }
 
     useEffect(() => {
         setUpdatedNoteValue(notes);
-    }, [notes, isFocused]);
+    }, [notes, isNoteFocused]);
 
     return (
-        <HoverCard.Root
-            open={isCardOpen}
-            onOpenChange={handleOpenCard}
-            openDelay={750}
-            closeDelay={250}
-        >
-            <HoverCard.Trigger>
-                <Flex align="center" gap="2">
-                    <Avatar
-                        size="1"
-                        color="gray"
-                        fallback={<ReaderIcon />}
-                    />
+        <>
+            <HoverCard.Root
+                open={isCardOpen}
+                onOpenChange={handleOpenCard}
+                openDelay={750}
+                closeDelay={250}
+            >
+                <HoverCard.Trigger>
+                    <Flex align="center" gap="2">
+                        <Avatar
+                            size="1"
+                            color="gray"
+                            fallback={<ReaderIcon />}
+                        />
 
-                    <Box
-                        dangerouslySetInnerHTML={{ __html: updatedNoteValue }}
-                        style={{
-                            maxWidth: 180,
-                            overflow: "hidden",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 1,
-                            WebkitBoxOrient: "vertical"
-                        }}
-                    />
-                </Flex>
-            </HoverCard.Trigger>
+                        <Box
+                            dangerouslySetInnerHTML={{ __html: updatedNoteValue }}
+                            style={{
+                                maxWidth: 180,
+                                overflow: "hidden",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 1,
+                                WebkitBoxOrient: "vertical"
+                            }}
+                        />
+                    </Flex>
+                </HoverCard.Trigger>
 
-            <HoverCard.Content >
-                <Flex direction="column" gap="3">
-                    <Heading size="4" as="h3">
-                        Notatki
-                    </Heading>
+                <HoverCard.Content >
+                    <Flex direction="column" gap="3">
+                        <Heading size="4" as="h3">
+                            Notatki
+                        </Heading>
 
-                    <>
-                        <Blockquote>
-                            <RichContentEditor
-                                savedNotes={updatedNoteValue}
-                                reactisTaskId={reactisTaskId}
-                                editorState={{
-                                    isFocused,
-                                    onFocusChange: setIsFocused,
-                                    isDirty,
-                                    onDirtyChange: setIsDirty
-                                }}
-                            />
-                        </Blockquote>
-                    </>
-                </Flex>
-            </HoverCard.Content>
-        </HoverCard.Root>
+                        <>
+                            <Blockquote>
+                                <RichContentEditor
+                                    savedNotes={updatedNoteValue}
+                                    reactisTaskId={reactisTaskId}
+                                />
+                            </Blockquote>
+                        </>
+                    </Flex>
+                </HoverCard.Content>
+            </HoverCard.Root>
+
+            <Alert
+                alertState={{
+                    isAlertOpen,
+                    onAlertOpenChange: setIsAlertOpen
+                }}
+                alertHandlers={{
+                    handleCancelAlert,
+                    handleAcceptAlert
+                }}
+            />
+        </>
     );
 }
