@@ -13,7 +13,7 @@ import { useRichContentEditorContext } from "../../context/rich-content-editor.c
 // Radix
 import {
     Box, Flex, HoverCard, Heading,
-    Blockquote, Avatar
+    Blockquote, Avatar, Text
 } from "@radix-ui/themes";
 
 import { ReaderIcon } from "@radix-ui/react-icons";
@@ -72,7 +72,6 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                         />
 
                         <Box
-                            dangerouslySetInnerHTML={{ __html: updatedNoteValue }}
                             style={{
                                 maxWidth: 180,
                                 overflow: "hidden",
@@ -80,7 +79,13 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                                 WebkitLineClamp: 1,
                                 WebkitBoxOrient: "vertical"
                             }}
-                        />
+                        >
+                            {updatedNoteValue ? (
+                                <span dangerouslySetInnerHTML={{ __html: updatedNoteValue }} />
+                            ) : (
+                                <Text className="NoDetailsText">Brak notatki</Text>
+                            )}
+                        </Box>
                     </Flex>
                 </HoverCard.Trigger>
 

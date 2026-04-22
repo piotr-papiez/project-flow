@@ -18,6 +18,7 @@ import { PaperPlaneIcon, LetterCaseCapitalizeIcon } from "@radix-ui/react-icons"
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
 
 // Actions
 import { updateFlowNote } from "@/features/tasks/actions/update-flow-note.action";
@@ -61,8 +62,17 @@ export default function RichContentEditor({
     const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
 
     const editor = useEditor({
-        extensions: [StarterKit, Underline],
-        content: savedNotes ?? "",
+        extensions: [
+            StarterKit,
+            Underline,
+            Placeholder.configure({
+                placeholder: "Napisz notatkę…",
+                showOnlyWhenEditable: true,
+                showOnlyCurrent: false
+            })
+        ],
+
+        content: savedNotes ?? null,
         immediatelyRender: false,
 
         onUpdate: ({ editor }) => {

@@ -44,9 +44,8 @@ export default function TableCellDetails({ reactisTaskUrl, detailsHtml, reactisT
                         {detailsHtml ? (
                             <span dangerouslySetInnerHTML={{ __html: detailsHtml }} />
                         ) : (
-                            <Text className="NoDetailsText">Brak szczegółów.</Text>
+                            <Text className="NoDetailsText">Brak szczegółów</Text>
                         )}
-
                     </Box>
                 </Flex>
             </HoverCard.Trigger>
