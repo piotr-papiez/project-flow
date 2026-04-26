@@ -1,10 +1,7 @@
 "use client";
 
 // React.js
-import { useActionState, useEffect, useRef, useState } from "react";
-
-// Context
-import { useRichContentEditorContext } from "@/features/tasks/context/rich-content-editor.context";
+import { SetStateAction, useActionState, useEffect, useRef, useState } from "react";
 
 // Components
 import RichMenuBar from "./RichMenuBar";
@@ -20,31 +17,54 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 
-// Actions
-import { updateFlowNote } from "@/features/tasks/actions/update-flow-note.action";
-
 // Styles
 import styles from "./RichContentEditor.module.css";
 
 // Types
-type RichContentEditorPropsType = {
-    savedNotes?: string,
-    reactisTaskId?: string,
-};
+import type { Dispatch } from "react";
 
 import type { UpdateFlowNoteActionStateType } from "@/features/tasks/actions/update-flow-note.action";
+import type { PostReactisTaskCommentActionStateType } from "@/features/tasks/actions/add-reactis-task-comment.action";
 
-// Constants
-const initialState: UpdateFlowNoteActionStateType = {
-    ok: false,
-    error: null,
-    updatedNote: null
+type ContentContextType = {
+    onDirtyChange: Dispatch<SetStateAction<boolean>>,
+    isFocused: boolean,
+    onFocusChange: Dispatch<SetStateAction<boolean>>
 };
 
-export default function RichContentEditor({
-    savedNotes,
-    reactisTaskId = "",
-}: RichContentEditorPropsType) {
+type NoteEditorType = {
+    version: "note",
+    savedNote?: string,
+    reactisTaskId: string,
+    context: ContentContextType,
+    action: (
+        prevState: UpdateFlowNoteActionStateType,
+        formData: FormData
+    ) => Promise<UpdateFlowNoteActionStateType>;
+};
+
+type CommentEditorType = {
+    version: "comment",
+    reactisTaskId: string,
+    reactisUserId: string,
+    context: ContentContextType,
+    action: (
+        prevState: PostReactisTaskCommentActionStateType,
+        formData: FormData
+    ) => Promise<PostReactisTaskCommentActionStateType>;
+};
+
+type RichContentEditorPropsType = NoteEditorType | CommentEditorType;
+
+
+// Constants
+const initialState: UpdateFlowNoteActionStateType | PostReactisTaskCommentActionStateType = {
+    ok: false,
+    error: null,
+    content: null
+};
+
+export default function RichContentEditor(props: RichContentEditorPropsType) {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const isContentLoaded = useRef<boolean>(false);
     const hiddenInputRef = useRef<HTMLInputElement | null>(null);
@@ -52,14 +72,7 @@ export default function RichContentEditor({
     const [isToolbarOpen, setIsToolbarOpen] = useState(false);
     const [isLongContent, setIsLongContent] = useState(false);
 
-    const {
-        onNoteDirtyChange,
-        isNoteFocused,
-        onNoteFocusChange
-    } = useRichContentEditorContext();
-
-    const actionWithTaskId = updateFlowNote.bind(null, reactisTaskId);
-    const [state, formAction, isPending] = useActionState(actionWithTaskId, initialState);
+    const [state, formAction, isPending] = useActionState(props.action, initialState);
 
     const editor = useEditor({
         extensions: [
@@ -72,7 +85,7 @@ export default function RichContentEditor({
             })
         ],
 
-        content: savedNotes ?? null,
+        content: props.version === "note" ? props.savedNote : "",
         immediatelyRender: false,
 
         onUpdate: ({ editor }) => {
@@ -81,7 +94,7 @@ export default function RichContentEditor({
                 return;
             }
 
-            onNoteDirtyChange(true);
+            props.context.onDirtyChange(true);
 
             const longContent = editor.state.doc.childCount > 1;
             setIsLongContent(longContent);
@@ -101,7 +114,7 @@ export default function RichContentEditor({
             const target = event.target as Node;
 
             if (!wrapperRef.current?.contains(target)) {
-                onNoteFocusChange(false);
+                props.context.onFocusChange(false);
                 setIsToolbarOpen(false);
                 editor?.commands.blur();
             }
@@ -119,19 +132,23 @@ export default function RichContentEditor({
         editor.setEditable(!isPending);
 
         if (state.ok && !isPending) {
-            onNoteFocusChange(false);
+            props.context.onFocusChange(false);
             setIsToolbarOpen(false);
-            onNoteDirtyChange(false);
+            props.context.onDirtyChange(false);
             editor.commands.blur();
+
+            if (props.version === "comment") {
+                editor.commands.clearContent();
+            }
         }
     }, [editor, isPending, state.ok]);
 
-    const showToolbar = isNoteFocused && isToolbarOpen;
+    const showToolbar = props.context.isFocused && isToolbarOpen;
 
     function handleFocus() {
         if (isPending) return;
 
-        onNoteFocusChange(true);
+        props.context.onFocusChange(true);
         editor?.commands.focus();
     }
 
@@ -141,7 +158,7 @@ export default function RichContentEditor({
 
         if (isPending) return;
 
-        onNoteFocusChange(true);
+        props.context.onFocusChange(true);
         setIsToolbarOpen(prev => !prev);
         editor?.commands.focus();
     }
@@ -159,7 +176,8 @@ export default function RichContentEditor({
             ref={wrapperRef}
             className={[
                 styles["main-container"],
-                isNoteFocused && styles.focus
+                props.version === "comment" && styles["comment-editor-container"],
+                props.context.isFocused && styles.focus
             ].join(" ")}
         >
             {editor && <RichMenuBar
@@ -169,7 +187,7 @@ export default function RichContentEditor({
             />}
 
             <form action={formAction} onSubmit={handleSubmit}>
-                <input ref={hiddenInputRef} type="hidden" name="note" />
+                <input ref={hiddenInputRef} type="hidden" name={props.version} />
 
                 <Flex
                     gap="2"
@@ -189,7 +207,9 @@ export default function RichContentEditor({
                         gap="1"
                         className={[
                             styles["action-buttons-container"],
-                            isNoteFocused ? styles.visible : styles.hidden
+                            props.version === "comment" && styles.visible,
+                            (props.version === "note" && props.context.isFocused) && styles.visible,
+                            (props.version === "note" && !props.context.isFocused) && styles.hidden
                         ].join(" ")}
                     >
                         <ActionIconButton
@@ -207,7 +227,7 @@ export default function RichContentEditor({
                             type="submit"
                             version="solid"
                             radius="full"
-                            tooltip="Zapisz"
+                            tooltip={props.version === "note" ? "Zapisz" : "Wyślij"}
                             loading={isPending}
                             disabled={isPending}
                         >

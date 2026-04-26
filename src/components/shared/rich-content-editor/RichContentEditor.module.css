@@ -7,9 +7,9 @@
     box-shadow: var(--shadow-4);
 }
 
-/* .main-container:not(.focus):hover {
-    box-shadow: var(--shadow-2);
-} */
+.comment-editor-container {
+    box-shadow: var(--shadow-4);
+}
 
 .editor {
     height: 100%;
@@ -35,10 +35,6 @@
     pointer-events: none;
     float: left;
     height: 0;
-}
-
-.editor a {
-    overflow-wrap: anywhere;
 }
 
 .editor::-webkit-scrollbar {

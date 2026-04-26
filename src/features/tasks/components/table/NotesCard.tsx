@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 
 // Components
-import RichContentEditor from "@/components/shared/rich-content-editor/RichContentEditor";
+import NoteEditor from "@/components/shared/rich-content-editor/NoteEditor";
 import Alert from "@/components/shared/rich-content-editor/Alert";
 
 // Context
@@ -97,8 +97,8 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
 
                         <>
                             <Blockquote>
-                                <RichContentEditor
-                                    savedNotes={updatedNoteValue}
+                                <NoteEditor
+                                    savedNote={updatedNoteValue}
                                     reactisTaskId={reactisTaskId}
                                 />
                             </Blockquote>

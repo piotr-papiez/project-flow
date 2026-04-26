@@ -8,7 +8,8 @@ import { reactisFetch } from "@/server/api/reactis/reactis.client";
 import type {
     ReactisTaskDataType, ReactisTasksDataType,
     GetReactisTaskResponseType, GetReactisTasksResponseType,
-    ReactisTaskCommentsType, GetReactisTaskCommentsResponseType
+    ReactisTaskCommentsType, GetReactisTaskCommentsResponseType,
+    PostReactisTaskCommentAPIResponseType, PostReactisTaskCommentResponseType
 } from "@/types/reactis";
 
 export async function getReactisTask(
@@ -41,6 +42,22 @@ export async function getReactisTaskComments(
     reactisTaskId: string
 ): Promise<GetReactisTaskCommentsResponseType> {
     const response = await reactisFetch<ReactisTaskCommentsType>(`/taskcomments/${reactisTaskId}?limit=999`);
+
+    return response;
+}
+
+export async function postReactisTaskComment(
+    reactisTaskId: string,
+    reactisUserId: string,
+    comment: string
+): Promise<PostReactisTaskCommentResponseType> {
+    const response = await reactisFetch<PostReactisTaskCommentAPIResponseType>(`/taskcomments/${reactisTaskId}`, {
+        method: "POST",
+        body: JSON.stringify({
+            "user_id": reactisUserId,
+            "text": comment
+        })
+    });
 
     return response;
 }

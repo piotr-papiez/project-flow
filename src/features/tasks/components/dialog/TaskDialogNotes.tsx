@@ -1,5 +1,5 @@
 // Components
-import RichContentEditor from "@/components/shared/rich-content-editor/RichContentEditor";
+import NoteEditor from "@/components/shared/rich-content-editor/NoteEditor";
 
 // Radix
 import {
@@ -7,21 +7,21 @@ import {
 } from "@radix-ui/themes";
 
 // Types
-type TaskDialogMorePropsType = {
-    notes?: string,
+type TaskDialogNotesPropsType = {
+    note?: string,
     reactisTaskId?: string
 };
 
 export default function TaskDialogNotes({
-    notes, reactisTaskId
-}: TaskDialogMorePropsType) {
+    note, reactisTaskId
+}: TaskDialogNotesPropsType) {
     return (
         <Flex direction="column" gap="4" style={{ minHeight: "100%", maxHeight: "min(50dvh, 488px)" }}>
             <Blockquote>
                 <Flex direction="column" gap="1">
-                    <RichContentEditor
-                        savedNotes={notes}
-                        reactisTaskId={reactisTaskId}
+                    <NoteEditor
+                        savedNote={note}
+                        reactisTaskId={reactisTaskId ?? ""}
                     />
                 </Flex>
             </Blockquote>

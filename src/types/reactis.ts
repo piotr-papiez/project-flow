@@ -35,19 +35,7 @@ export type GetReactisTasksResponseType =
     | { ok: true, data: ReactisTasksDataType, status: number }
     | { ok: false, message: string, status: number };
 
-// User data types
-export type ReactisUserDataType = {
-    id: string,
-    name: string,
-    surname: string,
-    email: string,
-    group: string
-};
-
-export type GetReactisUserResponseType =
-    | { ok: true, data: ReactisUserDataType, status: number }
-    | { ok: false, message: string, status: number };
-
+// Comments types
 export type ReactisTaskCommentType = {
     id: string,
     text: string
@@ -61,4 +49,25 @@ export type ReactisTaskCommentsType = {
 
 export type GetReactisTaskCommentsResponseType =
     | { ok: true, data: ReactisTaskCommentsType, status: number }
+    | { ok: false, message: string, status: number };
+
+export type PostReactisTaskCommentAPIResponseType = {
+    id: number
+}
+
+export type PostReactisTaskCommentResponseType =
+    | { ok: true, data: PostReactisTaskCommentAPIResponseType, status: number }
+    | { ok: false, message: string, status: number };
+
+// User data types
+export type ReactisUserDataType = {
+    id: string,
+    name: string,
+    surname: string,
+    email: string,
+    group: string
+};
+
+export type GetReactisUserResponseType =
+    | { ok: true, data: ReactisUserDataType, status: number }
     | { ok: false, message: string, status: number };

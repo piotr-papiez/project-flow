@@ -4,37 +4,37 @@
 import { revalidatePath } from "next/cache";
 
 // Repo
-import { setFlowNote } from "@/features/tasks/repo/flow-tasks.repo";
+import { postReactisTaskComment } from "../repo/reactis-tasks.repo";
 
-// Types
-export type UpdateFlowNoteActionStateType = {
+export type PostReactisTaskCommentActionStateType = {
     ok: boolean,
     error: string | null,
     content: string | null
 };
 
-export async function updateFlowNote(
+export async function addReactisTaskComment(
     reactisTaskId: string,
-    prevState: UpdateFlowNoteActionStateType,
+    reactisUserId: string,
+    prevState: PostReactisTaskCommentActionStateType,
     formData: FormData
-): Promise<UpdateFlowNoteActionStateType> {
-    const note = formData.get("note");
+): Promise<PostReactisTaskCommentActionStateType> {
+    const comment = formData.get("comment");
 
-    if (typeof note !== "string") return {
+    if (typeof comment !== "string") return {
         ok: false,
         error: "INVALID_NOTE",
         content: null
     }
 
     try {
-        await setFlowNote(reactisTaskId, note);
+        await postReactisTaskComment(reactisTaskId, reactisUserId, comment);
 
         revalidatePath("/tasks");
 
         return {
             ok: true,
             error: null,
-            content: note
+            content: null
         };
     } catch (error) {
         console.log(error);
@@ -42,6 +42,6 @@ export async function updateFlowNote(
             ok: false,
             error: "SAVING_FAILED",
             content: null
-        };
+        }
     }
 }

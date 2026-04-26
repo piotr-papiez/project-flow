@@ -4,8 +4,7 @@ import TaskAuthorAvatar from "../shared/TaskAuthorAvatar";
 // Radix
 import {
     Box, Flex, HoverCard, Heading,
-    Button, Blockquote, Text, Strong,
-    Avatar
+    Button, Blockquote, Text, Avatar
 } from "@radix-ui/themes";
 
 import { ReaderIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
@@ -19,9 +18,9 @@ type TableCellDetailsPropsType = {
     reactisTaskAuthor: TaskAuthorType
 };
 
-export default function TableCellDetails({ reactisTaskUrl, detailsHtml, reactisTaskAuthor }: TableCellDetailsPropsType) {
-    const { name: authorName, surname: authorSurname } = reactisTaskAuthor;
-
+export default function TableCellDetails({
+    reactisTaskUrl, detailsHtml, reactisTaskAuthor
+}: TableCellDetailsPropsType) {
     return (
         <HoverCard.Root openDelay={750} closeDelay={250}>
             <HoverCard.Trigger>
@@ -40,7 +39,6 @@ export default function TableCellDetails({ reactisTaskUrl, detailsHtml, reactisT
                             WebkitBoxOrient: "vertical",
                         }}
                     >
-
                         {detailsHtml ? (
                             <span dangerouslySetInnerHTML={{ __html: detailsHtml }} />
                         ) : (
@@ -55,10 +53,9 @@ export default function TableCellDetails({ reactisTaskUrl, detailsHtml, reactisT
                     <Heading size="4" as="h3">
                         Szczegóły zadania
                     </Heading>
+
                     <Blockquote>
-                        <Box
-                            dangerouslySetInnerHTML={{ __html: detailsHtml }}
-                        />
+                        <Box dangerouslySetInnerHTML={{ __html: detailsHtml }} />
                     </Blockquote>
 
                     <TaskAuthorAvatar reactisTaskAuthor={reactisTaskAuthor} />

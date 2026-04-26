@@ -55,6 +55,8 @@ export default function TaskDialogSegmentsController({
             {segment === "comments" && (
                 <TaskDialogComments
                     comments={reactisComments}
+                    reactisTaskId={mergedTask.reactisTaskId ?? ""}
+                    reactisUserId={mergedTask.reactisUserId ?? ""}
                 />
             )}
 
@@ -64,8 +66,7 @@ export default function TaskDialogSegmentsController({
 
             {segment === "notes" && (
                 <TaskDialogNotes
-                    notes={mergedTask.flowNotes}
-                    
+                    note={mergedTask.flowNotes}
                     reactisTaskId={mergedTask.reactisTaskId}
                 />
             )}
