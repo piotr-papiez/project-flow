@@ -12,7 +12,7 @@ export default function formatDate(legacyDate: string): string | null {
     ];
 
     const formattedDate =
-        `${newDate.getDay()} ${months[newDate.getMonth()]} ${newDate.getFullYear()}`;
+        `${newDate.getDate()} ${months[newDate.getMonth()]} ${newDate.getFullYear()}`;
 
     return formattedDate;
 }

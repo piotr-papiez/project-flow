@@ -3,9 +3,7 @@ import CommentBubble from "../shared/CommentBubble";
 import CommentEditor from "@/components/shared/rich-content-editor/CommentEditor";
 
 // Radix
-import {
-    ScrollArea, Flex, Blockquote, TextArea,
-} from "@radix-ui/themes";
+import { ScrollArea, Flex, Blockquote } from "@radix-ui/themes";
 
 // Types
 import type { ReactisTaskCommentsType } from "@/types/reactis";
@@ -33,7 +31,7 @@ export default function TaskDialogComments({
                         </Flex>
                     </ScrollArea >
                 )}
-                
+
                 <CommentEditor
                     reactisTaskId={reactisTaskId}
                     reactisUserId={reactisUserId}
