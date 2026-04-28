@@ -9,6 +9,9 @@ import {
     QuoteIcon
 } from "@radix-ui/react-icons";
 
+// Material Symbol
+import MaterialSymbol from "@/components/ui/MaterialSymbol";
+
 // Tiptap
 import { useEditorState } from "@tiptap/react";
 import type { Editor } from "@tiptap/core";
@@ -54,7 +57,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isBold && styles.active,
                     ].join(" ")}
                 >
-                    <FontBoldIcon />
+                    <MaterialSymbol name="format_bold" />
                 </ActionIconButton>
 
                 <ActionIconButton
@@ -68,7 +71,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isItalic && styles.active,
                     ].join(" ")}
                 >
-                    <FontItalicIcon />
+                    <MaterialSymbol name="format_italic" />
                 </ActionIconButton>
 
                 <ActionIconButton
@@ -82,7 +85,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isStrike && styles.active,
                     ].join(" ")}
                 >
-                    <StrikethroughIcon />
+                    <MaterialSymbol name="strikethrough_s" />
                 </ActionIconButton>
 
                 <ActionIconButton
@@ -96,7 +99,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isUnderline && styles.active,
                     ].join(" ")}
                 >
-                    <UnderlineIcon />
+                    <MaterialSymbol name="format_underlined" />
                 </ActionIconButton>
             </Flex>
 
@@ -113,7 +116,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isBulletList && styles.active,
                     ].join(" ")}
                 >
-                    <ListBulletIcon />
+                    <MaterialSymbol name="format_list_bulleted" />
                 </ActionIconButton>
 
                 <ActionIconButton
@@ -126,7 +129,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isOrderedList && styles.active,
                     ].join(" ")}
                 >
-                    <DropdownMenuIcon />
+                    <MaterialSymbol name="format_list_numbered" />
                 </ActionIconButton>
             </Flex>
 
@@ -144,7 +147,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isCode && styles.active,
                     ].join(" ")}
                 >
-                    <CodeIcon />
+                    <MaterialSymbol name="code" />
                 </ActionIconButton>
 
                 <ActionIconButton
@@ -157,7 +160,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isCodeBlock && styles.active,
                     ].join(" ")}
                 >
-                    <InputIcon />
+                    <MaterialSymbol name="code_blocks" />
                 </ActionIconButton>
 
                 <ActionIconButton
@@ -170,7 +173,7 @@ export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsTyp
                         editorState.isBlockquote && styles.active,
                     ].join(" ")}
                 >
-                    <QuoteIcon />
+                    <MaterialSymbol name="format_quote" />
                 </ActionIconButton>
 
             </Flex>

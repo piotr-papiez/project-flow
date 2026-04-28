@@ -11,6 +11,9 @@ import ActionIconButton from "@/components/ui/ActionIconButton";
 import { Flex } from "@radix-ui/themes";
 import { PaperPlaneIcon, LetterCaseCapitalizeIcon } from "@radix-ui/react-icons";
 
+// Material Symbol
+import MaterialSymbol from "@/components/ui/MaterialSymbol";
+
 // Tiptap
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -220,7 +223,7 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
                             tooltip="Otwórz opcje formatowania"
                             disabled={isPending}
                         >
-                            <LetterCaseCapitalizeIcon />
+                            <MaterialSymbol name="text_format" />
                         </ActionIconButton>
 
                         <ActionIconButton
@@ -231,7 +234,7 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
                             loading={isPending}
                             disabled={isPending}
                         >
-                            <PaperPlaneIcon />
+                            <MaterialSymbol name={props.version === "comment" ? "send" : "save_as"} />
                         </ActionIconButton>
                     </Flex>
                 </Flex>
