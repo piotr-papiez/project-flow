@@ -14,8 +14,8 @@ import {
 
 // Radix
 import {
-    Flex, TextField, Select, Table,
-    Heading, Text, Strong
+    Flex, TextField, Select, Table, 
+    Text, Strong, Badge
 } from "@radix-ui/themes";
 
 import { MagnifyingGlassIcon, CaretSortIcon, CaretUpIcon, CaretDownIcon, } from "@radix-ui/react-icons";
@@ -28,7 +28,7 @@ import NotesCard from "./NotesCard";
 import TableCellGoToTaskButton from "./TableCellGoToTaskButton";
 
 // Constants
-import { LABEL_MAP } from "../../lib/status-map";
+import { LABEL_MAP, COLOR_MAP } from "../../lib/status-map";
 
 // Types
 import type { MergedTaskDataType } from "@/types/flow";
@@ -162,13 +162,22 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
     const nameFilterValue = (table.getColumn("name")?.getFilterValue() as string) ?? "";
     const statusFilterValue = (table.getColumn("flowStatus")?.getFilterValue() as string) ?? "all";
 
+    function countTasksInStatus(tasks: MergedTaskDataType[], status: number): number {
+        return tasks.filter(task => task.flowStatus === status).length ?? 0;
+    }
+
     return (
         <RichContentEditorProvider>
             <Flex direction={"column"} gap="3">
                 <Flex justify={"between"}>
-                    <Heading as="h2" size="5">
-                        {`Liczba zadań: ${count}`}
-                    </Heading>
+                    <Flex gap="2">
+                        <Badge color={COLOR_MAP[0]}>{`Nowe: ${countTasksInStatus(tasks, 0)}`}</Badge>
+                        <Badge color={COLOR_MAP[1]}>{`Do zrobienia: ${countTasksInStatus(tasks, 1)}`}</Badge>
+                        <Badge color={COLOR_MAP[2]}>{`W trakcie: ${countTasksInStatus(tasks, 2)}`}</Badge>
+                        <Badge color={COLOR_MAP[3]}>{`Oczekujące: ${countTasksInStatus(tasks, 3)}`}</Badge>
+                        <Badge color={COLOR_MAP[7]}>{`Nadchodzące: ${countTasksInStatus(tasks, 7)}`}</Badge>
+                    </Flex>
+
                     <Flex gap="3">
                         <TextField.Root
                             placeholder="Szukaj zadania…"
