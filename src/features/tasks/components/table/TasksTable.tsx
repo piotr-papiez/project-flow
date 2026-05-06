@@ -14,7 +14,7 @@ import {
 
 // Radix
 import {
-    Flex, TextField, Select, Table, 
+    Flex, TextField, Select, Table,
     Text, Strong, Badge
 } from "@radix-ui/themes";
 
@@ -170,12 +170,17 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
         <RichContentEditorProvider>
             <Flex direction={"column"} gap="3">
                 <Flex justify={"between"}>
-                    <Flex gap="2">
-                        <Badge color={COLOR_MAP[0]}>{`Nowe: ${countTasksInStatus(tasks, 0)}`}</Badge>
-                        <Badge color={COLOR_MAP[1]}>{`Do zrobienia: ${countTasksInStatus(tasks, 1)}`}</Badge>
-                        <Badge color={COLOR_MAP[2]}>{`W trakcie: ${countTasksInStatus(tasks, 2)}`}</Badge>
-                        <Badge color={COLOR_MAP[3]}>{`Oczekujące: ${countTasksInStatus(tasks, 3)}`}</Badge>
-                        <Badge color={COLOR_MAP[7]}>{`Nadchodzące: ${countTasksInStatus(tasks, 7)}`}</Badge>
+                    <Flex gap="2" align="center" style={{ flexWrap: "wrap" }}>
+                        {Object.entries(LABEL_MAP).map(([key, value]) => {
+                            const status = Number(key);
+                            const tasksCount = countTasksInStatus(tasks, status);
+
+                            if (tasksCount === 0) return null;
+
+                            return (
+                                <Badge key={key} color={COLOR_MAP[status]}>{`${value}: ${tasksCount}`}</Badge>
+                            );
+                        })}
                     </Flex>
 
                     <Flex gap="3">

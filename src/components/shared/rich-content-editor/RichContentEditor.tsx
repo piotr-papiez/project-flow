@@ -179,7 +179,7 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
             ref={wrapperRef}
             className={[
                 styles["main-container"],
-                props.version === "comment" && styles["comment-editor-container"],
+                styles[`${props.version}-editor-container`],
                 props.context.isFocused && styles.focus
             ].join(" ")}
         >

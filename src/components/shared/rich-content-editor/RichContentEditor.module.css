@@ -3,13 +3,27 @@
     transition: all 0.2s ease;
 }
 
-.main-container.focus {
+/* .main-container.focus {
+    box-shadow: var(--shadow-4);
+} */
+
+.comment-editor-container {
+    box-shadow: var(--shadow-3);
+    background-color: var(--accent-2);
+    border: 1px solid transparent;
+}
+
+.comment-editor-container.focus {
+    border: 1px solid var(--accent-6);
+}
+
+.note-editor-container.focus {
     box-shadow: var(--shadow-4);
 }
 
-.comment-editor-container {
-    box-shadow: var(--shadow-4);
-}
+/* .comment-editor-container:focus {
+    box-shadow: var(--shadow-3);
+} */
 
 .editor {
     height: 100%;

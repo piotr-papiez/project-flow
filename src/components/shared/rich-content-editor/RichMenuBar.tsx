@@ -3,11 +3,6 @@ import ActionIconButton from "@/components/ui/ActionIconButton";
 
 // Radix
 import { Flex, Separator } from "@radix-ui/themes";
-import {
-    FontBoldIcon, FontItalicIcon, StrikethroughIcon, UnderlineIcon,
-    ListBulletIcon, DropdownMenuIcon, CodeIcon, InputIcon,
-    QuoteIcon
-} from "@radix-ui/react-icons";
 
 // Material Symbol
 import MaterialSymbol from "@/components/ui/MaterialSymbol";
