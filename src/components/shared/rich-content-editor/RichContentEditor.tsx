@@ -9,7 +9,6 @@ import ActionIconButton from "@/components/ui/ActionIconButton";
 
 // Radix
 import { Flex } from "@radix-ui/themes";
-import { PaperPlaneIcon, LetterCaseCapitalizeIcon } from "@radix-ui/react-icons";
 
 // Material Symbol
 import MaterialSymbol from "@/components/ui/MaterialSymbol";
@@ -25,6 +24,7 @@ import styles from "./RichContentEditor.module.css";
 
 // Types
 import type { Dispatch } from "react";
+import type { JSONContent } from "@tiptap/react";
 
 import type { UpdateFlowNoteActionStateType } from "@/features/tasks/actions/update-flow-note.action";
 import type { PostReactisTaskCommentActionStateType } from "@/features/tasks/actions/add-reactis-task-comment.action";
@@ -37,7 +37,7 @@ type ContentContextType = {
 
 type NoteEditorType = {
     version: "note",
-    savedNote?: string,
+    savedNote?: JSONContent,
     reactisTaskId: string,
     context: ContentContextType,
     action: (
@@ -58,7 +58,6 @@ type CommentEditorType = {
 };
 
 type RichContentEditorPropsType = NoteEditorType | CommentEditorType;
-
 
 // Constants
 const initialState: UpdateFlowNoteActionStateType | PostReactisTaskCommentActionStateType = {
@@ -169,7 +168,13 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
     function handleSubmit() {
         if (!editor || !hiddenInputRef.current) return;
 
-        hiddenInputRef.current.value = editor.getHTML();
+        if (props.version === "comment") {
+            hiddenInputRef.current.value = editor.getHTML();
+        }
+
+        if (props.version === "note") {
+            hiddenInputRef.current.value = JSON.stringify(editor.getJSON());
+        }
     }
 
     return (

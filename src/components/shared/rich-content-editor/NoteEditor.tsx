@@ -10,8 +10,10 @@ import { useRichContentEditorContext } from "@/features/tasks/context/rich-conte
 import RichContentEditor from "./RichContentEditor";
 
 // Types
+import type { JSONContent } from "@tiptap/react";
+
 type NoteEditorPropsType = {
-    savedNote?: string,
+    savedNote?: JSONContent,
     reactisTaskId: string
 };
 

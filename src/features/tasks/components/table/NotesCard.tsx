@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import NoteEditor from "@/components/shared/rich-content-editor/NoteEditor";
 import Alert from "@/components/shared/rich-content-editor/Alert";
 
+// Utils
+import { tiptapJsonToHtml } from "../../utils/tiptap-types-converter";
+
 // Context
 import { useRichContentEditorContext } from "../../context/rich-content-editor.context";
 
@@ -18,14 +21,17 @@ import {
 
 import { ReaderIcon } from "@radix-ui/react-icons";
 
+// Types
+import type { JSONContent } from "@tiptap/react";
+
 type TableCellNotesPropsType = {
     reactisTaskId: string
-    notes: string,
+    notes: JSONContent,
 };
 
 export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesPropsType) {
     const [isCardOpen, setIsCardOpen] = useState<boolean>(false);
-    const [updatedNoteValue, setUpdatedNoteValue] = useState<string>(notes);
+    const [updatedNoteValue, setUpdatedNoteValue] = useState<JSONContent>(notes);
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
 
     const { isNoteFocused, isNoteDirty, onNoteDirtyChange } = useRichContentEditorContext();
@@ -55,6 +61,9 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
         setUpdatedNoteValue(notes);
     }, [notes, isNoteFocused]);
 
+
+    const htmlUpdatedNoteValue = tiptapJsonToHtml(updatedNoteValue);
+
     return (
         <>
             <HoverCard.Root
@@ -81,7 +90,7 @@ export default function TableCellNotes({ reactisTaskId, notes }: TableCellNotesP
                             }}
                         >
                             {updatedNoteValue ? (
-                                <span dangerouslySetInnerHTML={{ __html: updatedNoteValue }} />
+                                <span dangerouslySetInnerHTML={{ __html: htmlUpdatedNoteValue }} />
                             ) : (
                                 <Text className="NoDetailsText">Brak notatki</Text>
                             )}

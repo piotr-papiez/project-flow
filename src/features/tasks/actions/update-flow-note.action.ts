@@ -18,23 +18,24 @@ export async function updateFlowNote(
     prevState: UpdateFlowNoteActionStateType,
     formData: FormData
 ): Promise<UpdateFlowNoteActionStateType> {
-    const note = formData.get("note");
+    const stringNote = formData.get("note");
 
-    if (typeof note !== "string") return {
+    if (typeof stringNote !== "string") return {
         ok: false,
         error: "INVALID_NOTE",
         content: null
     }
 
     try {
-        await setFlowNote(reactisTaskId, note);
+        const jsonNote = JSON.parse(stringNote)
+        await setFlowNote(reactisTaskId, jsonNote);
 
         revalidatePath("/tasks");
 
         return {
             ok: true,
             error: null,
-            content: note
+            content: jsonNote
         };
     } catch (error) {
         console.log(error);

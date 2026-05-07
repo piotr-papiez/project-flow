@@ -5,6 +5,7 @@ import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cook
 import { db } from "@/db/mongoose.client";
 
 // Models
+import type { JSONContent } from "@tiptap/react";
 import { FlowTask } from "../models/flow-task.model";
 import type { FlowTaskDataType } from "../models/flow-task.model";
 import type { ReactisTaskDataType } from "@/types/reactis";
@@ -29,6 +30,9 @@ type SetFlowStatusResponseType =
 type SetFlowNoteResponseType =
     | { ok: true }
     | { ok: false, message: string, status: number };
+
+// Constants
+import { EMPTY_TIPTAP_DOC } from "@/components/shared/rich-content-editor/empty-tiptap-doc-fallback";
 
 export async function getFlowTask(
     reactisTaskId: string
@@ -90,7 +94,7 @@ export async function upsertFlowTasks(reactisTasks: ReactisTaskDataType[]): Prom
                         reactisTaskUrl: `https://ncrm.netgraf.pl/task/user_list/${reactisUserId}/${reactisTask.id}`,
                         docsDraftUrl: "",
                         cmsUrl: "",
-                        flowNotes: ""
+                        flowNotes: EMPTY_TIPTAP_DOC
                     }
                 },
                 upsert: true
@@ -174,7 +178,7 @@ export async function setFlowPriority(reactisTaskId: string, flowPriorityValue: 
     }
 }
 
-export async function setFlowNote(reactisTaskId: string, note: string): Promise<SetFlowNoteResponseType> {
+export async function setFlowNote(reactisTaskId: string, note: JSONContent): Promise<SetFlowNoteResponseType> {
     if (!reactisTaskId) return { ok: false, message: "TASK_ID_REQUIRED", status: 400 };
 
     try {

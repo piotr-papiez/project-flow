@@ -11,8 +11,7 @@ import TaskDialogMainInfo from "@/features/tasks/components/dialog/TaskDialogMai
 import TaskDialogSegmentsController from "@/features/tasks/components/dialog/TaskDialogSegmentsController";
 
 // Radix
-import { Flex, Button, Text } from "@radix-ui/themes";
-import { CheckIcon } from "@radix-ui/react-icons";
+import { Flex } from "@radix-ui/themes";
 
 // Services
 import { getMergedTask } from "@/features/tasks/services/tasks.service";

@@ -34,7 +34,7 @@ export const FlowTaskSchema = new Schema({
         required: true
     },
     flowNotes: {
-        type: String,
+        type: Schema.Types.Mixed,
         required: true
     }
 });

@@ -7,8 +7,10 @@ import {
 } from "@radix-ui/themes";
 
 // Types
+import type { JSONContent } from "@tiptap/react";
+
 type TaskDialogNotesPropsType = {
-    note?: string,
+    note?: JSONContent,
     reactisTaskId?: string
 };
 

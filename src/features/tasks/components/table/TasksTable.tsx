@@ -28,9 +28,11 @@ import NotesCard from "./NotesCard";
 import TableCellGoToTaskButton from "./TableCellGoToTaskButton";
 
 // Constants
+import { EMPTY_TIPTAP_DOC } from "@/components/shared/rich-content-editor/empty-tiptap-doc-fallback";
 import { LABEL_MAP, COLOR_MAP } from "../../lib/status-map";
 
 // Types
+import type { JSONContent } from "@tiptap/react";
 import type { MergedTaskDataType } from "@/types/flow";
 
 type TasksTablePropsType = {
@@ -120,7 +122,8 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 enableSorting: false,
                 cell: ({ getValue, row }) => {
                     const reactisTaskId = row.original.reactisTaskId ?? "";
-                    const notes = (getValue() as string) ?? "";
+                    const notes = row.original.flowNotes ?? EMPTY_TIPTAP_DOC;
+                    // const notes = getValue() as JSONContent;
 
                     return (
                         <NotesCard
