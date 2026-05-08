@@ -120,10 +120,9 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                 header: "Notatki",
                 accessorKey: "flowNotes",
                 enableSorting: false,
-                cell: ({ getValue, row }) => {
+                cell: ({ row }) => {
                     const reactisTaskId = row.original.reactisTaskId ?? "";
                     const notes = row.original.flowNotes ?? EMPTY_TIPTAP_DOC;
-                    // const notes = getValue() as JSONContent;
 
                     return (
                         <NotesCard
@@ -144,13 +143,25 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                         />
                     );
                 }
+            },
+
+            {
+                id: "author",
+                accessorFn: row => `${row.author?.name ?? ""} ${row.author?.surname ?? ""}`,
+                filterFn: "includesString",
+                enableSorting: false
             }
         ], []
     );
 
     const table = useReactTable({
         data: tasks,
-        columns,
+        columns,        
+        initialState: {
+            columnVisibility: {
+                author: false
+            }
+        },
         state: {
             sorting,
             columnFilters
@@ -163,6 +174,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
     });
 
     const nameFilterValue = (table.getColumn("name")?.getFilterValue() as string) ?? "";
+    const authorFilterValue = (table.getColumn("author")?.getFilterValue() as string) ?? "";
     const statusFilterValue = (table.getColumn("flowStatus")?.getFilterValue() as string) ?? "all";
 
     function countTasksInStatus(tasks: MergedTaskDataType[], status: number): number {
@@ -188,10 +200,22 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
 
                     <Flex gap="3">
                         <TextField.Root
-                            placeholder="Szukaj zadania…"
+                            placeholder="Szukaj po nazwie…"
                             value={nameFilterValue}
                             onChange={event => (
                                 table.getColumn("name")?.setFilterValue(event.target.value)
+                            )}
+                        >
+                            <TextField.Slot>
+                                <MagnifyingGlassIcon height="16" width="16" />
+                            </TextField.Slot>
+                        </TextField.Root>
+
+                        <TextField.Root
+                            placeholder="Szukaj po autorze…"
+                            value={authorFilterValue}
+                            onChange={event => (
+                                table.getColumn("author")?.setFilterValue(event.target.value)
                             )}
                         >
                             <TextField.Slot>
