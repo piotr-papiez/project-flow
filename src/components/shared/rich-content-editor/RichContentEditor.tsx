@@ -71,6 +71,12 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
     const isContentLoaded = useRef<boolean>(false);
     const hiddenInputRef = useRef<HTMLInputElement | null>(null);
 
+    const initialContentRef = useRef<JSONContent | string>(
+        props.version === "note"
+            ? props.savedNote
+            : ""
+    );
+
     const [isToolbarOpen, setIsToolbarOpen] = useState(false);
     const [isLongContent, setIsLongContent] = useState(false);
 
@@ -87,7 +93,7 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
             })
         ],
 
-        content: props.version === "note" ? props.savedNote : "",
+        content: initialContentRef.current,
         immediatelyRender: false,
 
         onUpdate: ({ editor }) => {
@@ -96,7 +102,14 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
                 return;
             }
 
-            props.context.onDirtyChange(true);
+            const currentContent =
+                props.version === "note"
+                    ? editor.getJSON()
+                    : editor.getHTML();
+
+            const isDirty = unifyContent(initialContentRef.current) !== unifyContent(currentContent);
+
+            props.context.onDirtyChange(isDirty);
 
             const longContent = editor.state.doc.childCount > 1;
             setIsLongContent(longContent);
@@ -139,13 +152,22 @@ export default function RichContentEditor(props: RichContentEditorPropsType) {
             props.context.onDirtyChange(false);
             editor.commands.blur();
 
+            if (props.version === "note") {
+                initialContentRef.current === editor.getJSON();
+            }
+
             if (props.version === "comment") {
+                initialContentRef.current = "";
                 editor.commands.clearContent();
             }
         }
     }, [editor, isPending, state.ok]);
 
     const showToolbar = props.context.isFocused && isToolbarOpen;
+
+    function unifyContent(content: JSONContent | string | undefined) {
+        return JSON.stringify(content ?? "");
+    }
 
     function handleFocus() {
         if (isPending) return;
