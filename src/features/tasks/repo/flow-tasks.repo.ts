@@ -32,7 +32,7 @@ type SetFlowNoteResponseType =
     | { ok: false, message: string, status: number };
 
 // Constants
-import { EMPTY_TIPTAP_DOC } from "@/components/shared/rich-content-editor/empty-tiptap-doc-fallback";
+import { EMPTY_TIPTAP_DOC } from "@/components/shared/tiptap-editor/empty-tiptap-doc-fallback";
 
 export async function getFlowTask(
     reactisTaskId: string

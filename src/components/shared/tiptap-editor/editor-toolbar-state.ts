@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/core";
 import type { EditorStateSnapshot } from "@tiptap/react";
 
-export function richMenuBarStateSelector(ctx: EditorStateSnapshot<Editor>) {
+export function tiptapToolbarStateSelector(ctx: EditorStateSnapshot<Editor>) {
     return {
         isBold: ctx.editor.isActive("bold") ?? false,
         canBold: ctx.editor.can().chain().toggleBold().run() ?? false,
@@ -32,4 +32,4 @@ export function richMenuBarStateSelector(ctx: EditorStateSnapshot<Editor>) {
     }
 }
 
-export type RichMenuBarStateSelectorType = ReturnType<typeof richMenuBarStateSelector>;
+export type TiptapToolbarStateSelectorType = ReturnType<typeof tiptapToolbarStateSelector>;

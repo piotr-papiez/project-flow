@@ -4,9 +4,9 @@
 import { useState } from "react";
 
 // Components
-import TaskDialogDetails from "./TaskDialogDetails";
-import TaskDialogComments from "./TaskDialogComments";
-import TaskDialogNotes from "./TaskDialogNotes";
+import DetailsSegment from "./segments/DetailsSegment";
+import CommentsSegment from "./segments/CommentsSegment";
+import NoteSegment from "./segments/NoteSegment";
 
 // Radix
 import { Flex, SegmentedControl } from "@radix-ui/themes";
@@ -23,7 +23,7 @@ type TaskDialogSegmentsControllerPropsType = {
     reactisComments: ReactisTaskCommentsType
 };
 
-type TaskSegmentType = "details" | "comments" | "knowledge" | "notes";
+type TaskSegmentType = "details" | "comments" | "knowledge" | "note";
 
 export default function TaskDialogSegmentsController({
     mergedTask,
@@ -43,17 +43,17 @@ export default function TaskDialogSegmentsController({
                 <SegmentedControl.Item value="details">Szczegóły</SegmentedControl.Item>
                 <SegmentedControl.Item value="comments">Komentarze</SegmentedControl.Item>
                 {/* <SegmentedControl.Item value="knowledge">Wiedza</SegmentedControl.Item> */}
-                <SegmentedControl.Item value="notes">Notatki</SegmentedControl.Item>
+                <SegmentedControl.Item value="note">Notatki</SegmentedControl.Item>
             </SegmentedControl.Root>
 
             {segment === "details" && (
-                <TaskDialogDetails
+                <DetailsSegment
                     details={mergedTask.text}
                 />
             )}
 
             {segment === "comments" && (
-                <TaskDialogComments
+                <CommentsSegment
                     comments={reactisComments}
                     reactisTaskId={mergedTask.reactisTaskId ?? ""}
                     reactisUserId={mergedTask.reactisUserId ?? ""}
@@ -64,8 +64,8 @@ export default function TaskDialogSegmentsController({
                 <p>asdverv</p>
             )} */}
 
-            {segment === "notes" && (
-                <TaskDialogNotes
+            {segment === "note" && (
+                <NoteSegment
                     note={mergedTask.flowNotes}
                     reactisTaskId={mergedTask.reactisTaskId}
                 />

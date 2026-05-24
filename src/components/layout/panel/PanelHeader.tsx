@@ -25,7 +25,6 @@ type PanelHeaderPropsType = {
 };
 
 export default function PanelHeader({ reactisUserData }: PanelHeaderPropsType) {
-    console.log(reactisUserData);
     return (
         <Box className={styles["header-background"]} py="3">
             <Container size="4">

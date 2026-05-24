@@ -44,10 +44,23 @@ export async function getMergedTasks(): Promise<MergedTasksDataType | null> {
         flowTasks.map(flowTask => [String(flowTask.reactisTaskId), flowTask])
     );
 
-    const mergedTasksList = reactisTasks.map(reactisTask => ({
-        ...reactisTask,
-        ...flowTasksMap.get(String(reactisTask.id))
-    }));
+    const mergedTasksList = reactisTasks.map(reactisTask => {
+        const flowTask = flowTasksMap.get(String(reactisTask.id));
+
+        if (!flowTask) {
+            throw new Error(`Brak danych po stronie Dayglow dla zadania: ${reactisTask.id}`);
+        }
+
+        return {
+            ...reactisTask,
+            ...flowTask
+        };
+    })
+
+    // const mergedTasksList = reactisTasks.map(reactisTask => ({
+    //     ...reactisTask,
+    //     ...flowTasksMap.get(String(reactisTask.id))
+    // }));
 
     const mergedTasks = {
         count: taskCount,

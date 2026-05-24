@@ -1,5 +1,5 @@
 // Components
-import NoteEditor from "@/components/shared/rich-content-editor/NoteEditor";
+import NoteEditor from "@/components/shared/tiptap-editor/NoteEditor";
 
 // Radix
 import {
@@ -9,21 +9,22 @@ import {
 // Types
 import type { JSONContent } from "@tiptap/react";
 
-type TaskDialogNotesPropsType = {
-    note?: JSONContent,
+type NoteSegmentPropsType = {
+    note: JSONContent,
     reactisTaskId?: string
 };
 
-export default function TaskDialogNotes({
-    note, reactisTaskId
-}: TaskDialogNotesPropsType) {
+export default function NoteSegment({
+    note,
+    reactisTaskId
+}: NoteSegmentPropsType) {
     return (
         <Flex direction="column" gap="4" style={{ minHeight: "100%", maxHeight: "min(50dvh, 488px)" }}>
             <Blockquote>
                 <Flex direction="column" gap="1">
                     <NoteEditor
-                        savedNote={note}
-                        reactisTaskId={reactisTaskId ?? ""}
+                        note={note}
+                        reactisTaskId={reactisTaskId!}
                     />
                 </Flex>
             </Blockquote>

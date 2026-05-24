@@ -11,13 +11,13 @@ import { Text, Flex, Grid } from "@radix-ui/themes";
 // Types
 import type { MergedTaskDataType } from "@/types/flow";
 
-type TaskDialogMainInfoPropsType = {
+type TaskDialogHeadingPropsType = {
     mergedTask: MergedTaskDataType,
 };
 
-export default function TaskDialogMainInfo({
+export default function TaskDialogHeading({
     mergedTask
-}: TaskDialogMainInfoPropsType) {
+}: TaskDialogHeadingPropsType) {
     return (
         <Flex direction="column" gap="3">
             <Grid columns="1fr auto" gap="3">

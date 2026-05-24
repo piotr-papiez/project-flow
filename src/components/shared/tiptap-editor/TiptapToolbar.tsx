@@ -1,177 +1,209 @@
 // Components
 import ActionIconButton from "@/components/ui/ActionIconButton";
 
+
+// Functions
+import { tiptapToolbarStateSelector } from "./editor-toolbar-state";
+
+
+// Material symbols
+import MaterialSymbol from "@/components/ui/MaterialSymbol";
+
+
 // Radix
 import { Flex, Separator } from "@radix-ui/themes";
 
-// Material Symbol
-import MaterialSymbol from "@/components/ui/MaterialSymbol";
+
+// Styles
+import styles from "./TiptapEditor.module.css";
+
 
 // Tiptap
 import { useEditorState } from "@tiptap/react";
-import type { Editor } from "@tiptap/core";
 
-// Functions
-import { richMenuBarStateSelector } from "./rich-menu-bar-state";
-
-// Styles
-import styles from "./RichContentEditor.module.css";
 
 // Types
-type RichMenuBarPropsType = {
+import type { Editor } from "@tiptap/react"
+
+
+type TiptapToolbarPropsType = {
     editor: Editor,
-    showToolbar: boolean
+    isToolbarVisible: boolean
 };
 
-export default function RichMenuBar({ editor, showToolbar }: RichMenuBarPropsType) {
+
+// Main function
+export default function TiptapToolbar({
+    editor,
+    isToolbarVisible
+}: TiptapToolbarPropsType) {
     const editorState = useEditorState({
         editor,
-        selector: richMenuBarStateSelector
+        selector: tiptapToolbarStateSelector
     });
+
 
     return (
         <Flex
+            align="center"
+            aria-hidden={!isToolbarVisible}
             className={[
                 styles["formatting-buttons-container"],
-                !showToolbar && styles.hidden
+                !isToolbarVisible && styles.hidden
             ].join(" ")}
-            inert={!showToolbar}
-            aria-hidden={!showToolbar}
-            align="center"
             gap="2"
+            inert={!isToolbarVisible}
         >
-            <Flex gap="1" className={styles["formatting-buttons-section"]}>
+            <Flex
+                className={styles["formatting-buttons-section"]}
+                gap="1"
+            >
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Pogrubienie (Ctrl+B)"
-                    onClick={() => editor.chain().focus().toggleBold().run()}
-                    disabled={!editorState.canBold}
                     className={[
                         styles["formatting-button"],
                         editorState.isBold && styles.active,
                     ].join(" ")}
+                    disabled={!editorState.canBold}
+                    onClick={() => editor.chain().focus().toggleBold().run()}
+                    radius="large"
+                    tooltip="Pogrubienie (Ctrl+B)"
+                    version="gray"
                 >
                     <MaterialSymbol name="format_bold" />
                 </ActionIconButton>
 
+
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Kursywa (Ctrl+I)"
-                    onClick={() => editor.chain().focus().toggleItalic().run()}
-                    disabled={!editorState.canItalic}
                     className={[
                         styles["formatting-button"],
                         editorState.isItalic && styles.active,
                     ].join(" ")}
+                    disabled={!editorState.canItalic}
+                    onClick={() => editor.chain().focus().toggleItalic().run()}
+                    radius="large"
+                    tooltip="Kursywa (Ctrl+I)"
+                    version="gray"
                 >
                     <MaterialSymbol name="format_italic" />
                 </ActionIconButton>
 
+
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Przekreślenie (Ctrl+Shift+S)"
-                    onClick={() => editor.chain().focus().toggleStrike().run()}
-                    disabled={!editorState.canStrike}
                     className={[
                         styles["formatting-button"],
                         editorState.isStrike && styles.active,
                     ].join(" ")}
+                    disabled={!editorState.canStrike}
+                    onClick={() => editor.chain().focus().toggleStrike().run()}
+                    radius="large"
+                    tooltip="Przekreślenie (Ctrl+Shift+S)"
+                    version="gray"
                 >
                     <MaterialSymbol name="strikethrough_s" />
                 </ActionIconButton>
 
+
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Podkreślenie (Ctrl+Shift+S)"
-                    onClick={() => editor.chain().focus().toggleUnderline().run()}
-                    disabled={!editorState.canUnderline}
                     className={[
                         styles["formatting-button"],
                         editorState.isUnderline && styles.active,
                     ].join(" ")}
+                    disabled={!editorState.canUnderline}
+                    onClick={() => editor.chain().focus().toggleUnderline().run()}
+                    radius="large"
+                    tooltip="Podkreślenie (Ctrl+Shift+U)"
+                    version="gray"
                 >
                     <MaterialSymbol name="format_underlined" />
                 </ActionIconButton>
             </Flex>
 
+
             <Separator orientation="vertical" size="1" />
 
-            <Flex gap="1" className={styles["formatting-buttons-section"]}>
+
+            <Flex
+                className={styles["formatting-buttons-section"]}
+                gap="1"
+            >
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Lista punktowana"
-                    onClick={() => editor.chain().focus().toggleBulletList().run()}
                     className={[
                         styles["formatting-button"],
                         editorState.isBulletList && styles.active,
                     ].join(" ")}
+                    onClick={() => editor.chain().focus().toggleBulletList().run()}
+                    radius="large"
+                    tooltip="Lista punktowana"
+                    version="gray"
                 >
                     <MaterialSymbol name="format_list_bulleted" />
                 </ActionIconButton>
 
+
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Lista numerowana"
-                    onClick={() => editor.chain().focus().toggleOrderedList().run()}
                     className={[
                         styles["formatting-button"],
                         editorState.isOrderedList && styles.active,
                     ].join(" ")}
+                    onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                    radius="large"
+                    tooltip="Lista numerowana"
+                    version="gray"
                 >
                     <MaterialSymbol name="format_list_numbered" />
                 </ActionIconButton>
             </Flex>
 
+
             <Separator orientation="vertical" size="1" />
 
-            <Flex gap="1" className={styles["formatting-buttons-section"]}>
+
+            <Flex
+                className={styles["formatting-buttons-section"]}
+                gap="1"
+            >
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Kod"
-                    onClick={() => editor.chain().focus().toggleCode().run()}
-                    disabled={!editorState.canCode}
                     className={[
                         styles["formatting-button"],
                         editorState.isCode && styles.active,
                     ].join(" ")}
+                    disabled={!editorState.canCode}
+                    onClick={() => editor.chain().focus().toggleCode().run()}
+                    radius="large"
+                    tooltip="Kod"
+                    version="gray"
                 >
                     <MaterialSymbol name="code" />
                 </ActionIconButton>
 
+
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Blok kodu"
-                    onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                     className={[
                         styles["formatting-button"],
                         editorState.isCodeBlock && styles.active,
                     ].join(" ")}
+                    onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                    radius="large"
+                    tooltip="Blok kodu"
+                    version="gray"
                 >
                     <MaterialSymbol name="code_blocks" />
                 </ActionIconButton>
 
+
                 <ActionIconButton
-                    version="gray"
-                    radius="large"
-                    tooltip="Cytat"
-                    onClick={() => editor.chain().focus().toggleBlockquote().run()}
                     className={[
                         styles["formatting-button"],
                         editorState.isBlockquote && styles.active,
                     ].join(" ")}
+                    onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                    radius="large"
+                    tooltip="Cytat"
+                    version="gray"
                 >
                     <MaterialSymbol name="format_quote" />
                 </ActionIconButton>
-
             </Flex>
         </Flex>
-    )
+    );
 }

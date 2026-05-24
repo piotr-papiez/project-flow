@@ -1,6 +1,6 @@
 // Components
-import CommentBubble from "../shared/CommentBubble";
-import CommentEditor from "@/components/shared/rich-content-editor/CommentEditor";
+import CommentBubble from "../../shared/CommentBubble";
+import CommentEditor from "@/components/shared/tiptap-editor/CommentEditor";
 
 // Radix
 import { ScrollArea, Flex, Blockquote } from "@radix-ui/themes";
@@ -8,17 +8,17 @@ import { ScrollArea, Flex, Blockquote } from "@radix-ui/themes";
 // Types
 import type { ReactisTaskCommentsType } from "@/types/reactis";
 
-type TaskDialogCommentsPropsType = {
+type CommentsSegmentPropsType = {
     comments: ReactisTaskCommentsType,
     reactisTaskId: string,
     reactisUserId: string
 };
 
-export default function TaskDialogComments({
+export default function CommentsSegment({
     comments,
     reactisTaskId,
     reactisUserId
-}: TaskDialogCommentsPropsType) {
+}: CommentsSegmentPropsType) {
     return (
         <Blockquote size="2">
             <Flex direction="column" gap="4" style={{ minHeight: "100%", maxHeight: "min(50dvh, 488px)" }}>

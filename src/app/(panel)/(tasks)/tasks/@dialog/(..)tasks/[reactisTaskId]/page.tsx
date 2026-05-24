@@ -1,43 +1,52 @@
-// React.js
-import { Suspense } from "react";
+// Auth
+import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
-// Context
-import { RichContentEditorProvider } from "@/features/tasks/context/rich-content-editor.context";
 
 // Components
 import TaskDialogContainer from "@/features/tasks/components/dialog/TaskDialogContainer";
-import TaskDialogSkeleton from "@/features/tasks/components/dialog/TaskDialogSkeleton";
-import TaskDialogMainInfo from "@/features/tasks/components/dialog/TaskDialogMainInfo";
+import TaskDialogHeading from "@/features/tasks/components/dialog/TaskDialogHeading";
 import TaskDialogSegmentsController from "@/features/tasks/components/dialog/TaskDialogSegmentsController";
+import TaskDialogSkeleton from "@/features/tasks/components/dialog/skeleton/TaskDialogSkeleton";
+
+
+// Context
+import { EditorProvider } from "@/features/tasks/context/editor.context";
+
 
 // Radix
 import { Flex } from "@radix-ui/themes";
 
-// Services
-import { getMergedTask } from "@/features/tasks/services/tasks.service";
+// React.js
+import { Suspense } from "react";
+
 
 // Repo
 import { getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
 
-// Utils
-import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
-type TaskDialogPagePropsType = {
-    params: Promise<{
-        reactisTaskId: string
-    }>;
-}
+// Services
+import { getMergedTask } from "@/features/tasks/services/tasks.service";
 
-export default async function TaskDialogPage({ params }: TaskDialogPagePropsType) {
+
+// Types
+type TaskDialogPropsType = {
+    params: Promise<{ reactisTaskId: string }>
+};
+
+// Main function
+export default async function TaskDialogPage({
+    params
+}: TaskDialogPropsType) {
     const { reactisTaskId } = await params;
-
     const reactisUserId = await getReactisUserIdCookie();
     const reactisTaskUrl = `https://ncrm.netgraf.pl/task/user_list/${reactisUserId}/${reactisTaskId}`;
+
 
     const [mergedTaskResponse, reactisCommentsResponse] = await Promise.all([
         getMergedTask(reactisTaskId),
         getReactisTaskComments(reactisTaskId)
     ]);
+
 
     if (!mergedTaskResponse) {
         return (
@@ -47,30 +56,34 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
         );
     }
 
+
     if (!reactisCommentsResponse.ok) {
         return (
             <div>
                 Nie udało się pobrać komentarzy do zadania
             </div>
-        )
+        );
     }
+
 
     const mergedTask = mergedTaskResponse;
     const reactisComments = reactisCommentsResponse.data;
 
+
     return (
-        <RichContentEditorProvider>
+        <EditorProvider>
             <TaskDialogContainer
                 reactisTaskId={reactisTaskId}
                 reactisTaskUrl={reactisTaskUrl}
+                note={mergedTask.flowNotes}
             >
-                <Suspense
-                    fallback={<TaskDialogSkeleton />}
-                >
-                    <Flex direction="column" gap="5">
-                        <TaskDialogMainInfo
-                            mergedTask={mergedTask}
-                        />
+                <Suspense fallback={<TaskDialogSkeleton />}>
+                    <Flex
+                        direction="column"
+                        gap="5"
+                    >
+                        <TaskDialogHeading mergedTask={mergedTask} />
+
 
                         <TaskDialogSegmentsController
                             mergedTask={mergedTask}
@@ -79,6 +92,6 @@ export default async function TaskDialogPage({ params }: TaskDialogPagePropsType
                     </Flex>
                 </Suspense>
             </TaskDialogContainer>
-        </RichContentEditorProvider>
+        </EditorProvider>
     );
 }

@@ -4,7 +4,7 @@
 import { useState, useMemo } from "react";
 
 // Context
-import { RichContentEditorProvider } from "../../context/rich-content-editor.context";
+import { EditorProvider } from "../../context/editor.context";
 
 // Tanstack Table
 import {
@@ -21,14 +21,14 @@ import {
 import { MagnifyingGlassIcon, CaretSortIcon, CaretUpIcon, CaretDownIcon, } from "@radix-ui/react-icons";
 
 // Components
-import DetailsCard from "./DetailsCard";
+import DetailsCard from "./cards/DetailsCard";
 import StatusBadge from "../shared/StatusBadge";
 import PriorityBadge from "../shared/PriorityBadge";
-import NotesCard from "./NotesCard";
+import NoteCard from "./cards/NoteCard";
 import TableCellGoToTaskButton from "./TableCellGoToTaskButton";
 
 // Constants
-import { EMPTY_TIPTAP_DOC } from "@/components/shared/rich-content-editor/empty-tiptap-doc-fallback";
+import { EMPTY_TIPTAP_DOC } from "@/components/shared/tiptap-editor/empty-tiptap-doc-fallback";
 import { LABEL_MAP, COLOR_MAP } from "../../lib/status-map";
 
 // Types
@@ -125,9 +125,9 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     const notes = row.original.flowNotes ?? EMPTY_TIPTAP_DOC;
 
                     return (
-                        <NotesCard
+                        <NoteCard
                             reactisTaskId={reactisTaskId}
-                            notes={notes}
+                            note={notes}
                         />
                     );
                 }
@@ -182,7 +182,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
     }
 
     return (
-        <RichContentEditorProvider>
+        <EditorProvider>
             <Flex direction={"column"} gap="3">
                 <Flex justify={"between"}>
                     <Flex gap="2" align="center" style={{ flexWrap: "wrap" }}>
@@ -310,6 +310,6 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     </Table.Body>
                 </Table.Root>
             </Flex>
-        </RichContentEditorProvider>
+        </EditorProvider>
     );
 }

@@ -1,5 +1,5 @@
 // Components
-import TaskAuthorAvatar from "../shared/TaskAuthorAvatar";
+import TaskAuthorAvatar from "../../shared/TaskAuthorAvatar";
 
 // Radix
 import {
@@ -12,15 +12,15 @@ import { ReaderIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
 //Types
 import type { TaskAuthorType } from "@/types/reactis";
 
-type TableCellDetailsPropsType = {
+type DetailsCardPropsType = {
     reactisTaskUrl: string
     detailsHtml: string,
     reactisTaskAuthor: TaskAuthorType
 };
 
-export default function TableCellDetails({
+export default function DetailsCard({
     reactisTaskUrl, detailsHtml, reactisTaskAuthor
-}: TableCellDetailsPropsType) {
+}: DetailsCardPropsType) {
     return (
         <HoverCard.Root openDelay={750} closeDelay={250}>
             <HoverCard.Trigger>
