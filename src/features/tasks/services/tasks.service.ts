@@ -57,11 +57,6 @@ export async function getMergedTasks(): Promise<MergedTasksDataType | null> {
         };
     })
 
-    // const mergedTasksList = reactisTasks.map(reactisTask => ({
-    //     ...reactisTask,
-    //     ...flowTasksMap.get(String(reactisTask.id))
-    // }));
-
     const mergedTasks = {
         count: taskCount,
         data: mergedTasksList

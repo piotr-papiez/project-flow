@@ -1,16 +1,15 @@
 import "server-only";
 
-import { getReactisApiKey } from "@/features/settings/services/reactis-settings.service";
 
+// Types
 import type { ReactisFetchResponseType } from "@/types/reactis";
+
 
 export async function reactisFetch<T>(
     path: string,
+    reactisApiKey: string,
     options: RequestInit = {}
 ): Promise<ReactisFetchResponseType<T>> {
-
-    const reactisApiKey = await getReactisApiKey();
-    
     if (!reactisApiKey) return {
         ok: false,
         message: "UNAUTHORIZED",
@@ -19,12 +18,11 @@ export async function reactisFetch<T>(
 
     try {
         const response = await fetch(`https://ncrm.netgraf.pl/api/v1${path}`, {
+            ...options,
             headers: {
                 "Content-Type": "application/json",
                 apiKey: reactisApiKey
             },
-            ...options,
-            // cache: "no-store"
         });
 
         if (!response.ok) return {

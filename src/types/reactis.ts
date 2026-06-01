@@ -3,12 +3,29 @@ export type ReactisFetchResponseType<T> =
     | { ok: true, data: T, status: number }
     | { ok: false, message: string, status: number };
 
-// Tasks types    
+
+// Settings form
+export type ReactisFormErrorsStateType = {
+    flowUserId?: string,
+    reactisUserEmail?: string,
+    reactisUserId?: string,
+    reactisApiKey?: string,
+    other?: string
+};
+
+export type SaveReactisSettingsStateType = {
+    ok?: boolean,
+    formErrors?: ReactisFormErrorsStateType
+};
+
+
+// Tasks types
 export type TaskAuthorType = {
     name: string;
     surname: string;
     [key: string]: unknown;
 };
+
 
 export type ReactisTaskDataType = {
     id: string;
@@ -21,19 +38,23 @@ export type ReactisTaskDataType = {
     [key: string]: unknown;
 };
 
+
 export type ReactisTasksDataType = {
     items: ReactisTaskDataType[];
     total_items: number;
     [key: string]: unknown;
 }
 
+
 export type GetReactisTaskResponseType =
     | { ok: true, data: ReactisTaskDataType, status: number }
     | { ok: false, message: string, status: number };
 
+
 export type GetReactisTasksResponseType =
     | { ok: true, data: ReactisTasksDataType, status: number }
     | { ok: false, message: string, status: number };
+
 
 // Comments types
 export type ReactisTaskCommentType = {
@@ -41,23 +62,28 @@ export type ReactisTaskCommentType = {
     text: string
 };
 
+
 export type ReactisTaskCommentsType = {
     total_items: number,
     items: ReactisTaskCommentType[],
     [key: string]: unknown
 };
 
+
 export type GetReactisTaskCommentsResponseType =
     | { ok: true, data: ReactisTaskCommentsType, status: number }
     | { ok: false, message: string, status: number };
+
 
 export type PostReactisTaskCommentAPIResponseType = {
     id: number
 }
 
+
 export type PostReactisTaskCommentResponseType =
     | { ok: true, data: PostReactisTaskCommentAPIResponseType, status: number }
     | { ok: false, message: string, status: number };
+
 
 // User data types
 export type ReactisUserDataType = {
@@ -67,6 +93,7 @@ export type ReactisUserDataType = {
     email: string,
     group: string
 };
+
 
 export type GetReactisUserResponseType =
     | { ok: true, data: ReactisUserDataType, status: number }

@@ -4,17 +4,18 @@ import { db } from "@/db/mongoose.client";
 import { Types } from "mongoose";
 import type { ReactisSettingsType } from "../models/flow-settings.model";
 
-type UpsertFlowSettingsByUserIdType =
+export type UpsertReactisSettingsByUserIdType =
     | { ok: true, data: ReactisSettingsType }
-    | { ok: false, message: "SERVER_ERROR" | "RESOURCE_NOT_UPDATED" };
+    | { ok: false, message: "SERVER_ERROR" | "RESOURCE_NOT_UPDATED" | "UNAUTHORIZED" | "MISSING_EMAIL" | "MISSING_ID" | "API_KEY_NOT_FOUND" };
 
 type FindReactisSettingsByFlowUserIdType =
     | { ok: true, data: ReactisSettingsType }
     | { ok: false, message: "SERVER_ERROR" | "RESOURCE_NOT_FOUND" };
 
+
 export async function upsertReactisSettingsByFlowUserId(
     settings: ReactisSettingsType
-): Promise<UpsertFlowSettingsByUserIdType> {
+): Promise<UpsertReactisSettingsByUserIdType> {
     await db();
 
     const { flowUserId, ...rest } = settings;
@@ -39,11 +40,17 @@ export async function upsertReactisSettingsByFlowUserId(
     }
 }
 
-export async function findReactisSettingsByFlowUserId(flowUserId: Types.ObjectId): Promise<FindReactisSettingsByFlowUserIdType> {
+
+export async function findReactisSettingsByFlowUserId(
+    flowUserId: Types.ObjectId
+): Promise<FindReactisSettingsByFlowUserIdType> {
     await db();
 
     try {
-        const settings = await ReactisSettings.findOne({ flowUserId: flowUserId }).select("-reactisApiKey").lean();
+        const settings = await ReactisSettings.findOne({
+            flowUserId: flowUserId
+        }).select("-reactisApiKey").lean();
+
         if (!settings) return { ok: false, message: "RESOURCE_NOT_FOUND" };
 
         return { ok: true, data: settings };
@@ -52,11 +59,17 @@ export async function findReactisSettingsByFlowUserId(flowUserId: Types.ObjectId
     }
 }
 
-export async function findReactisUserIdByFlowUserId(flowUserId: Types.ObjectId): Promise<string | null> {
+
+export async function findReactisUserIdByFlowUserId(
+    flowUserId: Types.ObjectId
+): Promise<string | null> {
     await db();
 
     try {
-        const response = await ReactisSettings.findOne({ flowUserId }).select("reactisUserId").lean();
+        const response = await ReactisSettings.findOne({
+            flowUserId
+        }).select("reactisUserId").lean();
+
         if (!response) return null;
 
         const { reactisUserId } = response;
@@ -68,11 +81,17 @@ export async function findReactisUserIdByFlowUserId(flowUserId: Types.ObjectId):
     }
 }
 
-export async function findReactisApiKeyByFlowUserId(flowUserId: Types.ObjectId): Promise<string | null> {
+
+export async function findReactisApiKeyByFlowUserId(
+    flowUserId: Types.ObjectId
+): Promise<string | null> {
     await db();
 
     try {
-        const response = await ReactisSettings.findOne({ flowUserId }).select("reactisApiKey").lean();
+        const response = await ReactisSettings.findOne({
+            flowUserId
+        }).select("reactisApiKey").lean();
+
         if (!response) return null;
 
         const { reactisApiKey } = response;

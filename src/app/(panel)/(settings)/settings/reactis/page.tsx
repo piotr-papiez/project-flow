@@ -9,11 +9,15 @@ import { Flex } from "@radix-ui/themes";
 
 export default async function ReactisSettingsPage() {
     const response = await getReactisSettings();
+    const reactisUserEmail = response?.reactisUserEmail ?? "";
     const reactisUserId = response?.reactisUserId ?? "";
 
     return (
         <Flex direction="column">
-            <SettingsForm reactisUserId={reactisUserId} />
+            <SettingsForm
+                reactisUserEmail={reactisUserEmail}
+                reactisUserId={reactisUserId}
+            />
         </Flex>
     );
 }

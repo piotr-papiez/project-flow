@@ -6,9 +6,15 @@ export const ReactisSettingsSchema = new Schema({
         unique: true,
         required: true
     },
+
+    reactisUserEmail: {
+        type: String
+    },
+
     reactisUserId: {
         type: String
     },
+    
     reactisApiKey: {
         type: String
     }
