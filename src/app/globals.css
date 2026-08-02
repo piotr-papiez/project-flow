@@ -78,12 +78,18 @@ body {
   background-color: var(--gray-2);
 }
 
+.rt-TableHeader * {
+  font-weight: 600;
+  color: var(--gray-12);
+}
+
 .rt-TableBody .rt-TableRow {
+  background-color: white;
   transition: background-color 0.2s ease;
 }
 
 .rt-TableBody .rt-TableRow:hover {
-  background-color: var(--accent-2);
+  background-color: var(--gray-2);
 }
 
 .rt-HoverCardContent {
@@ -95,6 +101,10 @@ body {
 .rt-Blockquote ul,
 .rt-Blockquote ol {
   margin-left: 2rem;
+}
+
+.ButtonWithLink {
+  transition: background-color 0.2s ease;
 }
 
 .ButtonWithLink:hover {

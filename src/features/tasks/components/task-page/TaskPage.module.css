@@ -1,0 +1,16 @@
+.task-prefix {
+    font-family: var(--font-red-hat-display);
+    color: var(--gray-11);
+}
+
+.task-id {
+    color: var(--gray-12);
+}
+
+.header-bar {
+    border-bottom: 1px solid var(--gray-6);
+}
+
+.segments-item {
+    width: fit-content;
+}

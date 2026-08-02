@@ -1,36 +1,98 @@
-import { getReactisTask, getReactisTaskComments } from "@/features/tasks/repo/reactis-tasks.repo";
+// Auth
+import { getReactisUserIdCookie } from "@/features/auth/lib/reactis-user-id-cookie";
 
+
+// Components
+import TaskPageContainer from "@/features/tasks/components/task-page/TaskPageContainer";
+import TaskPageHeading from "@/features/tasks/components/task-page/TaskPageHeading";
+import TaskPageSegmentsController from "@/features/tasks/components/task-page/TaskPageSegmentsController";
+
+
+// Context
+import { EditorProvider } from "@/features/tasks/context/editor.context";
+
+
+// Radix
+import { Container, Flex } from "@radix-ui/themes";
+
+
+// Repo
+import {
+    getReactisTask,
+    getReactisTaskComments,
+} from "@/features/tasks/repo/reactis-tasks.repo";
+
+
+// Services
+import { getMergedTask } from "@/features/tasks/services/tasks.service";
+
+
+// Types
 type TaskPagePropsType = {
     params: Promise<{
-        reactisTaskId: string
+        reactisTaskId: string;
     }>;
 };
 
+
+// Main function
 export default async function TaskPage({ params }: TaskPagePropsType) {
     const { reactisTaskId } = await params;
+    const reactisUserId = await getReactisUserIdCookie();
+    const reactisTaskUrl = `https://ncrm.netgraf.pl/task/user_list/${reactisUserId}/${reactisTaskId}`;
 
-    const response = await getReactisTask(reactisTaskId);
 
-    if (!response.ok) return (
-        <h2>Nie udało się wczytać zadania.</h2>
-    );
+    const [mergedTaskResponse, reactisCommentsResponse] = await Promise.all([
+        getMergedTask(reactisTaskId),
+        getReactisTaskComments(reactisTaskId),
+    ]);
 
-    const task = response.data;
-
-    const res = await getReactisTaskComments(reactisTaskId);
-    if (!res.ok) return;
-
-    return (
-        <div>
-            <h1>{task.id}: {task.name}</h1>
-            <div dangerouslySetInnerHTML={{ __html: task.text }} />
-            <p>{task.deadline}</p>
+    if (!mergedTaskResponse) {
+        return (
             <div>
-                {res.data.items.map(item => (
-                    <h2 dangerouslySetInnerHTML={{ __html: item.text }} key={item.id} />
-                ))}
+                Nie udało się pobrać szczegółów zadania
             </div>
-            <h2>{res.data.total_items}</h2>
-        </div>
+        );
+    }
+
+    if (!reactisCommentsResponse.ok) {
+        return (
+            <div>
+                Nie udało się pobrać komentarzy do zadania
+            </div>
+        );
+    }
+
+
+    const mergedTask = mergedTaskResponse;
+    const reactisComments = reactisCommentsResponse.data;
+
+    console.log(mergedTask);
+    return (
+        <EditorProvider>
+            <Container py="6">
+                <TaskPageContainer
+                    reactisTaskId={reactisTaskId}
+                    reactisTaskUrl={reactisTaskUrl}
+                    note={mergedTask.flowNotes}
+                >
+                    <Flex
+                        direction="column"
+                        gap="5"
+                        style={{
+                            height: "100%",
+                            minHeight: 0,
+                            // overflow: "hidden"
+                        }}
+                    >
+                        <TaskPageHeading mergedTask={mergedTask} />
+                        <TaskPageSegmentsController
+                            mergedTask={mergedTask}
+                            reactisComments={reactisComments}
+                        />
+                    </Flex>
+                </TaskPageContainer>
+            </Container>
+        </EditorProvider>
     );
 }

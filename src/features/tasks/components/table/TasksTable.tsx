@@ -242,7 +242,7 @@ export default function TasksTable({ count, tasks }: TasksTablePropsType) {
                     </Flex>
                 </Flex>
 
-                <Table.Root variant="surface" layout="auto">
+                <Table.Root variant="surface" layout="auto" style={{ overflow: "hidden" }}>
                     <Table.Header>
                         {table.getHeaderGroups().map(headerGroup => (
                             <Table.Row key={headerGroup.id}>
