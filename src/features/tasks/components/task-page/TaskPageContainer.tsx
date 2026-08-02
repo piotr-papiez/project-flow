@@ -3,7 +3,7 @@
 
 // Components
 import Alert from "@/components/shared/tiptap-editor/Alert";
-import TaskDialogHeaderBar from "./TaskPageHeaderBar";
+import TaskPageHeaderBar from "./TaskPageHeaderBar";
 
 
 // Context
@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 
 
 // Radix
-import { Dialog, Flex, VisuallyHidden } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 
 
 // React.js
@@ -106,7 +106,11 @@ export default function TaskPageContainer({
         <>
 
             <Flex direction="column" gap="4">
-                
+                <TaskPageHeaderBar
+                    reactisTaskId={reactisTaskId}
+                    reactisTaskUrl={reactisTaskUrl}
+                />
+
                 {children}
             </Flex>
 

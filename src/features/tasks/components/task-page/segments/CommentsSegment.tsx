@@ -21,7 +21,7 @@ export default function CommentsSegment({
 }: CommentsSegmentPropsType) {
     return (
         <Blockquote size="2">
-            <Flex direction="column" gap="4" style={{ minHeight: "100%", maxHeight: "calc(100dvh - 280px)" }}>
+            <Flex direction="column" gap="4" style={{ minHeight: "100%", maxHeight: "calc(100dvh - 286px)" }}>
                 {comments.total_items > 0 && (
                     <ScrollArea scrollbars="vertical" type="auto" style={{ maxHeight: "100%" }}>
                         <Flex direction="column" gap="2">

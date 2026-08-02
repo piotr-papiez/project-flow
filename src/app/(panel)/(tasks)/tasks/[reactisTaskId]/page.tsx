@@ -70,7 +70,7 @@ export default async function TaskPage({ params }: TaskPagePropsType) {
     console.log(mergedTask);
     return (
         <EditorProvider>
-            <Container py="6">
+            <Container py="3">
                 <TaskPageContainer
                     reactisTaskId={reactisTaskId}
                     reactisTaskUrl={reactisTaskUrl}
