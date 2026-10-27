@@ -39,7 +39,7 @@ export default async function TaskDialogPage({
 }: TaskDialogPropsType) {
     const { reactisTaskId } = await params;
     const reactisUserId = await getReactisUserIdCookie();
-    const reactisTaskUrl = `https://ncrm.netgraf.pl/task/user_list/${reactisUserId}/${reactisTaskId}`;
+    const reactisTaskUrl = `https://sellasist.reactis.pl/task/user_list/${reactisUserId}/${reactisTaskId}`;
 
 
     const [mergedTaskResponse, reactisCommentsResponse] = await Promise.all([

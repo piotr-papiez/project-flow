@@ -17,7 +17,7 @@ export async function reactisFetch<T>(
     };
 
     try {
-        const response = await fetch(`https://ncrm.netgraf.pl/api/v1${path}`, {
+        const response = await fetch(`https://sellasist.reactis.pl/api/v1${path}`, {
             ...options,
             headers: {
                 "Content-Type": "application/json",

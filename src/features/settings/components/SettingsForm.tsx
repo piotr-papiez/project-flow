@@ -100,7 +100,7 @@ export default function SettingsForm({ reactisUserEmail, reactisUserId }: Settin
                                             strony internetowej po zalogowaniu w Reactis.
                                         </Text>
                                         <Text>
-                                            Na przykład: https://ncrm.netgraf.pl/task/user_list/<Strong>1298</Strong>
+                                            Na przykład: https://sellasist.reactis.pl/task/user_list/<Strong>1298</Strong>
                                         </Text>
                                     </Flex>
                                 </HoverCard.Content>

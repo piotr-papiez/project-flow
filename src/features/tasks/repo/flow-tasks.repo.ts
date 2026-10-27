@@ -91,7 +91,7 @@ export async function upsertFlowTasks(reactisTasks: ReactisTaskDataType[]): Prom
                         reactisTaskId: reactisTask.id,
                         flowStatus: 0,
                         flowPriority: 1,
-                        reactisTaskUrl: `https://ncrm.netgraf.pl/task/user_list/${reactisUserId}/${reactisTask.id}`,
+                        reactisTaskUrl: `https://sellasist.reactis.pl/task/user_list/${reactisUserId}/${reactisTask.id}`,
                         docsDraftUrl: "",
                         cmsUrl: "",
                         flowNotes: EMPTY_TIPTAP_DOC
